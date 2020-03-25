@@ -7,3 +7,4 @@ class Config(object):
     UPLOAD_FOLDER = APP_FOLDER+TEMPLATES_FOLDER
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
+        os.mknod(UPLOAD_FOLDER+"__init__.py")
