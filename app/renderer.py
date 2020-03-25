@@ -15,7 +15,7 @@ from app.constants import (
     TEMPLATE_PREFIX,
     TEMPLATE_FILE_EXTENSION,
     TEST_PREFIX)
-from app.handlers import raise_exception
+from app.handlers import format_exception
 from app.exceptions import (
     InvalidDocumentFomat,
     DocumentRenderError,
@@ -38,7 +38,6 @@ class RenderDocxObject:
 
     def form_docx_template(self):
         docx_template_path = self.template_file.full_file_path
-        print(docx_template_path)
         self.docx_template = DocxTemplate(docx_template_path)
 
     def make_generated_doc_path(self):

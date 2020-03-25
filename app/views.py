@@ -5,8 +5,10 @@ import logging
 from app import app
 from app.renderer import RenderDocxObject, File, TemplateFile
 from app.constants import TEMPLATES_FOLDER
-from app.utils import remove_temp_files, is_file_selected
-from app.exceptions import raise_exception
+from app.utils import remove_temp_files, does_data_attached
+from app.exceptions import (
+    JSONNotFound,
+    TemplateNotFound)
 
 @app.before_request
 def before_request_func():
@@ -16,11 +18,8 @@ def before_request_func():
 @app.route('/', methods=['POST'])
 def post():
     json_data = request.form.get('json_data')
-    if len(json_data)==0:
-        return raise_exception("json_data is not found", 404)
     template_file = request.files.get('template')
-    if not is_file_selected(template_file):
-        return raise_exception("Template is not found", 404)
+    does_data_attached(template_file, json_data)
     content = json.loads(json_data)
     docx_file = TemplateFile(template_file)
     renderer = RenderDocxObject(content, docx_file)

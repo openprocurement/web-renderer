@@ -3,7 +3,7 @@ import werkzeug
 from app import app
 
 
-def raise_exception(error, error_code):
+def format_exception(error, error_code):
     app.logger.error(error+" "+str(error_code))
     return {
         "error": {
@@ -13,21 +13,34 @@ def raise_exception(error, error_code):
     }, error_code
 
 
-class InvalidDocumentFomat(werkzeug.exceptions.HTTPException):
-    code = 507
+class CustomException(werkzeug.exceptions.HTTPException):
+    code = int
+
+class CustomNotFound(CustomException, werkzeug.exceptions.NotFound):
+    code = 404
+
+class CustomInternalServerError(CustomException, werkzeug.exceptions.InternalServerError):
+    code = 500
+
+class JSONNotFound(CustomNotFound):
+    description = "json_data is not found"
+
+
+class TemplateNotFound(CustomNotFound):
+    description = "template data is not found"
+
+
+class InvalidDocumentFomat(CustomInternalServerError):
     description = 'Invalid template document format.'
 
 
-class DocumentConvertionError(werkzeug.exceptions.HTTPException):
-    code = 508
+class DocumentConvertionError(CustomInternalServerError):
     description = 'Document Convertion Error.'
 
 
-class DocumentRenderError(werkzeug.exceptions.HTTPException):
-    code = 509
+class DocumentRenderError(CustomInternalServerError):
     description = 'Document rendering error.'
 
 
-class DocumentSavingError(werkzeug.exceptions.HTTPException):
-    code = 510
+class DocumentSavingError(CustomInternalServerError):
     description = 'Document saving error.'
