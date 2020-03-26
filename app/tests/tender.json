@@ -1,0 +1,393 @@
+{
+  "data": {
+    "procurementMethod": "open",
+    "numberOfBids": 2,
+    "awardPeriod": {
+      "startDate": "2019-08-22T13:02:40.129125+03:00",
+      "endDate": "2019-08-22T13:22:42.339244+03:00"
+    },
+    "mainProcurementCategory": "goods",
+    "complaintPeriod": {
+      "startDate": "2019-08-22T12:39:31.657057+03:00",
+      "endDate": "2019-08-22T12:55:00+03:00"
+    },
+    "auctionUrl": "https://auction-sandbox.prozorro.gov.ua/tenders/278d24d03beb4a079a0a46e18b7b5b8d",
+    "enquiryPeriod": {
+      "startDate": "2019-08-22T12:39:31.657057+03:00",
+      "clarificationsUntil": "2019-08-22T12:57:30+03:00",
+      "endDate": "2019-08-22T12:52:30+03:00",
+      "invalidationDate": "2019-08-22T12:41:27.912293+03:00"
+    },
+    "submissionMethod": "electronicAuction",
+    "procurementMethodType": "aboveThresholdUA.defense",
+    "awardCriteria": "lowestCost",
+    "owner": "prom.ua",
+    "id": "278d24d03beb4a079a0a46e18b7b5b8d",
+    "guarantee": { "currency": "UAH", "amount": 0.0 },
+    "title": "\u0423\u0437\u0430\u0433\u0430\u043b\u044c\u043d\u0435\u043d\u0430 \u043d\u0430\u0437\u0432\u0430 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456\n\n",
+    "plans": [{ "id": "6508c0db806e492bbfa4e8ff9c8100c9" }],
+    "tenderID": "UA-2019-08-22-000050-a",
+    "auctionPeriod": {
+      "startDate": "2019-08-22T13:02:40.116483+03:00",
+      "endDate": "2019-08-22T13:02:40.116483+03:00"
+    },
+    "dateModified": "2019-08-22T13:41:39.893753+03:00",
+    "status": "complete",
+    "tenderPeriod": {
+      "startDate": "2019-08-22T12:39:31.657057+03:00",
+      "endDate": "2019-08-22T13:00:00+03:00"
+    },
+    "description": "",
+    "contracts": [
+      {
+        "status": "active",
+        "documents": [
+          {
+            "hash": "md5:e35f664565c3095b67a32e15d2d6dfd6",
+            "format": "image/jpeg",
+            "url": "https://public-docs-sandbox.prozorro.gov.ua/get/3fe62ce5b47f4261a9acb21d7a82e091?KeyID=1331dc52&Signature=0WTqSSBpflFzCTIlIP2Nrxhq26pMP5%2FlotqOOuX%252B9LlKZQppUtuQXq7E9Mjfr5gF54%252BMCgxxDJJTBGIAqYj3DQ%253D%253D",
+            "title": "IMG_0210.jpeg",
+            "documentOf": "tender",
+            "datePublished": "2019-08-22T13:36:28.771831+03:00",
+            "documentType": "contractSigned",
+            "dateModified": "2019-08-22T13:36:28.771851+03:00",
+            "id": "7053b7f24e0846ddbc961765f6690e46"
+          },
+          {
+            "hash": "md5:e41317f8364684ba1e143017c4f7f180",
+            "format": "application/pkcs7-signature",
+            "url": "https://public-docs-sandbox.prozorro.gov.ua/get/90e204d7e2434c77975aa6550f0d896d?KeyID=1331dc52&Signature=IMJXYYKO5ua%2FNlaLss10ewGJTIB4amotaArjpbUn82K2GWqByBy3X2LhRPs1LOSNsqodWusPuw%252BSZ8QcGVxkDQ%253D%253D",
+            "title": "sign.p7s",
+            "documentOf": "tender",
+            "datePublished": "2019-08-22T13:38:04.279610+03:00",
+            "dateModified": "2019-08-22T13:38:04.279632+03:00",
+            "id": "c16b1c944da84f30aac2d145fe3b0671"
+          }
+        ],
+        "items": [
+          {
+            "description": "awdawd",
+            "classification": {
+              "scheme": "\u0414\u041a021",
+              "description": "\u0421\u0456\u043b\u044c\u0441\u044c\u043a\u043e\u0433\u043e\u0441\u043f\u043e\u0434\u0430\u0440\u0441\u044c\u043a\u0430, \u0444\u0435\u0440\u043c\u0435\u0440\u0441\u044c\u043a\u0430 \u043f\u0440\u043e\u0434\u0443\u043a\u0446\u0456\u044f, \u043f\u0440\u043e\u0434\u0443\u043a\u0446\u0456\u044f \u0440\u0438\u0431\u0430\u043b\u044c\u0441\u0442\u0432\u0430, \u043b\u0456\u0441\u0456\u0432\u043d\u0438\u0446\u0442\u0432\u0430 \u0442\u0430 \u0441\u0443\u043f\u0443\u0442\u043d\u044f \u043f\u0440\u043e\u0434\u0443\u043a\u0446\u0456\u044f",
+              "id": "03000000-1"
+            },
+            "description_en": "",
+            "deliveryAddress": {
+              "countryName": "\u0423\u043a\u0440\u0430\u0457\u043d\u0430",
+              "region": "\u0412\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u043d\u043e \u0434\u043e \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0456\u0457"
+            },
+            "deliveryDate": { "endDate": "2019-08-31T00:00:00+03:00" },
+            "id": "5678059e8acc46988faa44f454629abe",
+            "unit": {
+              "code": "AM",
+              "name": "\u0430\u043c\u043f\u0443\u043b\u0430"
+            },
+            "quantity": 10.0
+          }
+        ],
+        "suppliers": [
+          {
+            "scale": "mid",
+            "contactPoint": {
+              "telephone": "+380992805957",
+              "name": "\u0412\u043b\u0430\u0434\u0438\u0441\u043b\u0430\u0432 \u0428\u0435\u043f\u0435\u043b\u0435\u043d\u043a\u043e",
+              "email": "v.shepelenko@smartweb.com.ua"
+            },
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "125496387",
+              "legalName": "\u0424\u041e\u041f \"\u041d\u043e\u0432\u0435\u043d\u044c\u043a\u0438\u0439-\u0433\u043e\u0442\u043e\u0432\u0435\u043d\u044c\u043a\u0438\u0439 \""
+            },
+            "name": "\u0424\u041e\u041f \"\u041d\u043e\u0432\u0435\u043d\u044c\u043a\u0438\u0439-\u0433\u043e\u0442\u043e\u0432\u0435\u043d\u044c\u043a\u0438\u0439 \"",
+            "address": {
+              "postalCode": "40000",
+              "countryName": "\u0423\u043a\u0440\u0430\u0457\u043d\u0430",
+              "streetAddress": "\u0443\u0430\u044b\u0443\u0430\u044b\u0443\u0430",
+              "region": "\u0410\u0420 \u041a\u0440\u0438\u043c",
+              "locality": "\u043a\u043c\u0435\u0432"
+            }
+          }
+        ],
+        "contractNumber": "123",
+        "period": {
+          "startDate": "2019-08-21T00:00:00+03:00",
+          "endDate": "2019-08-31T00:00:00+03:00"
+        },
+        "dateSigned": "2019-08-22T13:35:00+03:00",
+        "value": {
+          "currency": "UAH",
+          "amount": 40000.0,
+          "amountNet": 38000.0,
+          "valueAddedTaxIncluded": false
+        },
+        "date": "2019-08-22T13:41:39.893753+03:00",
+        "awardID": "c12e6192899e4c0c8c4c1bfd8bdb8682",
+        "id": "d7f347c2b8e4416e998f85679305214c",
+        "contractID": "UA-2019-08-22-000050-a-a1"
+      }
+    ],
+    "procurementMethodDetails": "quick, accelerator=576",
+    "title_en": "",
+    "description_en": "",
+    "awards": [
+      {
+        "status": "active",
+        "documents": [
+          {
+            "hash": "md5:2c96bfbb5070b2fde668c57eaa401173",
+            "author": "bots",
+            "format": "application/yaml",
+            "url": "https://public-docs-sandbox.prozorro.gov.ua/get/f1a0564779aa420c8edebffddfb25587?KeyID=1331dc52&Signature=ANcC2ycRwbedaLRAWzhf8u%2Fs7Uis5Y94cA9MWkEgTQUVSWN8%252BCv9JtO4m3z42EKGK1Tj7g19j4A7zVMUbu1GCg%253D%253D",
+            "title": "edr_identification.yaml",
+            "documentOf": "tender",
+            "datePublished": "2019-08-22T13:03:36.076426+03:00",
+            "documentType": "registerExtract",
+            "dateModified": "2019-08-22T13:03:36.076440+03:00",
+            "id": "b70ffcd07e2344bd959b4144a0b132f4"
+          },
+          {
+            "hash": "md5:05012cae3120beb1ff1726951d994fe4",
+            "author": "tender_owner",
+            "format": "image/jpeg",
+            "url": "https://public-docs-sandbox.prozorro.gov.ua/get/7dbd7e29fb20470bbdb5a60326cafae8?KeyID=1331dc52&Signature=8oborC3G14LEfajXCcOMubn%2F5FxSH4kl47wFpKoLhyRiVCwyyrgQzyhER25yusdg7mjXCIWv%252B9aAnEgShjRwBw%253D%253D",
+            "title": "IMG_0226.jpeg",
+            "documentOf": "tender",
+            "datePublished": "2019-08-22T13:21:18.673714+03:00",
+            "documentType": "evaluationReports",
+            "dateModified": "2019-08-22T13:21:18.673752+03:00",
+            "id": "624b13def5ff4eadb4a2b7c6883165d0"
+          },
+          {
+            "hash": "md5:5e70922ed6a791b7042dc8092c7a4823",
+            "author": "tender_owner",
+            "format": "application/pkcs7-signature",
+            "url": "https://public-docs-sandbox.prozorro.gov.ua/get/3aeef968e9204abdade84792fb62ed89?KeyID=1331dc52&Signature=Y4VeoLzMFQN64WPXejYG042ESR1ys%2FxuMjTSMWsh0tNvfSMRpaVdhuaZ2gKwonTKisCAyfFc9EP7ZfoYO%252BqrDQ%253D%253D",
+            "title": "sign.p7s",
+            "documentOf": "tender",
+            "datePublished": "2019-08-22T13:22:36.958695+03:00",
+            "dateModified": "2019-08-22T13:22:36.958727+03:00",
+            "id": "3bf3bf7da51347c5a25983359dd228da"
+          }
+        ],
+        "complaintPeriod": {
+          "startDate": "2019-08-22T13:02:40.129668+03:00",
+          "endDate": "2019-08-22T13:32:42.338617+03:00"
+        },
+        "suppliers": [
+          {
+            "scale": "mid",
+            "contactPoint": {
+              "telephone": "+380992805957",
+              "name": "\u0412\u043b\u0430\u0434\u0438\u0441\u043b\u0430\u0432 \u0428\u0435\u043f\u0435\u043b\u0435\u043d\u043a\u043e",
+              "email": "v.shepelenko@smartweb.com.ua"
+            },
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "125496387",
+              "legalName": "\u0424\u041e\u041f \"\u041d\u043e\u0432\u0435\u043d\u044c\u043a\u0438\u0439-\u0433\u043e\u0442\u043e\u0432\u0435\u043d\u044c\u043a\u0438\u0439 \""
+            },
+            "name": "\u0424\u041e\u041f \"\u041d\u043e\u0432\u0435\u043d\u044c\u043a\u0438\u0439-\u0433\u043e\u0442\u043e\u0432\u0435\u043d\u044c\u043a\u0438\u0439 \"",
+            "address": {
+              "postalCode": "40000",
+              "countryName": "\u0423\u043a\u0440\u0430\u0457\u043d\u0430",
+              "streetAddress": "\u0443\u0430\u044b\u0443\u0430\u044b\u0443\u0430",
+              "region": "\u0410\u0420 \u041a\u0440\u0438\u043c",
+              "locality": "\u043a\u043c\u0435\u0432"
+            }
+          }
+        ],
+        "eligible": true,
+        "bid_id": "31d5c2c0e9df416585ccd803ce258896",
+        "value": {
+          "currency": "UAH",
+          "amount": 40000.0,
+          "valueAddedTaxIncluded": false
+        },
+        "complaints": [
+          {
+            "status": "answered",
+            "description": "zsefzsefzsefzsef",
+            "title": "rfzsfszsefszef",
+            "resolutionType": "resolved",
+            "resolution": "zsefzsefzsefzsefzsefzsefzsefzsefzsefzsef",
+            "author": {
+              "contactPoint": {
+                "telephone": "+380992805957",
+                "name": "\u0412\u043b\u0430\u0434\u0438\u0441\u043b\u0430\u0432 \u0428\u0435\u043f\u0435\u043b\u0435\u043d\u043a\u043e",
+                "email": "v.shepelenko@smartweb.com.ua"
+              },
+              "identifier": {
+                "scheme": "UA-EDR",
+                "id": "12345222",
+                "legalName": "\u041f\u0410\u0422 \"\"\u0428\u0418\u041d\u0418 \u0414\u041b\u042f \u041c\u0410\u0428\u0418\u041d\u0418\"\""
+              },
+              "name": "\u041f\u0410\u0422 \"\"\u0428\u0418\u041d\u0418 \u0414\u041b\u042f \u041c\u0410\u0428\u0418\u041d\u0418\"\"",
+              "address": {
+                "postalCode": "4001",
+                "countryName": "\u0423\u043a\u0440\u0430\u0457\u043d\u0430",
+                "streetAddress": "\u041a\u0438\u0457\u0432",
+                "region": "\u041a\u0438\u0457\u0432",
+                "locality": "\u041a\u0438\u0457\u0432"
+              }
+            },
+            "bid_id": "788c048b0a0345688a02bac21edcd4fd",
+            "dateAnswered": "2019-08-22T13:25:23.284933+03:00",
+            "dateSubmitted": "2019-08-22T13:22:10.102417+03:00",
+            "complaintID": "UA-2019-08-22-000050-a.a1",
+            "date": "2019-08-22T13:25:23.294574+03:00",
+            "type": "claim",
+            "id": "bf9085c51e8444e7b7e5db787c4c9288"
+          }
+        ],
+        "qualified": true,
+        "date": "2019-08-22T13:22:42.345168+03:00",
+        "id": "c12e6192899e4c0c8c4c1bfd8bdb8682"
+      }
+    ],
+    "date": "2019-08-22T13:41:39.893753+03:00",
+    "milestones": [
+      {
+        "code": "postpayment",
+        "description": "",
+        "sequenceNumber": 0,
+        "title": "executionOfWorks",
+        "duration": { "type": "calendar", "days": 10 },
+        "percentage": 100.0,
+        "type": "financing",
+        "id": "da61a6f14849425c836c0505da5cf2ee"
+      }
+    ],
+    "submissionMethodDetails": "quick(mode:fast-forward)",
+    "items": [
+      {
+        "description": "awdawd",
+        "classification": {
+          "scheme": "\u0414\u041a021",
+          "description": "\u0421\u0456\u043b\u044c\u0441\u044c\u043a\u043e\u0433\u043e\u0441\u043f\u043e\u0434\u0430\u0440\u0441\u044c\u043a\u0430, \u0444\u0435\u0440\u043c\u0435\u0440\u0441\u044c\u043a\u0430 \u043f\u0440\u043e\u0434\u0443\u043a\u0446\u0456\u044f, \u043f\u0440\u043e\u0434\u0443\u043a\u0446\u0456\u044f \u0440\u0438\u0431\u0430\u043b\u044c\u0441\u0442\u0432\u0430, \u043b\u0456\u0441\u0456\u0432\u043d\u0438\u0446\u0442\u0432\u0430 \u0442\u0430 \u0441\u0443\u043f\u0443\u0442\u043d\u044f \u043f\u0440\u043e\u0434\u0443\u043a\u0446\u0456\u044f",
+          "id": "03000000-1"
+        },
+        "description_en": "",
+        "deliveryAddress": {
+          "countryName": "\u0423\u043a\u0440\u0430\u0457\u043d\u0430",
+          "region": "\u0412\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u043d\u043e \u0434\u043e \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0456\u0457"
+        },
+        "deliveryDate": { "endDate": "2019-08-31T00:00:00+03:00" },
+        "id": "5678059e8acc46988faa44f454629abe",
+        "unit": {
+          "code": "AM",
+          "name": "\u0430\u043c\u043f\u0443\u043b\u0430"
+        },
+        "quantity": 10.0
+      }
+    ],
+    "bids": [
+      {
+        "status": "active",
+        "selfEligible": true,
+        "value": {
+          "currency": "UAH",
+          "amount": 40000.0,
+          "valueAddedTaxIncluded": false
+        },
+        "subcontractingDetails": "",
+        "selfQualified": true,
+        "tenderers": [
+          {
+            "scale": "mid",
+            "contactPoint": {
+              "telephone": "+380992805957",
+              "name": "\u0412\u043b\u0430\u0434\u0438\u0441\u043b\u0430\u0432 \u0428\u0435\u043f\u0435\u043b\u0435\u043d\u043a\u043e",
+              "email": "v.shepelenko@smartweb.com.ua"
+            },
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "125496387",
+              "legalName": "\u0424\u041e\u041f \"\u041d\u043e\u0432\u0435\u043d\u044c\u043a\u0438\u0439-\u0433\u043e\u0442\u043e\u0432\u0435\u043d\u044c\u043a\u0438\u0439 \""
+            },
+            "name": "\u0424\u041e\u041f \"\u041d\u043e\u0432\u0435\u043d\u044c\u043a\u0438\u0439-\u0433\u043e\u0442\u043e\u0432\u0435\u043d\u044c\u043a\u0438\u0439 \"",
+            "address": {
+              "postalCode": "40000",
+              "countryName": "\u0423\u043a\u0440\u0430\u0457\u043d\u0430",
+              "streetAddress": "\u0443\u0430\u044b\u0443\u0430\u044b\u0443\u0430",
+              "region": "\u0410\u0420 \u041a\u0440\u0438\u043c",
+              "locality": "\u043a\u043c\u0435\u0432"
+            }
+          }
+        ],
+        "date": "2019-08-22T12:41:42.346146+03:00",
+        "id": "31d5c2c0e9df416585ccd803ce258896",
+        "participationUrl": "https://auction-sandbox.prozorro.gov.ua/tenders/278d24d03beb4a079a0a46e18b7b5b8d/login?bidder_id=31d5c2c0e9df416585ccd803ce258896&hash=376ce373add0d62a8ba02dcc5dc537e47b125002"
+      },
+      {
+        "status": "active",
+        "selfEligible": true,
+        "value": {
+          "currency": "UAH",
+          "amount": 40000.0,
+          "valueAddedTaxIncluded": false
+        },
+        "subcontractingDetails": "",
+        "selfQualified": true,
+        "tenderers": [
+          {
+            "scale": "mid",
+            "contactPoint": {
+              "telephone": "+380992805957",
+              "name": "\u0412\u043b\u0430\u0434\u0438\u0441\u043b\u0430\u0432 \u0428\u0435\u043f\u0435\u043b\u0435\u043d\u043a\u043e",
+              "email": "v.shepelenko@smartweb.com.ua"
+            },
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "12345222",
+              "legalName": "\u041f\u0410\u0422 \"\"\u0428\u0418\u041d\u0418 \u0414\u041b\u042f \u041c\u0410\u0428\u0418\u041d\u0418\"\""
+            },
+            "name": "\u041f\u0410\u0422 \"\"\u0428\u0418\u041d\u0418 \u0414\u041b\u042f \u041c\u0410\u0428\u0418\u041d\u0418\"\"",
+            "address": {
+              "postalCode": "4001",
+              "countryName": "\u0423\u043a\u0440\u0430\u0457\u043d\u0430",
+              "streetAddress": "\u041a\u0438\u0457\u0432",
+              "region": "\u041a\u0438\u0457\u0432",
+              "locality": "\u041a\u0438\u0457\u0432"
+            }
+          }
+        ],
+        "date": "2019-08-22T12:44:50.300096+03:00",
+        "id": "788c048b0a0345688a02bac21edcd4fd",
+        "participationUrl": "https://auction-sandbox.prozorro.gov.ua/tenders/278d24d03beb4a079a0a46e18b7b5b8d/login?bidder_id=788c048b0a0345688a02bac21edcd4fd&hash=2d213f41615a6a328c252845de05be0df372aa68"
+      }
+    ],
+    "value": {
+      "currency": "UAH",
+      "amount": 40000.0,
+      "valueAddedTaxIncluded": false
+    },
+    "minimalStep": {
+      "currency": "UAH",
+      "amount": 4000.0,
+      "valueAddedTaxIncluded": false
+    },
+    "procuringEntity": {
+      "kind": "defense",
+      "name": "\u0422\u041e\u0412 \"\u0422\u041e\u0412 \"\u0422\u041e\u0412 \"\u0422\u041e\u0412 \"\u0413\u043e\u0441 \u0434\u043b\u044f \u041e\u041a\u041a\u041e\"\"\"\"",
+      "address": {
+        "postalCode": "4001",
+        "countryName": "\u0423\u043a\u0440\u0430\u0457\u043d\u0430",
+        "streetAddress": "\u041a\u0438\u0457\u0432",
+        "region": "\u041a\u0438\u0457\u0432",
+        "locality": "\u041a\u0438\u0457\u0432"
+      },
+      "contactPoint": {
+        "telephone": "+380992805957",
+        "name": "\u0412\u043b\u0430\u0434\u0438\u0441\u043b\u0430\u0432 \u0428\u0435\u043f\u0435\u043b\u0435\u043d\u043a\u043e",
+        "email": "v.shepelenko@smartweb.com.ua"
+      },
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00000000",
+        "legalName": "\u0422\u041e\u0412 \"\u0422\u041e\u0412 \"\u0422\u041e\u0412 \"\u0422\u041e\u0412 \"\u0413\u043e\u0441 \u0434\u043b\u044f \u041e\u041a\u041a\u041e\"\"\"\""
+      },
+      "name_en": "Gos dlya OKKO"
+    }
+  }
+}
