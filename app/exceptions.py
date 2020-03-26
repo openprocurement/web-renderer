@@ -4,7 +4,7 @@ from app import app
 
 
 def format_exception(error, error_code):
-    app.logger.error(error+" "+str(error_code))
+    app.logger.error(error + " " + str(error_code))
     return {
         "error": {
             "code": error_code,
@@ -16,11 +16,14 @@ def format_exception(error, error_code):
 class CustomException(werkzeug.exceptions.HTTPException):
     code = int
 
+
 class CustomNotFound(CustomException, werkzeug.exceptions.NotFound):
     code = 404
 
+
 class CustomInternalServerError(CustomException, werkzeug.exceptions.InternalServerError):
     code = 500
+
 
 class JSONNotFound(CustomNotFound):
     description = "json_data is not found"

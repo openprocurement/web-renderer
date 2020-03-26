@@ -93,7 +93,7 @@ class File:
         self.file_name = generate_file_name(template_type)
 
     def form_full_path(self):
-        file_full_name = self.file_name+"."+self.file_extension
+        file_full_name = self.file_name + "." + self.file_extension
         self.full_file_path = make_path(file_full_name)
 
     def convert_file_to_pdf(self, timeout=None):

@@ -10,10 +10,6 @@ from app.exceptions import (
     JSONNotFound,
     TemplateNotFound)
 
-@app.before_request
-def before_request_func():
-    app.logger.info('Request is started')
-
 
 @app.route('/', methods=['POST'])
 def post():
@@ -24,7 +20,8 @@ def post():
     docx_file = TemplateFile(template_file)
     renderer = RenderDocxObject(content, docx_file)
     renderer.render()
-    generated_file = TEMPLATES_FOLDER+renderer.generated_pdf_path.split("/")[-1]
+    generated_file = TEMPLATES_FOLDER + \
+        renderer.generated_pdf_path.split("/")[-1]
     return send_file(generated_file,  as_attachment=True)
 
 
