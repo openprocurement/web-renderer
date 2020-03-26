@@ -49,6 +49,11 @@ def type_error_handler(error):
     return format_exception(str(*error.args), 500)
 
 
+@app.errorhandler(NameError)
+def name_error_handler(error):
+    return format_exception(str(*error.args), 500)
+
+
 @app.errorhandler(FileNotFoundError)
 def file_not_found_handler(error):
-    return format_exception("File is not found.", 404)
+    return format_exception(str(*error.args), 404)

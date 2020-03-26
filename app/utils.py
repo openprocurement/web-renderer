@@ -15,6 +15,25 @@ from app.exceptions import (
 )
 
 
+def rename_json_keys(dictionary, keys_to_rename, suffix='_'):
+    """
+        Function for renaming json keys that exist in BLACK_LIST_JSON_KEYS.
+    """
+    for key, value in dictionary.items():
+        if key in keys_to_rename:
+            dictionary[key + suffix] = dictionary.pop(key)
+            key = key + suffix
+        if isinstance(value, dict):
+            rename_json_keys(
+                value, keys_to_rename, suffix)
+        elif isinstance(value, list):
+            for nested_value in value:
+                rename_json_keys(
+                    nested_value, keys_to_rename, suffix)
+        else:
+            pass
+
+
 def generate_file_name(basename=TEMPLATE_PREFIX):
     suffix = datetime.now().strftime("%y%m%d_%H%M%S%f")
     file_name = "_".join([basename, suffix])
@@ -35,11 +54,19 @@ def convert_to_pdf(full_file_path, timeout=None):
         raise DocumentConvertionError()
 
 
-def remove_temp_files(timeout=None):
-    args = ['rm', '-r', '-f', TEMPLATE_UPLOAD_DIRECTORY_PATH]
+def make_temp_folder(timeout=True):
+    if not os.path.exists(TEMPLATE_UPLOAD_DIRECTORY_PATH):
+        os.makedirs(TEMPLATE_UPLOAD_DIRECTORY_PATH)
+
+
+def remove_temp(remove_folder=False, timeout=None):
+    if remove_folder:
+        end_path = ""
+    else:
+        end_path = "/*"
+    args = ['rm', '-r', '-f', TEMPLATE_UPLOAD_DIRECTORY_PATH + end_path]
     process = subprocess.run(args, stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE, timeout=timeout)
-
 
 def does_file_exists(file):
     if path.exists(file):
