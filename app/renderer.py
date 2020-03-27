@@ -9,22 +9,26 @@ from app.utils.utils import (
     make_path,
     convert_to_pdf,
     does_file_exists,
-    rename_json_keys)
+    rename_json_keys,
+    is_file_empty,
+)
 from app.utils.template_utils import(
     format_date,
-    convert_amount_to_words
+    convert_amount_to_words,
 )
 from app.constants import (
     GENERATED_DOC_EXTENSION,
     GENERATED_DOC_PREFIX,
     TEMPLATE_PREFIX,
     TEMPLATE_FILE_EXTENSION,
-    TEST_PREFIX)
+    TEST_PREFIX,
+)
 from app.handlers import format_exception
 from app.exceptions import (
     InvalidDocumentFomat,
     DocumentRenderError,
-    DocumentSavingError)
+    DocumentSavingError,
+)
 
 
 class RenderObject:
@@ -37,7 +41,7 @@ class RenderObject:
 class RenderDocxObject:
 
     BLACK_LIST_JSON_KEYS = {'items', 'item'}
-    
+
     def __init__(self, json=None, template_file=None):
         self.make_context(json)
         self.template_file = template_file
@@ -52,11 +56,12 @@ class RenderDocxObject:
     def init_template_functions(self):
         jinja_env.filters['format_date'] = format_date
         jinja_env.filters['convert_amount_to_words'] = convert_amount_to_words
-        
+
     def form_docx_template(self):
         docx_template_path = self.template_file.full_file_path
         self.docx_template = DocxTemplate(docx_template_path)
-
+        is_file_empty(self.docx_template)
+        
     def make_generated_doc_path(self):
         self.generated_doc_path = self.template_file.full_file_path.replace(
             TEMPLATE_PREFIX, GENERATED_DOC_PREFIX)

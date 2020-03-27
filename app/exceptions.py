@@ -47,3 +47,7 @@ class DocumentRenderError(CustomInternalServerError):
 
 class DocumentSavingError(CustomInternalServerError):
     description = 'Document saving error.'
+
+
+class TemplateIsEmpty(CustomInternalServerError):
+    description = 'Template is empty'

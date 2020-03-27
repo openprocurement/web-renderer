@@ -7,11 +7,13 @@ from app import app
 from app.constants import (
     TEMPLATE_UPLOAD_DIRECTORY_PATH,
     TEMPLATE_PREFIX,
-    TEMPLATE_FILE_EXTENSION)
+    TEMPLATE_FILE_EXTENSION,
+)
 from app.exceptions import (
     DocumentConvertionError,
     TemplateNotFound,
-    JSONNotFound
+    JSONNotFound,
+    TemplateIsEmpty,
 )
 
 
@@ -95,3 +97,11 @@ def is_json_attached(json_data):
 def does_data_attached(file, json_data):
     is_file_attached(file)
     is_json_attached(json_data)
+
+def is_file_empty(context):
+    fullText = []
+    for paragraph in context.paragraphs:
+        fullText.append(paragraph.text)
+    fullText = ''.join(fullText)
+    if len(fullText) == 0:
+        raise TemplateIsEmpty()

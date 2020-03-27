@@ -6,7 +6,8 @@ from app.exceptions import(
     DocumentConvertionError,
     DocumentRenderError,
     DocumentSavingError,
-    CustomException)
+    CustomException,
+)
 import json
 import docx.opc.exceptions
 import werkzeug.exceptions
