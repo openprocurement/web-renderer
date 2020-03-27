@@ -70,6 +70,7 @@ def remove_temp(remove_folder=False, timeout=None):
     process = subprocess.run(args, stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE, timeout=timeout)
 
+
 def does_file_exists(file):
     if path.exists(file):
         return True
@@ -97,6 +98,7 @@ def is_json_attached(json_data):
 def does_data_attached(file, json_data):
     is_file_attached(file)
     is_json_attached(json_data)
+
 
 def is_file_empty(context):
     fullText = []

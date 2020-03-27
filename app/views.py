@@ -8,10 +8,12 @@ from app.constants import TEMPLATES_FOLDER
 from app.utils.utils import (
     remove_temp,
     does_data_attached,
-    make_temp_folder)
+    make_temp_folder,
+)
 from app.exceptions import (
     JSONNotFound,
-    TemplateNotFound)
+    TemplateNotFound,
+)
 
 
 @app.before_request
