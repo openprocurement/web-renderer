@@ -1,3 +1,4 @@
+Babel==2.8.0
 click==7.1.1
 docxtpl==0.6.3
 Flask==1.1.1
@@ -5,7 +6,9 @@ itsdangerous==1.1.0
 Jinja2==2.11.1
 lxml==4.5.0
 MarkupSafe==1.1.1
+munch==2.5.0
 python-docx==0.8.7
+pytz==2019.3
 six==1.14.0
 waitress==1.4.3
 Werkzeug==1.0.0

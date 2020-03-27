@@ -4,12 +4,16 @@ import os
 import time
 from docxtpl import DocxTemplate
 from app import app, jinja_env
-from app.utils import (
+from app.utils.utils import (
     generate_file_name,
     make_path,
     convert_to_pdf,
     does_file_exists,
     rename_json_keys)
+from app.utils.template_utils import(
+    format_date,
+    convert_amount_to_words
+)
 from app.constants import (
     GENERATED_DOC_EXTENSION,
     GENERATED_DOC_PREFIX,
@@ -38,12 +42,17 @@ class RenderDocxObject:
         self.make_context(json)
         self.template_file = template_file
         self.form_docx_template()
+        self.init_template_functions()
 
     def make_context(self, json):
         rename_json_keys(json, RenderDocxObject.BLACK_LIST_JSON_KEYS)
         app.logger.info('BLACK_LIST_JSON_KEYS removed.')
         self.context = json
 
+    def init_template_functions(self):
+        jinja_env.filters['format_date'] = format_date
+        jinja_env.filters['convert_amount_to_words'] = convert_amount_to_words
+        
     def form_docx_template(self):
         docx_template_path = self.template_file.full_file_path
         self.docx_template = DocxTemplate(docx_template_path)

@@ -76,7 +76,8 @@ def does_file_exists(file):
 
 def is_file_attached(file):
     try:
-        file.filename
+        if file.filename == '':
+            raise TemplateNotFound()
     except AttributeError:
         raise TemplateNotFound()
     return True

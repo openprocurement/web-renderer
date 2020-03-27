@@ -5,7 +5,7 @@ import logging
 from app import app
 from app.renderer import RenderDocxObject, File, TemplateFile
 from app.constants import TEMPLATES_FOLDER
-from app.utils import (
+from app.utils.utils import (
     remove_temp,
     does_data_attached,
     make_temp_folder)
