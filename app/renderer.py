@@ -9,7 +9,6 @@ from app.utils.utils import (
     make_path,
     convert_to_pdf,
     does_file_exists,
-    rename_json_keys,
     is_file_empty,
 )
 from app.utils.template_utils import(
@@ -41,8 +40,6 @@ class RenderObject:
 
 class RenderDocxObject:
 
-    BLACK_LIST_JSON_KEYS = {'items', 'item'}
-
     def __init__(self, json=None, template_file=None):
         self.make_context(json)
         self.template_file = template_file
@@ -50,8 +47,6 @@ class RenderDocxObject:
         self.init_template_functions()
 
     def make_context(self, json):
-        rename_json_keys(json, RenderDocxObject.BLACK_LIST_JSON_KEYS)
-        app.logger.info('BLACK_LIST_JSON_KEYS removed.')
         self.context = json
 
     def init_template_functions(self):
@@ -63,7 +58,7 @@ class RenderDocxObject:
         docx_template_path = self.template_file.full_file_path
         self.docx_template = DocxTemplate(docx_template_path)
         is_file_empty(self.docx_template)
-        
+
     def make_generated_doc_path(self):
         self.generated_doc_path = self.template_file.full_file_path.replace(
             TEMPLATE_PREFIX, GENERATED_DOC_PREFIX)
