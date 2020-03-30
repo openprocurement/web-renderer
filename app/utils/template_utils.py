@@ -7,9 +7,8 @@ from num2words import num2words
 
 class MoneyAmount:
     """
-        A class that provide converting a string amount of money to float and word string.
         class MoneyAmount:
-            amount : unicode string, eg.: "12\xa0588\xa0575.00"
+            amount : unicode string, eg.: "12\xa0588\xa0575,00"
             float_amount: float value, eg.: 12588575.0
             amount_in words: string value, eg.: триста двадцять двi тисячi шiстсот шiстдесят дев'ять гривень 00 копійок
     """
@@ -23,9 +22,7 @@ class MoneyAmount:
 
     def amount_to_float(self):
         amount = self.amount
-        amount = amount.encode('ascii', 'ignore').decode("utf-8")
-        amount = amount.replace(" ", "").replace(',', ".")
-        amount = float(amount)
+        amount = to_float(amount)
         self.float_amount = amount
 
     def get_str_currency(self, number, unit):
@@ -82,3 +79,15 @@ def format_date(data):
     date_object = datetime.fromisoformat(data)
     str_date = format_datetime(date_object, '"d" MMMM Y року', locale='uk_UA')
     return str_date
+
+
+def to_float(float_string):
+    """
+        A function for formatting comma float string to float.
+        input: "12\xa0588\xa0575.00"
+        output: 12588575.0
+    """
+    float_string = float_string.encode('ascii', 'ignore').decode("utf-8")
+    float_string = float_string.replace(" ", "").replace(',', ".")
+    float_string = float(float_string)
+    return float_string

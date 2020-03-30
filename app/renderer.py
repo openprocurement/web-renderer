@@ -15,6 +15,7 @@ from app.utils.utils import (
 from app.utils.template_utils import(
     format_date,
     convert_amount_to_words,
+    to_float,
 )
 from app.constants import (
     GENERATED_DOC_EXTENSION,
@@ -56,6 +57,7 @@ class RenderDocxObject:
     def init_template_functions(self):
         jinja_env.filters['format_date'] = format_date
         jinja_env.filters['convert_amount_to_words'] = convert_amount_to_words
+        jinja_env.filters['to_float'] = to_float
 
     def form_docx_template(self):
         docx_template_path = self.template_file.full_file_path
