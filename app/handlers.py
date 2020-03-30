@@ -28,6 +28,20 @@ def docx_package_not_found_error(error):
 @app.errorhandler(jinja2.exceptions.TemplateError)
 def jinja2_undefined_error(error):
     return format_exception("Template values do not match data_json:"+str(*error.args), 500)
+
+@app.errorhandler(jinja2.exceptions.UndefinedError)
+def jinja_undefined_error(error):
+    return format_exception("Template values do not match data_json:"+str(*error.args), 500)
+    
+@app.errorhandler(werkzeug.exceptions.MethodNotAllowed)
+def method_not_allowed_handler(error):
+    return format_exception("Method is not allowed.", 405)
+
+
+@app.errorhandler(werkzeug.exceptions.BadRequestKeyError)
+def bad_request_key_error(error):
+    return format_exception(error.description, 500)
+
 # Custom exceptions handler
 
 
@@ -39,19 +53,10 @@ def custom_exceptions_error_handler(error):
 
 # Base exceptions handlers
 
-
-@app.errorhandler(werkzeug.exceptions.MethodNotAllowed)
-def method_not_allowed_handler(error):
-    return format_exception("Method is not allowed.", 405)
-
-
 @app.errorhandler(TypeError)
-def type_error_handler(error):
-    return format_exception(str(*error.args), 500)
-
-
+@app.errorhandler(AttributeError)
 @app.errorhandler(NameError)
-def name_error_handler(error):
+def attribute_name_error_handler(error):
     return format_exception(str(*error.args), 500)
 
 

@@ -3,8 +3,6 @@ from os import environ
 
 from config import Config
 
-import jinja2
-jinja_env = jinja2.Environment()
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -18,3 +16,6 @@ from app import models
 from app import handlers
 from app import exceptions
 from app import utils
+from app import template_env
+from app.template_env.template_environment import *
+app.jinja_env_obj = JinjaEnvironment()

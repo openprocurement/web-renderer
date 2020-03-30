@@ -40,7 +40,7 @@ def post():
     renderer.render()
     generated_file = TEMPLATES_FOLDER + \
         renderer.generated_pdf_path.split("/")[-1]
-    return send_file(generated_file,  as_attachment=True)
+    return send_file(generated_file,  as_attachment=True)       
 
 
 @app.after_request

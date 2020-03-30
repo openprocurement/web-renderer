@@ -51,3 +51,6 @@ class DocumentSavingError(CustomInternalServerError):
 
 class TemplateIsEmpty(CustomInternalServerError):
     description = 'Template is empty'
+
+class FileNameIsCyrillic(CustomInternalServerError):
+    description = 'Cyrrilic file names are not supported'

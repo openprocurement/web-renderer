@@ -2,19 +2,15 @@ from flask import Flask
 import json
 import os
 import time
-from docxtpl import DocxTemplate
-from app import app, jinja_env
+# from docxtpl import DocxTemplate
+from app import app
+from app.template_env.template_environment import DocxTemplateLocal as DocxTemplate
 from app.utils.utils import (
     generate_file_name,
     make_path,
     convert_to_pdf,
     does_file_exists,
     is_file_empty,
-)
-from app.utils.template_utils import(
-    format_date,
-    convert_amount_to_words,
-    to_float,
 )
 from app.constants import (
     GENERATED_DOC_EXTENSION,
@@ -44,15 +40,9 @@ class RenderDocxObject:
         self.make_context(json)
         self.template_file = template_file
         self.form_docx_template()
-        self.init_template_functions()
 
     def make_context(self, json):
         self.context = json
-
-    def init_template_functions(self):
-        jinja_env.filters['format_date'] = format_date
-        jinja_env.filters['convert_amount_to_words'] = convert_amount_to_words
-        jinja_env.filters['to_float'] = to_float
 
     def form_docx_template(self):
         docx_template_path = self.template_file.full_file_path
@@ -65,7 +55,7 @@ class RenderDocxObject:
 
     def render_document_to_docx(self):
         self.make_generated_doc_path()
-        self.docx_template.render(self.context, jinja_env)
+        self.docx_template.render(self.context, app.jinja_env_obj.jinja_env)
         self.docx_template.save(self.generated_doc_path)
         if does_file_exists(self.generated_doc_path):
             app.logger.info('Template is rendered to docx.')

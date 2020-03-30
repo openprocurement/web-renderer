@@ -3,6 +3,7 @@ from os import path
 import subprocess
 from flask import Flask
 from datetime import datetime
+import re
 from app import app
 from app.constants import (
     TEMPLATE_UPLOAD_DIRECTORY_PATH,
@@ -14,6 +15,7 @@ from app.exceptions import (
     TemplateNotFound,
     JSONNotFound,
     TemplateIsEmpty,
+    FileNameIsCyrillic,
 )
 
 
@@ -62,6 +64,7 @@ def is_file_attached(file):
     try:
         if file.filename == '':
             raise TemplateNotFound()
+        is_file_name_cyrillic(file.filename)
     except AttributeError:
         raise TemplateNotFound()
     return True
@@ -88,3 +91,8 @@ def is_file_empty(context):
     fullText = ''.join(fullText)
     if len(fullText) == 0:
         raise TemplateIsEmpty()
+
+
+def is_file_name_cyrillic(file_name):
+    if (re.match(r".*[а-яА-Я].*", file_name)):
+        raise FileNameIsCyrillic() 
