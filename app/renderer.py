@@ -55,7 +55,7 @@ class RenderDocxObject:
 
     def render_document_to_docx(self):
         self.make_generated_doc_path()
-        self.docx_template.render(self.context, app.jinja_env_obj.jinja_env)
+        self.docx_template.render_document(self.context)
         self.docx_template.save(self.generated_doc_path)
         if does_file_exists(self.generated_doc_path):
             app.logger.info('Template is rendered to docx.')

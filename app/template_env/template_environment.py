@@ -16,10 +16,15 @@ from app.template_env.template_utils import(
     convert_amount_to_words,
     to_float,
 )
+from app.utils.utils import(
+    process_jinja_undefined_var_error,
+)
 
 
 class TemplateFormatter(object):
-
+    """
+        The class that declare template functions.
+    """
     @classmethod
     def format_date(cls, date):
         return format_date(date)
@@ -37,18 +42,18 @@ class TemplateFormatter(object):
 
 
 class JinjaEnvironment:
-
+   
     def __init__(self, name="JinjaEnvironment"):
         self.name = name
         self.jinja_env = jinja2.Environment(undefined=StrictUndefined)
-        self.get_formatter()
-        self.get_all_functions()
+        self.set_template_formatter()
+        self.set_template_functions()
 
-    def get_formatter(self, name="TemplateFormatter"):
+    def set_template_formatter(self, name="TemplateFormatter"):
         formater_class = globals()[name]
         self.formatter = formater_class()
 
-    def get_all_functions(self):
+    def set_template_functions(self):
         all_funcs = [func for func in dir(TemplateFormatter) if callable(
             getattr(TemplateFormatter, func))]
         method_list = [func for func in all_funcs if not func.startswith("__")]
@@ -59,52 +64,34 @@ class JinjaEnvironment:
 
 class DocxTemplateLocal(DocxTemplate):
 
-    def render_xml(self, src_xml, context, jinja_env=None):
-        src_xml = src_xml.replace(r'<w:p>', '\n<w:p>')
-        try:
-            if jinja_env:
-                template = jinja_env.from_string(src_xml)
-            else:
-                template = Template(src_xml)
-
-            ast = jinja_env.parse(src_xml)
-            unexpected = meta.find_undeclared_variables(ast)
-            dst_xml = template.render(context)
-        except TemplateError as exc:
-            if hasattr(exc, 'lineno') and exc.lineno is not None:
-                line_number = max(exc.lineno - 4, 0)
-                exc.docx_context = map(lambda x: re.sub(r'<[^>]+>', '', x),
-                                       src_xml.splitlines()[line_number:(line_number + 7)])
-
-            raise exc
-        dst_xml = dst_xml.replace('\n<w:p>', '<w:p>')
-        dst_xml = (dst_xml
-                   .replace('{_{', '{{')
-                   .replace('}_}', '}}')
-                   .replace('{_%', '{%')
-                   .replace('%_}', '%}'))
-        return dst_xml
-
     def search(self, regex):
+        """
+            The method for searching a regex in the docx document.
+        """
         def search_paragraphs(regex):
             res_list = []
             for i in range(0, len(self.paragraphs)):
                 if re.search(regex, self.paragraphs[i].text):
-                    res_list.append(f"paragraph number={i} text={self.paragraphs[i].text}")
+                    res_list.append(
+                        f'Paragraph #{i+1}:"{self.paragraphs[i].text}"')
             return res_list
-                 
-        def search_cells(regex):
-            res_list = []
-            for table in self.tables:
-                for row in table.rows:
-                    for i in range(0, len(row.cells)):
-                        if re.search(regex, row.cells[i].text):
-                            res_list.append(f"cell number={i} text={row.cells[i].text}")
-            return res_list
-        
-        result_list_p = search_paragraphs(regex)
-        result_list_c = search_cells(regex)
-        result_list = result_list_p + result_list_c
-        print(result_list)
 
-   
+        def search_cells(regex):
+            res_list = set()
+            for table in self.tables:
+                for table_row in set(table.rows):
+                    for cell_index in range(0, len(table_row.cells)):
+                        if re.search(regex, table_row.cells[cell_index].text):
+                            res_list.add(f"Table cell: {table_row.cells[cell_index].text}")
+            return list(res_list)
+
+        return search_paragraphs(regex) + search_cells(regex)
+
+    def render_document(self, context):
+        """
+            Render docx document method with the special handling jinja2.exceptions.UndefinedError.
+        """
+        try:
+            self.render(context, app.jinja_env_obj.jinja_env)
+        except jinja2.exceptions.UndefinedError as error:
+            process_jinja_undefined_var_error(self, error)

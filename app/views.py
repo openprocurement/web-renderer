@@ -22,6 +22,7 @@ def before_request_func():
     make_temp_folder()
     app.logger.info('Tempfolder is created')
 
+
 @app.route('/', methods=['POST'])
 def post():
     """
@@ -40,7 +41,7 @@ def post():
     renderer.render()
     generated_file = TEMPLATES_FOLDER + \
         renderer.generated_pdf_path.split("/")[-1]
-    return send_file(generated_file,  as_attachment=True)       
+    return send_file(generated_file,  as_attachment=True)
 
 
 @app.after_request
@@ -49,6 +50,7 @@ def after_request_func(response):
     app.logger.info('Tempfiles are removed')
     app.logger.info('Request is finished')
     return response
+
 
 @app.teardown_request
 def after_all_requests(response):

@@ -12,6 +12,8 @@ import json
 import docx.opc.exceptions
 import werkzeug.exceptions
 import jinja2.exceptions
+
+
 # Library exceptions handlers
 
 
@@ -29,10 +31,12 @@ def docx_package_not_found_error(error):
 def jinja2_undefined_error(error):
     return format_exception("Template values do not match data_json:"+str(*error.args), 500)
 
+
 @app.errorhandler(jinja2.exceptions.UndefinedError)
 def jinja_undefined_error(error):
     return format_exception("Template values do not match data_json:"+str(*error.args), 500)
-    
+
+
 @app.errorhandler(werkzeug.exceptions.MethodNotAllowed)
 def method_not_allowed_handler(error):
     return format_exception("Method is not allowed.", 405)

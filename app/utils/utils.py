@@ -16,6 +16,7 @@ from app.exceptions import (
     JSONNotFound,
     TemplateIsEmpty,
     FileNameIsCyrillic,
+    UndefinedVariableJinja,
 )
 
 
@@ -82,6 +83,7 @@ def is_json_attached(json_data):
 def does_data_attached(file, json_data):
     is_file_attached(file)
     is_json_attached(json_data)
+    return True
 
 
 def is_file_empty(context):
@@ -91,8 +93,23 @@ def is_file_empty(context):
     fullText = ''.join(fullText)
     if len(fullText) == 0:
         raise TemplateIsEmpty()
+    return False
 
 
 def is_file_name_cyrillic(file_name):
     if (re.match(r".*[а-яА-Я].*", file_name)):
-        raise FileNameIsCyrillic() 
+        raise FileNameIsCyrillic()
+    return False
+
+
+def process_jinja_undefined_var_error(docx_template, error):
+    """
+        The function for processing jinja2.exceptions.UndefinedError. 
+    """
+    undefined_value = re.findall(
+        "'[a-zA-Z ]*'", error.args[0])[1].replace("'", "")
+    error_message = {
+        "jinja_error": error.args[0],
+        "possible_locations": docx_template.search(undefined_value)
+    }
+    raise UndefinedVariableJinja(error_message)

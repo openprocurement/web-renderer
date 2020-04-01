@@ -4,7 +4,7 @@ from app import app
 
 
 def format_exception(error, error_code):
-    app.logger.error(error + " " + str(error_code))
+    app.logger.error(str(error) + " " + str(error_code))
     return {
         "error": {
             "code": error_code,
@@ -52,5 +52,10 @@ class DocumentSavingError(CustomInternalServerError):
 class TemplateIsEmpty(CustomInternalServerError):
     description = 'Template is empty'
 
+
 class FileNameIsCyrillic(CustomInternalServerError):
     description = 'Cyrrilic file names are not supported'
+
+
+class UndefinedVariableJinja(CustomInternalServerError):
+    description = 'Undefined variable in the template'
