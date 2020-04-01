@@ -1,8 +1,6 @@
 from flask import Flask
-from app import app
-import jinja2
 from docxtpl import DocxTemplate
-import re
+import jinja2
 from jinja2 import (
     Template,
     TemplateSyntaxError,
@@ -11,6 +9,8 @@ from jinja2 import (
     Environment,
     StrictUndefined,
 )
+import re
+from app import app
 from app.template_env.template_utils import(
     format_date,
     convert_amount_to_words,

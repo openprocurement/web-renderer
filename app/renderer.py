@@ -2,7 +2,6 @@ from flask import Flask
 import json
 import os
 import time
-# from docxtpl import DocxTemplate
 from app import app
 from app.template_env.template_environment import DocxTemplateLocal as DocxTemplate
 from app.utils.utils import (

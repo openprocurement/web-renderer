@@ -1,4 +1,8 @@
 from flask import Flask
+import docx.opc.exceptions
+import werkzeug.exceptions
+import jinja2.exceptions
+import json
 from app import app
 from app.exceptions import(
     format_exception,
@@ -8,11 +12,6 @@ from app.exceptions import(
     DocumentSavingError,
     CustomException,
 )
-import json
-import docx.opc.exceptions
-import werkzeug.exceptions
-import jinja2.exceptions
-
 
 # Library exceptions handlers
 
