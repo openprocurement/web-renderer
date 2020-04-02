@@ -56,6 +56,7 @@ def custom_exceptions_error_handler(error):
 
 # Base exceptions handlers
 
+@app.errorhandler(FileExistsError)
 @app.errorhandler(RuntimeError)
 @app.errorhandler(TypeError)
 @app.errorhandler(AttributeError)

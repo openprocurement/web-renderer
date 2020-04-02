@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         {% block content %}
-        <form action="" method="post" name="simple" enctype="multipart/form-data">
+        <form action="" method="post" name="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-12 m-4">
                     <h1 class="margin-bottom" align=center>Web renderer</h1>
@@ -21,8 +21,9 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <input type="file" class="form-control m-2" id="template" name="template" />
-                        <textarea class="form-control m-2" id="json_data" name="json_data" required type="text" rows="10" placeholder="Add data_json."></textarea>
-                        <input type="submit" class="btn btn-primary m-2" style="width: 100%;" value="Submit">
+                        <textarea class="form-control m-2" id="json_data" name="json_data" type="text" rows="10" placeholder="Add data_json."></textarea>
+                        <input type="submit" id="submit" name="submit" class="btn btn-primary m-2" style="width: 100%;" value="Submit">
+                        <input type="submit" id="display_template_form" name="display_template_form" class="btn btn-primary m-2" style="width: 100%;" value="Display template form">
                     </div>
                 </div>
             </div>

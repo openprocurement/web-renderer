@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_wtf import FlaskForm
-from wtforms import validators, StringField
+from wtforms import validators, StringField, SubmitField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from app import app
 from app.constants import(
@@ -9,9 +9,11 @@ from app.constants import(
 
 
 class UploadForm(FlaskForm):
-    template = FileField('file', validators=[
+    contract = FileField('file', validators=[
         FileRequired(),
-        FileAllowed(ALLOWED_EXTENSIONS, 'Images only!')
+        FileAllowed(ALLOWED_EXTENSIONS, str(ALLOWED_EXTENSIONS))
     ])
     json_data = StringField(
-        u'Full Name', [validators.required(), validators.length(max=10000)])
+        u'JSON_DATA', [validators.length(max=10000)])
+    sumbit_button = SubmitField(label='Submit')
+    display_template_form = SubmitField(label='Display template form')

@@ -1,7 +1,4 @@
 # web-renderer
-### Requirements
-
-Minimal python version: python3.7
 
 ### Requests:
 

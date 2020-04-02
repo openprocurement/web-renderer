@@ -1,6 +1,8 @@
 from flask import Flask
-from docxtpl import DocxTemplate
+from app import app
 import jinja2
+from docxtpl import DocxTemplate
+import re
 from jinja2 import (
     Template,
     TemplateSyntaxError,
@@ -9,8 +11,6 @@ from jinja2 import (
     Environment,
     StrictUndefined,
 )
-import re
-from app import app
 from app.render_environment.template_utils import(
     format_date,
     convert_amount_to_words,
@@ -42,7 +42,7 @@ class TemplateFormatter(object):
 
 
 class JinjaEnvironment:
-   
+
     def __init__(self, name="JinjaEnvironment"):
         self.name = name
         self.jinja_env = jinja2.Environment(undefined=StrictUndefined)
@@ -82,7 +82,8 @@ class DocxTemplateLocal(DocxTemplate):
                 for table_row in set(table.rows):
                     for cell_index in range(0, len(table_row.cells)):
                         if re.search(regex, table_row.cells[cell_index].text):
-                            res_list.add(f"Table cell: {table_row.cells[cell_index].text}")
+                            res_list.add(
+                                f"Table cell: {table_row.cells[cell_index].text}")
             return list(res_list)
 
         return search_paragraphs(regex) + search_cells(regex)
