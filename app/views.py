@@ -1,18 +1,32 @@
-from flask import Flask, request, abort, jsonify, send_from_directory, send_file
+from flask import (
+    Flask, request, abort, jsonify, send_from_directory, send_file, redirect, url_for,
+    render_template)
 import json
 import logging
 from app import app
 from app.renderer import RenderDocxObject, File, TemplateFile
-from app.constants import TEMPLATES_FOLDER
+from app.constants import (
+    TEMPLATES_FOLDER,
+)
 from app.utils.utils import (
     remove_temp,
     does_data_attached,
     make_temp_folder,
+    make_path,
 )
 from app.exceptions import (
     JSONNotFound,
     TemplateNotFound,
 )
+from app.forms import(
+    UploadForm,
+)
+
+
+@app.route('/', methods=['GET'])
+def upload_file():
+    form = UploadForm(request.form)
+    return render_template('upload_form.html', form=form)
 
 
 @app.before_request

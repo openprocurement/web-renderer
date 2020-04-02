@@ -56,10 +56,11 @@ def custom_exceptions_error_handler(error):
 
 # Base exceptions handlers
 
+@app.errorhandler(RuntimeError)
 @app.errorhandler(TypeError)
 @app.errorhandler(AttributeError)
 @app.errorhandler(NameError)
-def attribute_name_error_handler(error):
+def base_exceptions_handler(error):
     return format_exception(str(*error.args), 500)
 
 

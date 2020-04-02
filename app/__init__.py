@@ -16,6 +16,6 @@ from app import models
 from app import handlers
 from app import exceptions
 from app import utils
-from app import template_env
-from app.template_env.template_environment import *
+from app import render_environment
+from app.render_environment.template_environment import *
 app.jinja_env_obj = JinjaEnvironment()

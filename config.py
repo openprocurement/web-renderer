@@ -2,6 +2,9 @@ import os
 
 
 class Config(object):
+    WTF_CSRF_SECRET_KEY = os.urandom(24)
+    SECRET_KEY = os.urandom(24)
+    SESSION_TYPE = 'filesystem'
     APP_FOLDER = 'app/'
     TEMPLATES_FOLDER = '.templates/'
     UPLOAD_FOLDER = APP_FOLDER+TEMPLATES_FOLDER
