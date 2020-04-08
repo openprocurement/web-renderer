@@ -50,7 +50,7 @@ class BSToJSONConverter:
 
 	def form_json_tree(self, json, tag_keys, tags):
 		"""
-				Function for structuring tags by group.
+				A function for structuring tags by group.
 		"""
 		for key in set(tag_keys):
 			grouped_tags = []
@@ -67,7 +67,7 @@ class BSToJSONConverter:
 
 	def jsonify(self, element_object=None, json={}):
 		"""
-				Function that jsonify a tag.
+				A function that jsonifies a tag.
 				Input: tag
 				Output: {'attributes': # all tag atributes,
 								 #tag_name: { # the same structure}}
@@ -103,7 +103,7 @@ class HTMLToJSONConverter(BSToJSONConverter):
 
 	def replace_tags_to_new(self, soup, tags_to_replace_dict, new_tag_name):
 		"""
-				Function that find all tags that match regex and replace them with new tags.
+				A function that finds all tags that match regex and replace them with new tags.
 				Input:
 						soup: Beautiful soup object
 						tags_to_replace_dict: dict with the format {"tag_name": tag_regex}
@@ -176,7 +176,7 @@ class HTMLToJSONConverter(BSToJSONConverter):
 
 	def replace_template_loops_with_form(self, soup):
 		"""
-				Function for replacing jinja template 'for' loops with 'for' forms.
+				A function for replacing jinja template 'for' loops with 'for' forms.
 		"""
 		for_tags = soup.find_all(
 			"p", text=re.compile(RegexConstants.FOR_LOOP_BODY))
@@ -194,7 +194,7 @@ class HTMLToJSONConverter(BSToJSONConverter):
 
 	def remove_empty_tags(self, soup):
 		"""
-				Function for removing tags that have no content.
+				A function for removing tags that have no content.
 		"""
 		for x in soup.find_all():
 			if len(x.get_text(strip=True)) == 0:
@@ -202,7 +202,7 @@ class HTMLToJSONConverter(BSToJSONConverter):
 
 	def convert(self, formatted_html):
 		"""
-			Function that converts HTML to JSON schema.
+			A function that converts HTML to JSON schema.
 		"""
 		self.soup = BeautifulSoup(formatted_html, "html.parser")
 		self.replace_template_loops_with_form(self.soup)

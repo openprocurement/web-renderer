@@ -225,7 +225,9 @@ class DocxToJSONSchemaRenderer(RenderObject):
             self.convert_to_html()
             app.logger.info('Template is rendered to html.')
 
-    def replace_regex(self):
+    def format_html(self):
+        self.formatted_html = Regex.replace_regex_list(
+            self.formatted_html, DocxToJSONSchemaRenderer.REGEX_TO_REPLACE)
         self.json_schema = HTMLToJSONConverter().convert(self.formatted_html)
         app.logger.info('Template is reformatted to json.')
 
@@ -233,8 +235,7 @@ class DocxToJSONSchemaRenderer(RenderObject):
         document = GeneralConverter.convert_to_html(self.template_file)
         self.init_html = document.value
         self.formatted_html = deepcopy(self.init_html)
-        self.formatted_html = Regex.replace_regex_list(
-            self.formatted_html, DocxToJSONSchemaRenderer.REGEX_TO_REPLACE)
+
 
     def render_to_html(self):
-        self.replace_regex()
+        self.format_html()
