@@ -16,6 +16,7 @@ from app.utils.utils import (
 )
 from app.utils.converters import(
     GeneralConverter,
+    HTMLToJSONConverter,
 )
 from app.constants import (
     GeneralConstants,
@@ -141,8 +142,7 @@ class DocxToPDFRenderer(RenderObject):
 class DocxToHTMLRenderer(RenderObject):
 
     REGEX_TO_REPLACE = [
-        # change dict access from dict['field'] to dict.field
-        [RegexConstants.ARRAY_FIELDS, RegexConstants.FIRST],
+        [RegexConstants.ARRAY_FIELDS, RegexConstants.FIRST], # change dict access from dict['field'] to dict.field
         [RegexConstants.A_LINKS, ""],  # replace all <a> links
         [RegexConstants.TEMPLATE_FORMULA,  # change {{ field }} to TextField
          RegexConstants.TEXT_FIELD],
@@ -206,3 +206,35 @@ class DocxToHTMLRenderer(RenderObject):
         self.encode_html()
         self.make_file_path()
         self.save_html()
+
+
+class DocxToJSONSchemaRenderer(RenderObject):
+
+    REGEX_TO_REPLACE = [
+        [RegexConstants.ARRAY_FIELDS, RegexConstants.FIRST],
+        [RegexConstants.A_LINKS, ""],
+    ]
+    def __init__(self, template_file):
+        self.make_template_file(template_file)
+        self.render_to_html()
+
+    def make_template_file(self, template_file):
+        template_file = Path.make_full_file_path(template_file)
+        with file_decorator(template_file, "rb", HTMLNotFoundError):
+            self.template_file = open(template_file, "rb")
+            self.convert_to_html()
+            app.logger.info('Template is rendered to html.')
+
+    def replace_regex(self):
+        self.json_schema = HTMLToJSONConverter().convert(self.formatted_html)
+        app.logger.info('Template is reformatted to json.')
+
+    def convert_to_html(self):
+        document = GeneralConverter.convert_to_html(self.template_file)
+        self.init_html = document.value
+        self.formatted_html = deepcopy(self.init_html)
+        self.formatted_html = Regex.replace_regex_list(
+            self.formatted_html, DocxToJSONSchemaRenderer.REGEX_TO_REPLACE)
+
+    def render_to_html(self):
+        self.replace_regex()

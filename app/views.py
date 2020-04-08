@@ -8,6 +8,7 @@ from app.renderers import (
     TemplateFile,
     DocxToPDFRenderer,
     DocxToHTMLRenderer,
+    DocxToJSONSchemaRenderer,
 )
 from app.constants import (
     GeneralConstants,
@@ -45,9 +46,15 @@ def favicon():
 def display_template_form():
     template_file = request.args.get('template')
     html_renderer = DocxToHTMLRenderer(template_file)
-    html_file = GeneralConstants.TEMP_FOLDER + \
-        html_renderer.html_file_name + "." + GeneralConstants.HTML_EXTENSION
+    html_file = GeneralConstants.TEMP_FOLDER + html_renderer.html_file_name + "." + GeneralConstants.HTML_EXTENSION
     return render_template(html_file)
+
+
+@app.route('/get_template_json', methods=["GET"])
+def get_template_json():
+    template_file = request.args.get('template')
+    html_json = DocxToJSONSchemaRenderer(template_file).json_schema
+    return jsonify(html_json)
 
 
 @app.route('/', methods=['POST'])
@@ -65,6 +72,11 @@ def post():
         FileUtils.is_file_attached(template_file)
         docx_file = TemplateFile(template_file)
         return redirect(url_for('display_template_form', template=docx_file.file_name))
+    elif "get_template_json" in form_values:
+        template_file = request.files.get('template')
+        FileUtils.is_file_attached(template_file)
+        docx_file = TemplateFile(template_file)
+        return redirect(url_for('get_template_json', template=docx_file.file_name))
     else:
         template_file = request.files.get('template')
         json_data = request.form.get('json_data')

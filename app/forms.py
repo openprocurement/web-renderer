@@ -17,3 +17,4 @@ class UploadForm(FlaskForm):
         u'JSON_DATA', [validators.length(max=10000)])
     sumbit_button = SubmitField(label='Submit')
     display_template_form = SubmitField(label='Display template form')
+    get_template_json = SubmitField(label='Get template json')
