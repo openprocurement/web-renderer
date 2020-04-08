@@ -3,6 +3,7 @@ import docx.opc.exceptions
 import werkzeug.exceptions
 import jinja2.exceptions
 import json
+import re
 from app import app
 from app.exceptions import(
     format_exception,
@@ -11,6 +12,7 @@ from app.exceptions import(
     DocumentRenderError,
     DocumentSavingError,
     CustomException,
+    HTMLNotFoundError,
 )
 
 # Library exceptions handlers
@@ -45,6 +47,9 @@ def method_not_allowed_handler(error):
 def bad_request_key_error(error):
     return format_exception(error.description, 500)
 
+@app.errorhandler(re.error)
+def regex_error(error):
+    return format_exception(str(*error.args), 500)
 # Custom exceptions handler
 
 
@@ -56,6 +61,8 @@ def custom_exceptions_error_handler(error):
 
 # Base exceptions handlers
 
+@app.errorhandler(IndexError)
+@app.errorhandler(ValueError)
 @app.errorhandler(FileExistsError)
 @app.errorhandler(RuntimeError)
 @app.errorhandler(TypeError)
@@ -63,7 +70,6 @@ def custom_exceptions_error_handler(error):
 @app.errorhandler(NameError)
 def base_exceptions_handler(error):
     return format_exception(str(*error.args), 500)
-
 
 @app.errorhandler(FileNotFoundError)
 def file_not_found_handler(error):

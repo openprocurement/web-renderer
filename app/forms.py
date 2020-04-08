@@ -4,14 +4,14 @@ from wtforms import validators, StringField, SubmitField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from app import app
 from app.constants import(
-    ALLOWED_EXTENSIONS,
+    GeneralConstants,
 )
 
 
 class UploadForm(FlaskForm):
     contract = FileField('file', validators=[
         FileRequired(),
-        FileAllowed(ALLOWED_EXTENSIONS, str(ALLOWED_EXTENSIONS))
+        FileAllowed(GeneralConstants.ALLOWED_EXTENSIONS, str(GeneralConstants.ALLOWED_EXTENSIONS))
     ])
     json_data = StringField(
         u'JSON_DATA', [validators.length(max=10000)])

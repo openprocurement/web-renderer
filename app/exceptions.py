@@ -32,6 +32,8 @@ class JSONNotFound(CustomNotFound):
 class TemplateNotFound(CustomNotFound):
     description = "template data is not found"
 
+class HTMLNotFoundError(CustomNotFound):
+    description = "html is not found"
 
 class InvalidDocumentFomat(CustomInternalServerError):
     description = 'Invalid template document format.'

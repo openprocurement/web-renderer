@@ -17,7 +17,7 @@ from app.render_environment.template_utils import(
     to_float,
 )
 from app.utils.utils import(
-    process_jinja_undefined_var_error,
+    ErrorUtils,
 )
 
 
@@ -95,4 +95,4 @@ class DocxTemplateLocal(DocxTemplate):
         try:
             self.render(context, app.jinja_env_obj.jinja_env)
         except jinja2.exceptions.UndefinedError as error:
-            process_jinja_undefined_var_error(self, error)
+            ErrorUtils.process_jinja_undefined_var_error(self, error)
