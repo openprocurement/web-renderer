@@ -4,7 +4,7 @@ from app import app
 
 
 def format_exception(error, error_code):
-    app.logger.error(error + " " + str(error_code))
+    app.logger.error(str(error) + " " + str(error_code))
     return {
         "error": {
             "code": error_code,
@@ -32,6 +32,8 @@ class JSONNotFound(CustomNotFound):
 class TemplateNotFound(CustomNotFound):
     description = "template data is not found"
 
+class HTMLNotFoundError(CustomNotFound):
+    description = "html is not found"
 
 class InvalidDocumentFomat(CustomInternalServerError):
     description = 'Invalid template document format.'
@@ -47,3 +49,15 @@ class DocumentRenderError(CustomInternalServerError):
 
 class DocumentSavingError(CustomInternalServerError):
     description = 'Document saving error.'
+
+
+class TemplateIsEmpty(CustomInternalServerError):
+    description = 'Template is empty'
+
+
+class FileNameIsCyrillic(CustomInternalServerError):
+    description = 'Cyrrilic file names are not supported'
+
+
+class UndefinedVariableJinja(CustomInternalServerError):
+    description = 'Undefined variable in the template'

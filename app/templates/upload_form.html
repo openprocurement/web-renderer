@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <title>Web renderer</title>
+    <link rel="stylesheet" media="screen" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        {% block content %}
+        <form action="" method="post" name="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-12 m-4">
+                    <h1 class="margin-bottom" align=center>Web renderer</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <input type="file" class="form-control m-1" id="template" name="template" />
+                        <textarea class="form-control m-1" id="json_data" name="json_data" type="text" rows="10" placeholder="Add data_json."></textarea>
+                        <input type="submit" id="submit" name="submit" class="btn btn-primary m-1" style="width: 100%;" value="Submit">
+                        <input type="submit" id="display_template_form" name="display_template_form" class="btn btn-primary m-1" style="width: 100%;" value="Display template form">
+                        <input type="submit" id="get_template_json" name="get_template_json" class="btn btn-primary m-1" style="width: 100%;" value="Get template json">
+                    </div>
+                </div>
+            </div>
+        </form>
+        {% endblock %}
+    </div>
+</body>
+<script>
+    $(document).ready(function() {
+                $('#template').change(function() {
+                    var i = $(this).prev('label').clone();
+                    var file = $('template')[0].files[0].name;
+                    $(this).prev('label').text(file);
+                });
+            }
+</script>
+
+</html>
