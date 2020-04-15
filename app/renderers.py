@@ -14,9 +14,14 @@ from app.utils.utils import (
     Regex,
     file_decorator,
 )
-from app.utils.converters import(
+from app.converters.general_converters import(
     GeneralConverter,
-    HTMLToJSONConverter,
+)
+from app.converters.converter_to_tag_schema import(
+    HTMLToJSONTagSchemeConverter,
+)
+from app.converters.converter_to_json_schema import(
+    HTMLToJSONSchemaConverter,
 )
 from app.constants import (
     GeneralConstants,
@@ -147,7 +152,7 @@ class DocxToHTMLRenderer(RenderObject):
         [RegexConstants.TEMPLATE_FORMULA,  # change {{ field }} to TextField
          RegexConstants.TEXT_FIELD],
         [RegexConstants.ALL_TRS, ""],  # replace tr's
-        [RegexConstants.ALL_FOR_LOOP_BODY, ""],  # replace all for loops
+        [RegexConstants.FOR_LOOP_BODY, ""],  # replace all for loops
         # replace all filters: {{ field | filter }}
         [RegexConstants.TEMPLATE_FILTER, ""],
     ]
@@ -208,6 +213,40 @@ class DocxToHTMLRenderer(RenderObject):
         self.save_html()
 
 
+class DocxToTagSchemaRenderer(RenderObject):
+
+    REGEX_TO_REPLACE = [
+        [RegexConstants.ARRAY_FIELDS, RegexConstants.FIRST],
+        [RegexConstants.A_LINKS, ""],
+    ]
+    def __init__(self, template_file):
+        self.make_template_file(template_file)
+        self.render_to_html()
+
+    def make_template_file(self, template_file):
+        template_file = Path.make_full_file_path(template_file)
+        with file_decorator(template_file, "rb", HTMLNotFoundError):
+            self.template_file = open(template_file, "rb")
+            self.convert_to_html()
+            app.logger.info('Template is rendered to html.')
+
+    def format_html(self):
+        self.formatted_html = Regex.replace_regex_list(
+            self.formatted_html, DocxToJSONSchemaRenderer.REGEX_TO_REPLACE)
+        self.json_schema = HTMLToJSONTagSchemeConverter().convert(self.formatted_html)
+        app.logger.info('Template is reformatted to json.')
+
+    def convert_to_html(self):
+        document = GeneralConverter.convert_to_html(self.template_file)
+        self.init_html = document.value
+        self.formatted_html = deepcopy(self.init_html)
+
+
+    def render_to_html(self):
+        self.format_html()
+
+
+    
 class DocxToJSONSchemaRenderer(RenderObject):
 
     REGEX_TO_REPLACE = [
@@ -228,7 +267,7 @@ class DocxToJSONSchemaRenderer(RenderObject):
     def format_html(self):
         self.formatted_html = Regex.replace_regex_list(
             self.formatted_html, DocxToJSONSchemaRenderer.REGEX_TO_REPLACE)
-        self.json_schema = HTMLToJSONConverter().convert(self.formatted_html)
+        self.json_schema = HTMLToJSONSchemaConverter().convert(self.formatted_html)
         app.logger.info('Template is reformatted to json.')
 
     def convert_to_html(self):

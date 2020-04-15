@@ -133,7 +133,7 @@ class ErrorUtils:
     @classmethod
     def process_jinja_undefined_var_error(cls, docx_template, error):
         """
-            The function for processing jinja2.exceptions.UndefinedError. 
+                The function for processing jinja2.exceptions.UndefinedError. 
         """
         undefined_value = re.findall(
             "'[a-zA-Z ]*'", error.args[0])[1].replace("'", "")
@@ -142,17 +142,6 @@ class ErrorUtils:
             "possible_locations": docx_template.search(undefined_value)
         }
         raise UndefinedVariableJinja(error_message)
-
-
-@contextmanager
-def file_decorator(file_path, file_options, exception_to_rise):
-    try:
-        template_file = open(file_path, file_options)
-    except Exception as e:
-        raise exception_to_rise()
-    else:
-        with template_file:
-            yield
 
 
 class Regex:
@@ -167,6 +156,72 @@ class Regex:
     def find_all_regexes_in_list(cls, regex_list, init_string):
         regex_to_extract = '|'.join(regex_list)
         regex = re.compile(regex_to_extract)
-        result_list = re.findall(init_string)
+        result_list = re.findall(regex, init_string)
         result_list = [''.join(item) for item in result_list]
         return result_list
+
+    @classmethod
+    def does_strings_matches_regex(cls, regex_list, init_strings):
+        is_included = 0
+        if isinstance(init_strings, str):
+            init_strings = [init_strings]
+        for init_string in init_strings:
+            resulted_list = cls.find_all_regexes_in_list(regex_list, init_string)
+            if len(resulted_list):
+                is_included += True
+        return is_included > 0
+
+    @classmethod
+    def remove_prefix(cls, var_to_remove, string):
+        regex_to_remove = "^"+str(var_to_remove)+"[._]{1}"
+        string = re.sub(regex_to_remove, "", string)
+        return string
+
+
+# Context managers
+
+@contextmanager
+def file_decorator(file_path, file_options, exception_to_rise):
+    try:
+        template_file = open(file_path, file_options)
+    except Exception as e:
+        raise exception_to_rise()
+    else:
+        with template_file:
+            yield
+
+
+class GeneratorContextManager:
+
+    def __init__(self, generator):
+        self.end = False
+        self.generator = generator
+
+    def __iter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_obj, exc_tb):
+        end = True
+        return False
+
+    def __next__(self):
+        self.current = next(self.generator)
+        return self
+
+
+class JSONListGeneratorContextManager(GeneratorContextManager):
+
+    def __init__(self, generator):
+        self.end = False
+        self.generator = generator
+        self.FOR_LOOP_CONDITION = 0
+        self.ITERATOR = 0
+
+
+class JSONSchemaGeneratorContextManager(GeneratorContextManager):
+
+    def __init__(self, generator):
+        self.end = False
+        self.generator = generator
+        self.FOR_LOOP_CONDITION = 0
+        self.FOR_LOOP_ITERATED_LIST = 2
