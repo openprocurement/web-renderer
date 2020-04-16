@@ -220,14 +220,6 @@ class JSONListGeneratorContextManager(GeneratorContextManager):
         self.ITERATOR = 0
 
 
-class JSONSchemaGeneratorContextManager(GeneratorContextManager):
-
-    def __init__(self, generator):
-        self.end = False
-        self.generator = generator
-        self.FOR_LOOP_CONDITION = 0
-        self.FOR_LOOP_ITERATED_LIST = 2
-
 
 def setdefaultattr(obj, name, value):
     if not hasattr(obj, name):

@@ -8,19 +8,19 @@ from app.constants import (
 )
 from app.utils.utils import (
     Regex,
-    JSONSchemaGeneratorContextManager,
     JSONListGeneratorContextManager,
     setdefaultattr,
 )
 
 HIDE_EMPTY_FIELDS = 0
 
+
 class HTMLToJSONSchemaConverter:
 
     TEMPLATE_FORMULAS = [("p", '|'.join([RegexConstants.TEMPLATE_FORMULA, RegexConstants.FOR_LOOP_BODY, ]))
                          ]
     BLACK_LIST_VARIABLES = [r'loop.*']
-    
+
     def __init__(self, hide_empty_fields):
         self.hide_empty_fields = hide_empty_fields
         global HIDE_EMPTY_FIELDS
@@ -44,7 +44,6 @@ class HTMLToJSONSchemaConverter:
                     re.compile(tag_text_regex), tag_text)]
                 found_tag_list.extend((id_list))
         return found_tag_list
-
 
     def make_tag_list_tree(self, found_tag_list):
         """
@@ -87,9 +86,9 @@ class HTMLToJSONSchemaConverter:
                 - tree - an object that stores a list.
                 - json_tree - a resulted json_tree object.
             Output:
-                - structurized list, eg.:["tag",["tag1","tag2"]].
+                - structurized list, eg.:["field1",["field2","field2"]].
                     For the for loop, it returns the following structure:
-                        [("for", "for_loop_variable", "loop_iterated_list"), "tag1", ...]
+                        [("for", "for_loop_variable", "loop_iterated_list"), #fields]
                 - structurized json:
                     {
                     "title": "tree",
@@ -102,12 +101,7 @@ class HTMLToJSONSchemaConverter:
         for decorator in JSONListGeneratorContextManager(generator):
             current = decorator.current
             if re.match(RegexConstants.FOR_LOOP_BEGIN_TAG, current):
-                for_loop_condition = list(re.findall( RegexConstants.FOR_LOOP_CONDITION, current)[0])
-                for_loop_condition[decorator.FOR_LOOP_ITERATED_LIST] = \
-                    self.change_loop_items_name(decorator, for_loop_condition[decorator.FOR_LOOP_ITERATED_LIST], tree)
-                for_loop = [tuple(for_loop_condition)]
-                tree.append(for_loop)
-                self.set_json_value(json_tree, for_loop_condition[2], JSONSchemaArray)
+                tree, json_tree, for_loop = self.create_for_loop_nesting(decorator, current, tree, json_tree)
                 self.make_list_tree(generator, for_loop, json_tree)
             elif re.match(RegexConstants.FOR_LOOP_END_TAG, current):
                 return
@@ -115,8 +109,26 @@ class HTMLToJSONSchemaConverter:
                 current = self.change_loop_items_name(decorator, current, tree)
                 if not Regex.does_strings_matches_regex(HTMLToJSONSchemaConverter.BLACK_LIST_VARIABLES, current):
                     tree.append(current)
+                    #TODO add compatibility to other fields except String.
                     self.set_json_value(json_tree, current, StringField)
         return tree, json_tree
+
+    def create_for_loop_nesting(self, decorator, current, tree, json_tree):
+        """
+            The function for creating Array object for the loop holding.
+            It creates:
+            - a for_loop object, e.g: [("for", "for_loop_variable", "loop_iterated_list"), #fields ];
+            - JSONSchemaArray object.
+
+        """
+        for_loop_condition = list(re.findall(
+            RegexConstants.FOR_LOOP_CONDITION, current)[0])
+        for_loop_condition[decorator.FOR_LOOP_ITERATED_LIST] = \
+            self.change_loop_items_name( decorator, for_loop_condition[decorator.FOR_LOOP_ITERATED_LIST], tree)
+        for_loop = [tuple(for_loop_condition)]
+        tree.append(for_loop)
+        self.set_json_value(json_tree, for_loop_condition[2], JSONSchemaArray)
+        return tree, json_tree, for_loop
 
     def change_loop_items_name(self, decorator, current, tree):
         """
@@ -126,14 +138,14 @@ class HTMLToJSONSchemaConverter:
         """
         if len(tree) and isinstance(tree[decorator.FOR_LOOP_CONDITION], tuple):
             current = tree[decorator.FOR_LOOP_CONDITION][decorator.FOR_LOOP_ITERATED_LIST]+"." + \
-                      Regex.remove_prefix(tree[decorator.FOR_LOOP_CONDITION][decorator.FOR_LOOP_VARIABLE], current)
+                Regex.remove_prefix(
+                    tree[decorator.FOR_LOOP_CONDITION][decorator.FOR_LOOP_VARIABLE], current)
         return current
-
 
     def set_json_value(self, json_tree, current, field_type):
         current_values = current.split(".")
         generator = (tag for tag in current_values[:-1]+[None])
-        self.set_nested_value(json_tree, generator,field_type, current_values[-1])
+        self.set_nested_value(json_tree, generator, field_type, current_values[-1])
 
     def set_nested_value(self, obj, keys, object_type, value):
         """
@@ -152,7 +164,8 @@ class HTMLToJSONSchemaConverter:
                 next_object = JSONSchemaObject(key)
                 if key not in current_properties:
                     current_properties[key] = JSONSchemaObject(key)
-                self.set_nested_value(current_properties[key], keys, object_type, value)
+                self.set_nested_value(
+                    current_properties[key], keys, object_type, value)
             else:
                 next_item = object_type(value)
                 current_properties[value] = next_item
@@ -181,7 +194,7 @@ class BaseJSONSchemaWrapper:
         """
         dictionary = deepcopy(self.__dict__)
         dictionary.pop('name')
-        # changing from quotes to the double quotes for JSON compatibilty 
+        # changing from quotes to the double quotes for JSON compatibilty
         str_dict = json.dumps(repr(dictionary)).replace("'", '\\"')
         # json.loads has a bug and after the first call it still returns still.
         json_object = json.loads(json.loads(str_dict))
@@ -228,16 +241,18 @@ class BaseJSONSchemaField:
         dictionary.pop('name')
         dictionary = {k: v for k, v in dictionary.items() if v is not None}
         if HIDE_EMPTY_FIELDS == 1:
-            dictionary = {k: v for k, v in dictionary.items() if not (isinstance(v,str) and len(v)==0) and not (isinstance(v,int) and v==0)}
+            dictionary = {k: v for k, v in dictionary.items() if not (isinstance(
+                v, str) and len(v) == 0) and not (isinstance(v, int) and v == 0)}
         return json.dumps(dictionary)
 
 
 class StringField(BaseJSONSchemaField):
 
-    def __init__(self, name, title="", description="", min_length=0, max_length=0, required=False):
+    def __init__(self, name, title="", description="", min_length=0, max_length=0, pattern="", required=False):
         super().__init__(name, "string", title, description, required)
         self.minLength = min_length
         self.maxLength = max_length
+        self.pattern = pattern
 
 
 class DateField(BaseJSONSchemaField):
