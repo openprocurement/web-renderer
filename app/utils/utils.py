@@ -196,15 +196,18 @@ class GeneratorContextManager:
     def __init__(self, generator):
         self.end = False
         self.generator = generator
+        self.has_next = False
 
     def __iter__(self):
         return self
 
-    def __exit__(self, exc_type, exc_obj, exc_tb):
+    def __exit__(self, *args):
+        print('Exit')
         end = True
         return False
 
     def __next__(self):
+        # print('__next__')
         self.current = next(self.generator)
         return self
 
@@ -212,9 +215,10 @@ class GeneratorContextManager:
 class JSONListGeneratorContextManager(GeneratorContextManager):
 
     def __init__(self, generator):
-        self.end = False
-        self.generator = generator
+        super().__init__(generator)
         self.FOR_LOOP_CONDITION = 0
+        self.FOR_LOOP_VARIABLE = 1
+        self.FOR_LOOP_ITERATED_LIST = 2
         self.ITERATOR = 0
 
 
@@ -225,3 +229,9 @@ class JSONSchemaGeneratorContextManager(GeneratorContextManager):
         self.generator = generator
         self.FOR_LOOP_CONDITION = 0
         self.FOR_LOOP_ITERATED_LIST = 2
+
+
+def setdefaultattr(obj, name, value):
+    if not hasattr(obj, name):
+        setattr(obj, name, value)
+    return getattr(obj, name)
