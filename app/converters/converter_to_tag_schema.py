@@ -127,18 +127,18 @@ class HTMLToJSONTagSchemeConverter(BSToJSONConverter):
 
 	def create_for_loop_structure(self, current_tag, end_tag, tags, json=None):
 		"""
-		Recursive function for creating jinja template 'for' loop structure.
-		It processes all tags in for loops and create these tags inheritance,
-		they are represented with the new form tag.
-		Input: all_tags
-		Output:
-			{"for_loop_name": {
-				"name": for_loop_name,
-				"old_tag": old_tag,
-				"new_tag": generated_form,
-				"tag_in_form 1": tag 1 in for loop body
-				"tag_in_form 2..N": tag in for loop body
-			}
+			Recursive function for creating jinja template 'for' loop structure.
+			It processes all tags in for loops and create these tags inheritance,
+			they are represented with the new form tag.
+			Input: all_tags
+			Output:
+				{"for_loop_name": {
+					"name": for_loop_name,
+					"old_tag": old_tag,
+					"new_tag": generated_form,
+					"tag_in_form 1": tag 1 in for loop body
+					"tag_in_form 2..N": tag in for loop body
+				}
 		"""
 		while current_tag != end_tag:
 			if current_tag is None:

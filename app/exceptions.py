@@ -25,22 +25,28 @@ class CustomInternalServerError(CustomException, werkzeug.exceptions.InternalSer
     code = 500
 
 
+class CustomUnprocessableEntity(CustomException, werkzeug.exceptions.UnprocessableEntity):
+    code = 422
+
+class CustomUnsupportedMediaType(CustomException, werkzeug.exceptions.UnsupportedMediaType):
+    code = 415
+
 class JSONNotFound(CustomNotFound):
-    description = "json_data is not found"
+    description = "JSON data is not found"
 
 
 class TemplateNotFound(CustomNotFound):
-    description = "template data is not found"
+    description = "Template file is not found"
 
-class HTMLNotFoundError(CustomNotFound):
-    description = "html is not found"
+class HTMLNotFoundError(CustomUnsupportedMediaType):
+    description = "HTML is not found"
 
 class InvalidDocumentFomat(CustomInternalServerError):
     description = 'Invalid template document format.'
 
 
 class DocumentConvertionError(CustomInternalServerError):
-    description = 'Document Convertion Error.'
+    description = 'Document convertion error.'
 
 
 class DocumentRenderError(CustomInternalServerError):
@@ -51,13 +57,13 @@ class DocumentSavingError(CustomInternalServerError):
     description = 'Document saving error.'
 
 
-class TemplateIsEmpty(CustomInternalServerError):
+class TemplateIsEmpty(CustomUnprocessableEntity):
     description = 'Template is empty'
 
 
-class FileNameIsCyrillic(CustomInternalServerError):
+class FileNameIsCyrillic(CustomUnprocessableEntity):
     description = 'Cyrrilic file names are not supported'
 
 
-class UndefinedVariableJinja(CustomInternalServerError):
+class UndefinedVariableJinja(CustomUnprocessableEntity):
     description = 'Undefined variable in the template'

@@ -17,9 +17,5 @@ from app import handlers
 from app import exceptions
 from app import utils
 from app import render_environment
-from app.render_environment.template_environment import *
+from app.render_environment.template_environment import JinjaEnvironment
 app.jinja_env_obj = JinjaEnvironment()
-
-@app.template_filter()
-def slugify(string):
-    return string.lower().replace(' ', '_')

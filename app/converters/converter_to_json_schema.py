@@ -77,14 +77,15 @@ class HTMLToJSONSchemaConverter:
         self.json_tree_object = self.make_json_tree(generator, json_tree)
         self.json_tree = json.loads(repr(self.json_tree_object))["properties"]
 
-    def make_list_tree(self, generator, tree, json_tree, tree_before=None):
+    def make_list_tree(self, generator, tree, json_tree):
         """
             The recursive function that iterates a generator and creates a list structure depending on conditions.
             Here the conditions are as follows:
                 - if a loop found, the function makes a body of it nested.
             Input:
-                - [list of tags] as generator object,
-                - tree - object that stores a list.
+                - [list of tags] as a generator object,
+                - tree - an object that stores a list.
+                - json_tree - a resulted json_tree object.
             Output:
                 - structurized list, eg.:["tag",["tag1","tag2"]].
                     For the for loop, it returns the following structure:
@@ -107,7 +108,7 @@ class HTMLToJSONSchemaConverter:
                 for_loop = [tuple(for_loop_condition)]
                 tree.append(for_loop)
                 self.set_json_value(json_tree, for_loop_condition[2], JSONSchemaArray)
-                self.make_list_tree(generator, for_loop, json_tree, tree)
+                self.make_list_tree(generator, for_loop, json_tree)
             elif re.match(RegexConstants.FOR_LOOP_END_TAG, current):
                 return
             else:
@@ -119,7 +120,7 @@ class HTMLToJSONSchemaConverter:
 
     def change_loop_items_name(self, decorator, current, tree):
         """
-            The function for changing loop item names.
+            The function for changing the loop item names.
             For example: a value "classification.scheme" from the list below will be changed to "item.additional.scheme".
             List: [("for","classification", "item.additional"),"classification.scheme",classification.id"] 
         """
@@ -180,8 +181,9 @@ class BaseJSONSchemaWrapper:
         """
         dictionary = deepcopy(self.__dict__)
         dictionary.pop('name')
+        # changing from quotes to the double quotes for JSON compatibilty 
         str_dict = json.dumps(repr(dictionary)).replace("'", '\\"')
-        # json.loads has a bug and after the first call, it still returns still.
+        # json.loads has a bug and after the first call it still returns still.
         json_object = json.loads(json.loads(str_dict))
         return json.dumps(json_object)
 
