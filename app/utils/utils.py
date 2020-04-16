@@ -202,12 +202,10 @@ class GeneratorContextManager:
         return self
 
     def __exit__(self, *args):
-        print('Exit')
         end = True
         return False
 
     def __next__(self):
-        # print('__next__')
         self.current = next(self.generator)
         return self
 

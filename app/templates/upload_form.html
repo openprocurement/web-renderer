@@ -22,6 +22,10 @@
                     <div class="form-group">
                         <input type="file" class="form-control m-1" id="template" name="template" />
                         <textarea class="form-control m-1" id="json_data" name="json_data" type="text" rows="10" placeholder="Add data_json."></textarea>
+                        <div class="form-check m-2">
+                            <input type="checkbox" class="form-check-input" id="hide_empty_fields" name="hide_empty_fields">
+                            <label class="form-check-label" for="hide_empty_fields">Hide empty fields</label>
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <input type="submit" id="submit" name="submit" class="btn btn-outline-dark m-1" style="width: 100%;" value="Render to pdf">

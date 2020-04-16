@@ -1,3 +1,4 @@
+import app
 import json
 from bs4 import BeautifulSoup
 import re
@@ -12,12 +13,18 @@ from app.utils.utils import (
     setdefaultattr,
 )
 
+HIDE_EMPTY_FIELDS = 0
 
 class HTMLToJSONSchemaConverter:
 
     TEMPLATE_FORMULAS = [("p", '|'.join([RegexConstants.TEMPLATE_FORMULA, RegexConstants.FOR_LOOP_BODY, ]))
                          ]
     BLACK_LIST_VARIABLES = [r'loop.*']
+    
+    def __init__(self, hide_empty_fields):
+        self.hide_empty_fields = hide_empty_fields
+        global HIDE_EMPTY_FIELDS
+        HIDE_EMPTY_FIELDS = self.hide_empty_fields
 
     def find_all_fields(self, tags_to_find):
         """
@@ -38,9 +45,6 @@ class HTMLToJSONSchemaConverter:
                 found_tag_list.extend((id_list))
         return found_tag_list
 
-    def make_tag_trees(self, found_tag_list):
-        self.make_tag_list_tree(found_tag_list)
-        # self.make_tag_json_tree(found_tag_list)  # it depends on the list tree
 
     def make_tag_list_tree(self, found_tag_list):
         """
@@ -53,7 +57,7 @@ class HTMLToJSONSchemaConverter:
         json_tree = JSONSchemaObject("tree")
         self.list_tree, self.json_tree_object = self.make_list_tree(
             generator, list_tree, json_tree)
-        self.json_tree = json.loads(repr(self.json_tree_object))
+        self.json_tree = json.loads(repr(self.json_tree_object))["properties"]
 
     def make_tag_json_tree(self, found_tag_list):
         """
@@ -71,7 +75,7 @@ class HTMLToJSONSchemaConverter:
         generator = (tag for tag in self.list_tree)
         json_tree = JSONSchemaObject("tree")
         self.json_tree_object = self.make_json_tree(generator, json_tree)
-        self.json_tree = json.loads(repr(self.json_tree_object))
+        self.json_tree = json.loads(repr(self.json_tree_object))["properties"]
 
     def make_list_tree(self, generator, tree, json_tree, tree_before=None):
         """
@@ -83,38 +87,54 @@ class HTMLToJSONSchemaConverter:
                 - tree - object that stores a list.
             Output:
                 - structurized list, eg.:["tag",["tag1","tag2"]].
-                For the for loop, it returns the following structure:
-                    [("for", "for_loop_variable", "loop_iterated_list"), "tag1", ...]
+                    For the for loop, it returns the following structure:
+                        [("for", "for_loop_variable", "loop_iterated_list"), "tag1", ...]
+                - structurized json:
+                    {
+                    "title": "tree",
+                    "type": "object",
+                    "properties": {
+                        # content
+                        }
+                    }
         """
         for decorator in JSONListGeneratorContextManager(generator):
             current = decorator.current
             if re.match(RegexConstants.FOR_LOOP_BEGIN_TAG, current):
-                for_loop_condition = list(re.findall(RegexConstants.FOR_LOOP_CONDITION, current)[0])
-                if len(tree) and isinstance(tree[decorator.FOR_LOOP_CONDITION], tuple):
-                    for_loop_condition[decorator.FOR_LOOP_ITERATED_LIST] = \
-                        tree[decorator.FOR_LOOP_CONDITION][decorator.FOR_LOOP_ITERATED_LIST]+"."+Regex.remove_prefix(
-                        tree[decorator.FOR_LOOP_CONDITION][decorator.FOR_LOOP_VARIABLE], for_loop_condition[decorator.FOR_LOOP_ITERATED_LIST])
+                for_loop_condition = list(re.findall( RegexConstants.FOR_LOOP_CONDITION, current)[0])
+                for_loop_condition[decorator.FOR_LOOP_ITERATED_LIST] = \
+                    self.change_loop_items_name(decorator, for_loop_condition[decorator.FOR_LOOP_ITERATED_LIST], tree)
                 for_loop = [tuple(for_loop_condition)]
                 tree.append(for_loop)
-                self.set_json_value(json_tree, for_loop_condition[2], "JSONSchemaArray")
+                self.set_json_value(json_tree, for_loop_condition[2], JSONSchemaArray)
                 self.make_list_tree(generator, for_loop, json_tree, tree)
             elif re.match(RegexConstants.FOR_LOOP_END_TAG, current):
                 return
             else:
-                if len(tree) and isinstance(tree[decorator.FOR_LOOP_CONDITION], tuple):
-                    current = tree[decorator.FOR_LOOP_CONDITION][decorator.FOR_LOOP_ITERATED_LIST]+"." + \
-                        Regex.remove_prefix(tree[decorator.FOR_LOOP_CONDITION][decorator.FOR_LOOP_VARIABLE], current)
+                current = self.change_loop_items_name(decorator, current, tree)
                 if not Regex.does_strings_matches_regex(HTMLToJSONSchemaConverter.BLACK_LIST_VARIABLES, current):
                     tree.append(current)
-                    self.set_json_value(json_tree, current, "StringField")
+                    self.set_json_value(json_tree, current, StringField)
         return tree, json_tree
+
+    def change_loop_items_name(self, decorator, current, tree):
+        """
+            The function for changing loop item names.
+            For example: a value "classification.scheme" from the list below will be changed to "item.additional.scheme".
+            List: [("for","classification", "item.additional"),"classification.scheme",classification.id"] 
+        """
+        if len(tree) and isinstance(tree[decorator.FOR_LOOP_CONDITION], tuple):
+            current = tree[decorator.FOR_LOOP_CONDITION][decorator.FOR_LOOP_ITERATED_LIST]+"." + \
+                      Regex.remove_prefix(tree[decorator.FOR_LOOP_CONDITION][decorator.FOR_LOOP_VARIABLE], current)
+        return current
+
 
     def set_json_value(self, json_tree, current, field_type):
         current_values = current.split(".")
         generator = (tag for tag in current_values[:-1]+[None])
-        self.set_nested_value(json_tree, generator, field_type, current_values[-1])
+        self.set_nested_value(json_tree, generator,field_type, current_values[-1])
 
-    def set_nested_value(self, dic, keys, object_type, value):
+    def set_nested_value(self, obj, keys, object_type, value):
         """
             The recursive function that iterates a generator and assign nested object values depending on conditions.
             Input:
@@ -124,15 +144,16 @@ class HTMLToJSONSchemaConverter:
         """
         for decorator in JSONListGeneratorContextManager(keys):
             key = decorator.current
-            current_properties = setdefaultattr(dic, "properties", {})
+            if isinstance(obj, JSONSchemaArray):
+                obj = obj.__dict__["items"]
+            current_properties = setdefaultattr(obj, "properties", {})
             if key is not None:
                 next_object = JSONSchemaObject(key)
                 if key not in current_properties:
-                    current_properties[key] = next_object
+                    current_properties[key] = JSONSchemaObject(key)
                 self.set_nested_value(current_properties[key], keys, object_type, value)
             else:
-                object_type_class = globals()[object_type]
-                next_item = object_type_class(value)
+                next_item = object_type(value)
                 current_properties[value] = next_item
 
     def convert(self, formatted_html):
@@ -142,7 +163,7 @@ class HTMLToJSONSchemaConverter:
         self.soup = BeautifulSoup(formatted_html, "html.parser")
         found_tags = self.find_all_fields(
             HTMLToJSONSchemaConverter.TEMPLATE_FORMULAS)
-        self.make_tag_trees(found_tags)
+        self.make_tag_list_tree(found_tags)
         return self.json_tree
 
 
@@ -159,32 +180,10 @@ class BaseJSONSchemaWrapper:
         """
         dictionary = deepcopy(self.__dict__)
         dictionary.pop('name')
-        for key, value in dictionary.items():
-            if not isinstance(value, (str, int, bool)):
-                dictionary[key] = self.repr_elements(dictionary[key])
-        return json.dumps(dictionary)
-
-    def repr_elements(self, elements):
-        """
-            A function that reprs complex nested elemtnts.
-        """
-        json_elements = {}
-        if isinstance(elements, list):
-            for element in elements:
-                json_element = json.loads(repr(element))
-                for key, value in json_element.items():
-                    json_elements[key] = json_element[key]
-        elif isinstance(elements, BaseJSONSchemaWrapper):
-            json_element = json.dumps(repr(elements))
-            # json.loads has a bug that returns a str object after the first calling of the function.
-            json_element = json.loads(json.loads(json_element))
-            for key, value in json_element.items():
-                json_elements = json_element[key]
-        else:
-            # for JSON compatibility, converts from the str dict as "{'key':"name"}"" with simple quotes to str dict with double quotes.
-            current_element = repr(elements).replace("'", '"')
-            json_elements = json.loads(current_element)
-        return json_elements
+        str_dict = json.dumps(repr(dictionary)).replace("'", '\\"')
+        # json.loads has a bug and after the first call, it still returns still.
+        json_object = json.loads(json.loads(str_dict))
+        return json.dumps(json_object)
 
 
 class ObjectJSONSchemaWrapper(BaseJSONSchemaWrapper):
@@ -211,26 +210,29 @@ class JSONSchemaArray(ObjectJSONSchemaWrapper):
         super().__init__(name, "array", title)
         self.items = JSONSchemaObject("items", name, items)
 
-
 # JSON Schema Fields
+
 
 class BaseJSONSchemaField:
 
     def __init__(self, name, field_type, title=None, description=None, required=False):
         self.name = name
         self.type = field_type
-        self.title = title if title is not None else name
-        self.description = description if description is not None else ""
+        self.title = title
+        self.description = description
 
     def __repr__(self):
         dictionary = deepcopy(self.__dict__)
         dictionary.pop('name')
+        dictionary = {k: v for k, v in dictionary.items() if v is not None}
+        if HIDE_EMPTY_FIELDS == 1:
+            dictionary = {k: v for k, v in dictionary.items() if not (isinstance(v,str) and len(v)==0) and not (isinstance(v,int) and v==0)}
         return json.dumps(dictionary)
 
 
 class StringField(BaseJSONSchemaField):
 
-    def __init__(self, name, title=None, description=None, min_length=5, max_length=100, required=False):
+    def __init__(self, name, title="", description="", min_length=0, max_length=0, required=False):
         super().__init__(name, "string", title, description, required)
         self.minLength = min_length
         self.maxLength = max_length
@@ -251,7 +253,7 @@ class BooleanField(BaseJSONSchemaField):
 
 class IntegerField(BaseJSONSchemaField):
 
-    def __init__(self, name, title=None, description=None, minimum=1, maximum=30, required=False):
+    def __init__(self, name, title="", description="", minimum=0, maximum=0, required=False):
         super().__init__(name, "integer", title, description, required)
         self.minimum = minimum
         self.maximum = maximum

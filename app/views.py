@@ -60,7 +60,8 @@ def get_template_tag_schema():
 @app.route('/get_template_json_schema', methods=["GET"])
 def get_template_json_schema():
     template_file = request.args.get('template')
-    html_json = DocxToJSONSchemaRenderer(template_file).json_schema
+    hide_empty_fields = int(request.args.get('hide_empty_fields'))
+    html_json = DocxToJSONSchemaRenderer(template_file, hide_empty_fields).json_schema
     return jsonify(html_json)
 
 @app.route('/', methods=['POST'])
@@ -87,7 +88,8 @@ def post():
         template_file = request.files.get('template')
         FileUtils.is_file_attached(template_file)
         docx_file = TemplateFile(template_file)
-        return redirect(url_for('get_template_json_schema', template=docx_file.file_name))
+        hide_empty_fields = 1 if "hide_empty_fields" in form_values else 0
+        return redirect(url_for('get_template_json_schema', template=docx_file.file_name, hide_empty_fields=hide_empty_fields))
     else:
         template_file = request.files.get('template')
         json_data = request.form.get('json_data')

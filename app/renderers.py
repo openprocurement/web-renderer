@@ -253,8 +253,9 @@ class DocxToJSONSchemaRenderer(RenderObject):
         [RegexConstants.ARRAY_FIELDS, RegexConstants.FIRST],
         [RegexConstants.A_LINKS, ""],
     ]
-    def __init__(self, template_file):
+    def __init__(self, template_file, hide_empty_fields):
         self.make_template_file(template_file)
+        self.hide_empty_fields = hide_empty_fields
         self.render_to_html()
 
     def make_template_file(self, template_file):
@@ -267,7 +268,7 @@ class DocxToJSONSchemaRenderer(RenderObject):
     def format_html(self):
         self.formatted_html = Regex.replace_regex_list(
             self.formatted_html, DocxToJSONSchemaRenderer.REGEX_TO_REPLACE)
-        self.json_schema = HTMLToJSONSchemaConverter().convert(self.formatted_html)
+        self.json_schema = HTMLToJSONSchemaConverter(self.hide_empty_fields).convert(self.formatted_html)
         app.logger.info('Template is reformatted to json.')
 
     def convert_to_html(self):
