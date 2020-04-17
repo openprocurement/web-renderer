@@ -91,3 +91,21 @@ def to_float(float_string):
     float_string = float_string.replace(" ", "").replace(',', ".")
     float_string = float(float_string)
     return float_string
+
+
+def to_space_seperated(number, numbers_after_comma):
+    """
+        A function for formatting int or float number to the space separated one.
+        input: 1234567.33
+        output: 1 234 567.33
+    """
+    float_var = float(number)
+    separated_number = '{:,.{}f}'.format(number, numbers_after_comma).replace(',', ' ').replace('.', ',')
+    return separated_number
+
+
+def to_space_seperated_int(number):
+    return to_space_seperated(number, 0)
+
+def to_space_seperated_float(number):
+    return to_space_seperated(number, 2)

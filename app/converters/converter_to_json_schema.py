@@ -17,6 +17,7 @@ HIDE_EMPTY_FIELDS = 0
 
 class HTMLToJSONSchemaConverter:
 
+    # regex that finds all tags <p> with the template formula: {{ name }} or the for loop body content {% for name in list %}
     TEMPLATE_FORMULAS = [("p", '|'.join([RegexConstants.TEMPLATE_FORMULA, RegexConstants.FOR_LOOP_BODY, ]))
                          ]
     BLACK_LIST_VARIABLES = [r'loop.*']
