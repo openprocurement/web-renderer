@@ -149,7 +149,7 @@ class HTMLToJSONSchemaConverter:
 
     def set_nested_value(self, obj, keys, object_type, value):
         """
-            The recursive function that iterates a generator and assign nested object values depending on conditions.
+            The recursive function that iterates a generator and assigns nested object values depending on conditions.
             Input:
                 - ["tag1","tag2", "tag3"]
             Ouput:
@@ -203,10 +203,11 @@ class BaseJSONSchemaWrapper:
 
 class ObjectJSONSchemaWrapper(BaseJSONSchemaWrapper):
 
-    def __init__(self, name, wrapper_type, title=None):
+    def __init__(self, name, wrapper_type, title=None, required=[]):
         super().__init__(name, title)
         self.title = title if title is not None else name
         self.type = wrapper_type
+        self.required = required
 
 
 # JSON Schema Objects:
