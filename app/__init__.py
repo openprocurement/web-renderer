@@ -1,11 +1,13 @@
 from flask import Flask
 from os import environ
+from flask_cors import CORS, cross_origin
 
 from config import Config
 
 
 app = Flask(__name__)
 app.config.from_object(Config)
+cors = CORS(app)
 
 import logging
 app.logger.setLevel(logging.INFO)

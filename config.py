@@ -12,3 +12,5 @@ class Config(object):
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
         os.mknod(UPLOAD_FOLDER+"__init__.py")
+    # HEADERS
+    CORS_HEADERS = 'Content-Type'
