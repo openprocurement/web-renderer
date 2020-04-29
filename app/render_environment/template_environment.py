@@ -102,8 +102,6 @@ class DocxTemplateLocal(DocxTemplate):
         """
             Render docx document method with the special handling jinja2.exceptions.UndefinedError.
         """
-        # import pdb
-        # pdb.set_trace()
         try:
             self.render(context, app.jinja_env_obj.jinja_env)
         except jinja2.exceptions.UndefinedError as error:

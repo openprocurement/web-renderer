@@ -178,6 +178,7 @@ class HTMLToJSONSchemaConverter:
         self.soup = BeautifulSoup(formatted_html, "html.parser")
         found_tags = self.find_all_fields(
             HTMLToJSONSchemaConverter.TEMPLATE_FORMULAS)
+        print(found_tags)
         self.make_tag_list_tree(found_tags)
         return self.json_tree
 

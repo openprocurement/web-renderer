@@ -135,8 +135,6 @@ class ErrorUtils:
         """
                 The function for processing jinja2.exceptions.UndefinedError. 
         """
-        # import pdb
-        # pdb.set_trace()
         undefined_value = re.findall(
             "'[a-zA-Z ]*'", error.args[0])
         undefined_value_item = 1 if len(undefined_value)>1 else 0

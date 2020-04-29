@@ -252,6 +252,7 @@ class DocxToJSONSchemaRenderer(RenderObject):
     REGEX_TO_REPLACE = [
         [RegexConstants.ARRAY_FIELDS, RegexConstants.FIRST],
         [RegexConstants.A_LINKS, ""],
+        [RegexConstants.TEMPLATE_FILTER, ""],
     ]
     def __init__(self, template_file, hide_empty_fields):
         self.make_template_file(template_file)

@@ -32,7 +32,7 @@ class RegexConstants:
     ALL_TRS = r"<tr>.{0,30}{%tr.{0,100}<\/tr>"
     # Jinja template regexes
     ARRAY_FIELDS = r"\['(.{0,10})'\]"
-    TEMPLATE_FORMULA = r"{{[\s\(]{0,2}([a-zA-Z\[\]\.\']{1,50})(.{0,30})"
+    TEMPLATE_FORMULA = r"{{[\s\(]{0,2}([a-zA-Z\[\]\.]{1,50})[\}]{0,2}.{0,1}[\{]{0,2}.{0,30}}}"
     TEMPLATE_FILTER = r"{{.{0,50}[\-\+\*\|]{1}.{0,50}}}"
     FOR_LOOP_BEGIN_TAG = r"{%[a-z. \S ]{0,20} for [a-zA-Z . \S]{0,300}%}"
     TAG_EXTRACT = r"({%[a-z.  ]{0,20})"
