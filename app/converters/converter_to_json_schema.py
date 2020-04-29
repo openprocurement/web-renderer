@@ -57,7 +57,7 @@ class HTMLToJSONSchemaConverter:
         json_tree = JSONSchemaObject("tree")
         self.list_tree, self.json_tree_object = self.make_list_tree(
             generator, list_tree, json_tree)
-        self.json_tree = json.loads(repr(self.json_tree_object))["properties"]
+        self.json_tree = json.loads(repr(self.json_tree_object))
 
     def make_tag_json_tree(self, found_tag_list):
         """
@@ -178,7 +178,6 @@ class HTMLToJSONSchemaConverter:
         self.soup = BeautifulSoup(formatted_html, "html.parser")
         found_tags = self.find_all_fields(
             HTMLToJSONSchemaConverter.TEMPLATE_FORMULAS)
-        print(found_tags)
         self.make_tag_list_tree(found_tags)
         return self.json_tree
 
@@ -209,7 +208,7 @@ class ObjectJSONSchemaWrapper(BaseJSONSchemaWrapper):
         super().__init__(name, title)
         self.title = title if title is not None else name
         self.type = wrapper_type
-        self.required = required
+        # self.required = required
 
 
 # JSON Schema Objects:

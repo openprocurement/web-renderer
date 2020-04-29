@@ -38,7 +38,7 @@ class RegexConstants:
     TAG_EXTRACT = r"({%[a-z.  ]{0,20})"
     FOR_LOOP_END_TAG = r"{%.{0,10}endfor %}"
     FOR_LOOP_BODY = r"({%[a-z. \S]{0,20})(for)([a-zA-Z. \S]{0,300}%})"
-    FOR_LOOP_CONDITION = r"[a-z.\s]{0,20}\s(for)\s([a-z. \S]{0,20})\sin\s([a-z.]{0,20})" #Order is importnant
+    FOR_LOOP_CONDITION = r"[a-zA-Z.\s]{0,50}\s(for)\s([a-zA-Z. \S]{0,50})\sin\s([a-zA-Z.]{0,50})" #Order is importnant
     ALL_FOR_LOOP_BODY = r"({%[a-z. \S]{0,20}for[a-zA-Z .\S]{0,300}%})"
     TEXT_FIELD = r"{{ fields.TextField('\1') }}"
 
