@@ -15,8 +15,8 @@ from app.render_environment.template_utils import(
     format_date,
     convert_amount_to_words,
     to_float,
-    to_space_seperated_float,
-    to_space_seperated_int,
+    to_space_separated_float,
+    to_space_separated_int,
 )
 from app.utils.utils import(
     ErrorUtils,
@@ -40,12 +40,12 @@ class TemplateFormatter(object):
         return to_float(str_number)
 
     @classmethod
-    def to_space_seperated_int(cls, number):
-        return to_space_seperated_int(number)
+    def to_space_separated_int(cls, number):
+        return to_space_separated_int(number)
 
     @classmethod
-    def to_space_seperated_float(cls, number):
-        return to_space_seperated_float(number)
+    def to_space_separated_float(cls, number):
+        return to_space_separated_float(number)
 
     def __get_method__(self, method_name):
         return getattr(self.__class__, method_name)

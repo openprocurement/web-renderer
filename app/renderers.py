@@ -115,6 +115,7 @@ class DocxToPDFRenderer(RenderObject):
     def form_docx_template(self):
         docx_template_path = self.template_file.full_file_path
         self.docx_template = DocxTemplate(docx_template_path)
+        print(self.docx_template)
         FileUtils.is_file_empty(self.docx_template)
 
     def make_generated_doc_path(self):

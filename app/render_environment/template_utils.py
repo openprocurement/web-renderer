@@ -87,13 +87,17 @@ def to_float(float_string):
         input: "12\xa0588\xa0575.00"
         output: 12588575.0
     """
-    float_string = float_string.encode('ascii', 'ignore').decode("utf-8")
+    print(float_string)
+    if (isinstance(float_string, int)):
+        float_string=str(float_string)
+    else:
+        float_string = float_string.encode('ascii', 'ignore').decode("utf-8")
     float_string = float_string.replace(" ", "").replace(',', ".")
     float_string = float(float_string)
     return float_string
 
 
-def to_space_seperated(number, numbers_after_comma):
+def to_space_separated(number, numbers_after_comma):
     """
         A function for formatting int or float number to the space separated one.
         input: 1234567.33
@@ -104,8 +108,8 @@ def to_space_seperated(number, numbers_after_comma):
     return separated_number
 
 
-def to_space_seperated_int(number):
-    return to_space_seperated(number, 0)
+def to_space_separated_int(number):
+    return to_space_separated(number, 0)
 
-def to_space_seperated_float(number):
-    return to_space_seperated(number, 2)
+def to_space_separated_float(number):
+    return to_space_separated(number, 2)
