@@ -1,0 +1,5 @@
+<item oor:path="/org.openoffice.Office.Common/Filter/PDF/Export">
+    <prop oor:name="SelectPdfVersion" oor:op="fuse">
+        <value>1</value>
+    </prop>
+</item>

@@ -87,7 +87,6 @@ def to_float(float_string):
         input: "12\xa0588\xa0575.00"
         output: 12588575.0
     """
-    print(float_string)
     if (isinstance(float_string, int)):
         float_string=str(float_string)
     else:
