@@ -1,26 +1,15 @@
-from flask import Flask
-from app import app
+import re
+
 import jinja2
 from docxtpl import DocxTemplate
-import re
-from jinja2 import (
-    Template,
-    TemplateSyntaxError,
-    TemplateError,
-    meta,
-    Environment,
-    StrictUndefined,
-)
-from app.render_environment.template_utils import(
-    format_date,
-    convert_amount_to_words,
-    to_float,
-    to_space_separated_float,
-    to_space_separated_int,
-)
-from app.utils.utils import(
-    ErrorUtils,
-)
+from flask import Flask
+from jinja2 import Environment, StrictUndefined, Template, TemplateError, TemplateSyntaxError, meta
+
+from app import app
+from app.render_environment.template_utils import (common_classification, common_classification_description,
+                                                   convert_amount_to_words, format_date, to_float,
+                                                   to_space_separated_float, to_space_separated_int)
+from app.utils.utils import ErrorUtils
 
 
 class TemplateFormatter(object):
@@ -46,6 +35,14 @@ class TemplateFormatter(object):
     @classmethod
     def to_space_separated_float(cls, number):
         return to_space_separated_float(number)
+
+    @classmethod
+    def common_classification(cls, items):
+        return common_classification(items)
+
+    @classmethod
+    def common_classification_description(cls, items):
+        return common_classification_description(items)
 
     def __get_method__(self, method_name):
         return getattr(self.__class__, method_name)
