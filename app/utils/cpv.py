@@ -34,22 +34,22 @@ class ClassificationTree:
         cpvs = read_json('data/uk.json')
         for cpv_id, description in cpvs.items():
             cpv = CPV(cpv_id, description)
-            if '000000' in cpv_id[2:]:
+            if '0' * 6 in cpv_id[2:]:
                 cpv.type = 0  # Section
                 cpv.parent = None
                 self.sections[cpv.section] = cpv
                 self.cpvs[cpv.cpv] = cpv
-            elif '00000' in cpv_id[3:]:
+            elif '0' * 5 in cpv_id[3:]:
                 cpv.type = 1  # Group
                 cpv.parent = self.sections[cpv.section]
                 self.groups[cpv.group] = cpv
                 self.cpvs[cpv.cpv] = cpv
-            elif '0000' in cpv_id[4:]:
+            elif '0' * 4 in cpv_id[4:]:
                 cpv.type = 2  # Class
                 cpv.parent = self.groups[cpv.group]
                 self.klasses[cpv.klass] = cpv
                 self.cpvs[cpv.cpv] = cpv
-            elif '000' in cpv_id[5:]:
+            elif '0' * 3 in cpv_id[5:]:
                 cpv.type = 3  # Category
                 if cpv.klass not in self.klasses:
                     cpv.parent = self.groups[cpv.group]
