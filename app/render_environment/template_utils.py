@@ -126,17 +126,18 @@ def _get_common_cpv(items):
     """
     ids = jmespath.search("[].classification.id", items)
     scheme = jmespath.search("[].classification.scheme", items)[0]
+    scheme = f"{scheme}:2015" if scheme == "ДК021" else scheme
     cpv_id = CPVTree.get_common_cpv(ids)
     return scheme, CPVTree.get_cpv(cpv_id)
 
 
 def common_classification(items):
     """
-    An utility for formatting common classification in string format: [scheme] [id], supported schema
+    An utility for formatting common classification in string format: [scheme] [id], [description], supported schema
     CPV and ДК021
     """
     scheme, cpv = _get_common_cpv(items)
-    return f"{scheme} {cpv.cpv}" if cpv else ""
+    return f"{scheme} {cpv.cpv}, {cpv.description}" if cpv else ""
 
 
 def common_classification_description(items):
@@ -145,3 +146,11 @@ def common_classification_description(items):
     """
     scheme, cpv = _get_common_cpv(items)
     return cpv.description if cpv else ""
+
+
+def common_classification_code(items):
+    """
+    An utility for for formatting common classification code in format [scheme] [id], supported schema CPV and ДК021
+    """
+    scheme, cpv = _get_common_cpv(items)
+    return f"{scheme} {cpv.cpv}" if cpv else ""

@@ -34,7 +34,11 @@ paths:
     - **input:** "12\xa0588\xa0575.00" 
     - **output:** "триста двадцять двi тисячi шiстсот шiстдесят дев'ять гривень 00 копійок"
 - ##### `{{items_list | common_classification }}`
-    The function for formatting common classification of all items in format "ДК021 32100000-1"
+    The function for formatting common classification of all items in format "ДК021 32100000-1, Текстовий опис класифікатора"
+    - **input:** "Список айтемів контракту"
+    - **output:** "Текстове значення класифікатора у форматі: 'ДК021 32100000-1, Текстовий опис класифікатора'"
+- ##### `{{items_list | common_classification_code}}`
+    The function for formatting common classification of all items in format "ДК021 32100000-1
     - **input:** "Список айтемів контракту"
     - **output:** "Текстове значення класифікатора у форматі: 'ДК021 32100000-1'"
 - ##### `{{items_list | common_classification_description}}`
