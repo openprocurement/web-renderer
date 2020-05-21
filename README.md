@@ -33,3 +33,25 @@ paths:
     The function for formatting an amount of money to the word string.
     - **input:** "12\xa0588\xa0575.00" 
     - **output:** "триста двадцять двi тисячi шiстсот шiстдесят дев'ять гривень 00 копійок"
+- ##### `{{items_list | common_classification }}`
+    The function for formatting common classification of all items in format "ДК021 32100000-1, Текстовий опис класифікатора"
+    - **input:** "Список айтемів контракту"
+    - **output:** "Текстове значення класифікатора у форматі: 'ДК021 32100000-1, Текстовий опис класифікатора'"
+- ##### `{{items_list | common_classification_code}}`
+    The function for formatting common classification of all items in format "ДК021 32100000-1
+    - **input:** "Список айтемів контракту"
+    - **output:** "Текстове значення класифікатора у форматі: 'ДК021 32100000-1'"
+- ##### `{{items_list | common_classification_description}}`
+    The function for getting common classification description of all items
+    - **input:** "Список айтемів контракту"
+    - **output:** "Текстовий опис спільного для всіх айтемів класифікатора"
+
+
+### Run tests
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+pytest --cov
+```

@@ -1,25 +1,18 @@
 import os
-from os import path
-import subprocess
-from flask import Flask
-from datetime import datetime
 import re
-from pprint import pprint
+import subprocess
 from contextlib import contextmanager
+from datetime import datetime
+from json import loads
+from os import path
+from pprint import pprint
+
+from flask import Flask
+
 from app import app
-from app.constants import (
-    GeneralConstants,
-    RegexConstants,
-)
-from app.exceptions import (
-    DocumentConvertionError,
-    TemplateNotFound,
-    JSONNotFound,
-    TemplateIsEmpty,
-    FileNameIsCyrillic,
-    UndefinedVariableJinja,
-    HTMLNotFoundError,
-)
+from app.constants import GeneralConstants, RegexConstants
+from app.exceptions import (DocumentConvertionError, FileNameIsCyrillic, HTMLNotFoundError, JSONNotFound,
+                            TemplateIsEmpty, TemplateNotFound, UndefinedVariableJinja)
 
 
 class Path:
@@ -227,3 +220,12 @@ def setdefaultattr(obj, name, value):
     if not hasattr(obj, name):
         setattr(obj, name, value)
     return getattr(obj, name)
+
+
+def read_json(filename):
+    curr_dir = os.path.dirname(os.path.realpath(__file__))
+    project_dir = "/".join(curr_dir.split('/')[:-1])
+    file_path = os.path.join(project_dir, filename)
+    with open(file_path) as _file:
+        data = _file.read()
+    return loads(data)
