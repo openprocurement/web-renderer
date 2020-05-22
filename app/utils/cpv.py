@@ -92,7 +92,7 @@ class ClassificationTree:
         Return common cpv id for list cpv ids if existed else None
         """
         if len(set(cpv_ids_list)) == 1:
-            return self.get_cpv(cpv_ids_list[0])
+            return cpv_ids_list[0]
         cpvs = [self.get_cpv(i) for i in cpv_ids_list]
         min_type = min(c.type for c in cpvs)
         if min_type == 4:
