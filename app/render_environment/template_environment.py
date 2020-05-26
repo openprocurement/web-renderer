@@ -22,7 +22,7 @@ class TemplateFormatter(object):
         return format_date(date)
 
     @classmethod
-    def convert_amount_to_words(cls, amount):
+    def to_money_numeral(cls, amount):
         return convert_amount_to_words(amount)
 
     @classmethod
@@ -34,7 +34,7 @@ class TemplateFormatter(object):
         return to_space_separated_int(number)
 
     @classmethod
-    def to_space_separated_float(cls, number):
+    def to_money_number(cls, number):
         return to_space_separated_float(number)
 
     @classmethod
