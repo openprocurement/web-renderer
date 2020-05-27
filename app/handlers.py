@@ -4,6 +4,7 @@ import werkzeug.exceptions
 import jinja2.exceptions
 import json
 import re
+import inspect
 from app import app
 from app.exceptions import(
     format_exception,
@@ -69,7 +70,8 @@ def custom_exceptions_error_handler(error):
 @app.errorhandler(AttributeError)
 @app.errorhandler(NameError)
 def base_exceptions_handler(error):
-    return format_exception(str(*error.args), 500)
+    location = inspect.trace()[-1][1:4]   
+    return format_exception(str(*error.args), 500, location)
 
 @app.errorhandler(FileNotFoundError)
 def file_not_found_handler(error):

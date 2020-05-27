@@ -9,13 +9,13 @@ from app.render_environment.template_environment import (
     DocxTemplateLocal as DocxTemplate,
 )
 from app.utils.utils import (
-    Path,
     FileUtils,
     Regex,
-    file_decorator,
+    FileContextManager,
 )
 from app.converters.general_converters import(
-    GeneralConverter,
+    DocxToHTMLConverter,
+    DocxToPdfConverter,
 )
 from app.converters.converter_to_tag_schema import(
     HTMLToJSONTagSchemeConverter,
@@ -28,6 +28,7 @@ from app.constants import (
 )
 from app.files import (
     TemplateFile,
+    HTMLFile,
 )
 from app.handlers import format_exception
 from app.exceptions import (
@@ -41,62 +42,85 @@ from app.constants import (
     HTMLConstants,
 )
 
+from app.attachers import(
+    PdfAttacher,
+)
 
 # Renderers
 
-class RenderObject:
+class ObjectRenderer:
 
     def __init__(self, template_file=None):
         self.template_file = template_file
 
 
-class DocxToPDFRenderer(RenderObject):
+class DocxToPDFRenderer(ObjectRenderer):
 
     def __init__(self, json=None, template_file=None):
-        self.make_context(json)
+        self.json = json
         self.template_file = TemplateFile(template_file)
-        self.form_docx_template()
+        self.docx_template = DocxTemplate(self.template_file)
         self.render()
 
-    def make_context(self, json):
-        self.context = json
 
-    def form_docx_template(self):
-        docx_template_path = self.template_file.full_file_path
-        self.docx_template = DocxTemplate(docx_template_path)
-        FileUtils.is_file_empty(self.docx_template)
-
-    def make_generated_doc_path(self):
-        self.generated_doc_path = self.template_file.full_file_path.replace(
-            GeneralConstants.TEMPLATE_PREFIX, GeneralConstants.GENERATED_DOC_PREFIX)
-
-    def render_document_to_docx(self):
-        self.make_generated_doc_path()
-        self.docx_template.render_document(self.context)
-        self.docx_template.save(self.generated_doc_path)
-        if FileUtils.does_file_exists(self.generated_doc_path):
+    def render_to_docx(self):
+        self.docx_template.render_document(self.json.data)
+        self.docx_template.save()
+        if FileUtils.does_file_exists(self.docx_template.full_path):
             app.logger.info('Template is rendered to docx.')
         else:
             raise DocumentRenderError()
 
-    def convert_document_to_pdf(self):
-        GeneralConverter.convert_to_pdf(self.generated_doc_path)
-        self.generated_pdf_path = self.generated_doc_path.replace(
-            GeneralConstants.TEMPLATE_FILE_EXTENSION, GeneralConstants.GENERATED_DOC_EXTENSION)
-        if FileUtils.does_file_exists(self.generated_doc_path):
+    def render_to_pdf(self):
+        self.docx_converter = DocxToPdfConverter(self.docx_template)
+        self.generated_pdf_path = self.docx_converter.generated_pdf_path
+        if FileUtils.does_file_exists(self.docx_template.full_path):
             app.logger.info('Template is rendered to pdf')
         else:
             raise DocumentRenderError()
 
+    def add_attachments_to_pdfa(self):
+        self.pdf_attacher = PdfAttacher(self.docx_converter.document.full_name)
+        self.pdf_attacher.add_attachment(self.json.full_name)
+        self.pdf_attacher.write_output()
+        self.generated_pdf_path = self.pdf_attacher.output_file.full_path
+        app.logger.info('Attachments are added.')
+
     def render(self):
-        self.render_document_to_docx()
-        self.convert_document_to_pdf()
+        self.render_to_docx()
+        self.render_to_pdf()
+        self.add_attachments_to_pdfa()
 
 
-class DocxToHTMLRenderer(RenderObject):
+class BaseHTMLRenderer(ObjectRenderer):
+
+    REGEX_TO_REPLACE = []
+
+    def __init__(self, template_file_name):
+        self.template_file = TemplateFile.get_obj_by_name(template_file_name)
+        self.render()
+
+    def convert_to_html(self):
+        self.html_converter = DocxToHTMLConverter(
+            self.template_file.storage_object)
+        self.init_html = self.html_converter.html.value
+        self.formatted_html = self.html_converter.replace_regexes(
+            self.__class__.REGEX_TO_REPLACE)
+        app.logger.info('Template is rendered to html.')
+
+    def convert(self):
+        pass
+
+    def render(self):
+        self.convert_to_html()
+        self.convert()
+
+
+class DocxToHTMLRenderer(BaseHTMLRenderer):
 
     REGEX_TO_REPLACE = [
-        [RegexConstants.ARRAY_FIELDS, RegexConstants.FIRST], # change dict access from dict['field'] to dict.field
+        # change dict access from dict['field'] to dict.field
+        [RegexConstants.ARRAY_FIELDS, RegexConstants.FIRST],
         [RegexConstants.A_LINKS, ""],  # replace all <a> links
         [RegexConstants.TEMPLATE_FORMULA,  # change {{ field }} to TextField
          RegexConstants.TEXT_FIELD],
@@ -113,119 +137,57 @@ class DocxToHTMLRenderer(RenderObject):
         HTMLConstants.END_BLOCK_TEMPLATE_CONTENT,
     ]
 
-    def __init__(self, template_file):
-        self.make_template_file(template_file)
-        self.render_to_html()
+    def __init__(self, template_file_name):
+        super().__init__(template_file_name)
 
-    def make_template_file(self, template_file):
-        template_file = Path.make_full_file_path(template_file)
-        with file_decorator(template_file, "rb", HTMLNotFoundError):
-            self.template_file = open(template_file, "rb")
-            self.convert_to_html()
-            app.logger.info('Template is rendered to html.')
-
-    def replace_regex(self):
-        self.formatted_html = Regex.replace_regex_list(
-            self.formatted_html, DocxToHTMLRenderer.REGEX_TO_REPLACE)
-        app.logger.info('Template is reformatted.')
-
-    def add_header(self):
-        html_headers = ' '.join(DocxToHTMLRenderer.HTML_HEADERS)
-        html_footers = ' '.join(DocxToHTMLRenderer.HTML_FOOTERS)
+    def reformat_html(self):
+        html_headers = ' '.join(self.__class__.HTML_HEADERS)
+        html_footers = ' '.join(self.__class__.HTML_FOOTERS)
         self.formatted_html = html_headers + self.formatted_html + html_footers
 
-    def convert_to_html(self):
-        document = GeneralConverter.convert_to_html(self.template_file)
-        self.init_html = document.value
-        self.formatted_html = self.init_html
-
     def encode_html(self):
-        self.unicode_html = self.formatted_html.encode('utf8')
+        self.unicode_html = self.formatted_html.encode()
         app.logger.info('Template is encoded.')
 
-    def make_file_path(self):
-        self.html_file_name = Path.generate_file_name()
-        self.html_file_full_path = Path.make_full_html_path(
-            self.html_file_name)
-
     def save_html(self):
-        with file_decorator(self.html_file_full_path, "wb", HTMLNotFoundError):
-            template_file = open(self.html_file_full_path, "wb")
-            template_file.write(self.unicode_html)
+        self.html_file = HTMLFile('wb', content=self.unicode_html)
+        self.html_file.write()
         app.logger.info('Template is saved.')
 
-    def render_to_html(self):
-        self.replace_regex()
-        self.add_header()
+    def convert(self):
+        self.reformat_html()
         self.encode_html()
-        self.make_file_path()
         self.save_html()
 
 
-class DocxToTagSchemaRenderer(RenderObject):
+class DocxToTagSchemaRenderer(BaseHTMLRenderer):
 
     REGEX_TO_REPLACE = [
         [RegexConstants.ARRAY_FIELDS, RegexConstants.FIRST],
         [RegexConstants.A_LINKS, ""],
     ]
-    def __init__(self, template_file):
-        self.make_template_file(template_file)
-        self.render_to_html()
 
-    def make_template_file(self, template_file):
-        template_file = Path.make_full_file_path(template_file)
-        with file_decorator(template_file, "rb", HTMLNotFoundError):
-            self.template_file = open(template_file, "rb")
-            self.convert_to_html()
-            app.logger.info('Template is rendered to html.')
+    def __init__(self, template_file_name):
+        super().__init__(template_file_name)
 
-    def format_html(self):
-        self.formatted_html = Regex.replace_regex_list(
-            self.formatted_html, DocxToJSONSchemaRenderer.REGEX_TO_REPLACE)
+    def convert(self):
         self.json_schema = HTMLToJSONTagSchemeConverter().convert(self.formatted_html)
         app.logger.info('Template is reformatted to json.')
 
-    def convert_to_html(self):
-        document = GeneralConverter.convert_to_html(self.template_file)
-        self.init_html = document.value
-        self.formatted_html = deepcopy(self.init_html)
 
-
-    def render_to_html(self):
-        self.format_html()
-
-
-    
-class DocxToJSONSchemaRenderer(RenderObject):
+class DocxToJSONSchemaRenderer(BaseHTMLRenderer):
 
     REGEX_TO_REPLACE = [
         [RegexConstants.ARRAY_FIELDS, RegexConstants.FIRST],
         [RegexConstants.A_LINKS, ""],
         [RegexConstants.TEMPLATE_FILTER, ""],
     ]
-    def __init__(self, template_file, hide_empty_fields):
-        self.make_template_file(template_file)
+
+    def __init__(self, template_file_name, hide_empty_fields):
         self.hide_empty_fields = hide_empty_fields
-        self.render_to_html()
+        super().__init__(template_file_name)
 
-    def make_template_file(self, template_file):
-        template_file = Path.make_full_file_path(template_file)
-        with file_decorator(template_file, "rb", HTMLNotFoundError):
-            self.template_file = open(template_file, "rb")
-            self.convert_to_html()
-            app.logger.info('Template is rendered to html.')
-
-    def format_html(self):
-        self.formatted_html = Regex.replace_regex_list(
-            self.formatted_html, DocxToJSONSchemaRenderer.REGEX_TO_REPLACE)
-        self.json_schema = HTMLToJSONSchemaConverter(self.hide_empty_fields).convert(self.formatted_html)
+    def convert(self):
+        self.json_schema = HTMLToJSONSchemaConverter(
+            self.hide_empty_fields).convert(self.formatted_html)
         app.logger.info('Template is reformatted to json.')
-
-    def convert_to_html(self):
-        document = GeneralConverter.convert_to_html(self.template_file)
-        self.init_html = document.value
-        self.formatted_html = deepcopy(self.init_html)
-
-
-    def render_to_html(self):
-        self.format_html()

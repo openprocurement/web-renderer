@@ -21,6 +21,9 @@ from app.utils.utils import (
 from app.forms import(
     UploadForm,
 )
+from app.files import (
+    JSONFile,
+)
 import os
 
 
@@ -47,7 +50,7 @@ def favicon():
 def display_template_form():
     template_file = request.args.get('template')
     html_renderer = DocxToHTMLRenderer(template_file)
-    html_file = GeneralConstants.TEMP_FOLDER + html_renderer.html_file_name + "." + GeneralConstants.HTML_EXTENSION
+    html_file = html_renderer.html_file.path
     return render_template(html_file)
 
 
@@ -78,23 +81,23 @@ def post():
         template_file = request.files.get('template')
         FileUtils.is_file_attached(template_file)
         docx_file = TemplateFile(template_file)
-        return redirect(url_for('display_template_form', template=docx_file.file_name))
+        return redirect(url_for('display_template_form', template=docx_file.name))
     elif "get_template_tag_schema" in form_values:
         template_file = request.files.get('template')
         FileUtils.is_file_attached(template_file)
         docx_file = TemplateFile(template_file)
-        return redirect(url_for('get_template_tag_schema', template=docx_file.file_name))
+        return redirect(url_for('get_template_tag_schema', template=docx_file.name))
     elif "get_template_json_schema" in form_values:
         template_file = request.files.get('template')
         FileUtils.is_file_attached(template_file)
         docx_file = TemplateFile(template_file)
         hide_empty_fields = 1 if "hide_empty_fields" in form_values else 0
-        return redirect(url_for('get_template_json_schema', template=docx_file.file_name, hide_empty_fields=hide_empty_fields))
+        return redirect(url_for('get_template_json_schema', template=docx_file.name, hide_empty_fields=hide_empty_fields))
     else:
         template_file = request.files.get('template')
         json_data = request.form.get('json_data')
         FileUtils.does_data_attached(template_file, json_data)
-        content = json.loads(json_data)
+        content = JSONFile('w', json_data)
         renderer = DocxToPDFRenderer(content, template_file)
         generated_file = GeneralConstants.RENDERED_FILES_FOLDER + \
             renderer.generated_pdf_path.split("/")[-1]
@@ -103,7 +106,7 @@ def post():
 
 @app.after_request
 def after_request_func(response):
-    FileManager.remove_all_except_last_one()
+    FileManager.remove_all_except_last()
     FileManager.remove_temp()
     app.logger.info('Tempfiles are removed')
     app.logger.info('Request is finished')

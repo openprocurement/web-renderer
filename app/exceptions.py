@@ -3,14 +3,17 @@ import werkzeug
 from app import app
 
 
-def format_exception(error, error_code):
+def format_exception(error, error_code, location=None):
     app.logger.error(str(error) + " " + str(error_code))
-    return {
+    error_message = {
         "error": {
             "code": error_code,
             "message": error
         }
-    }, error_code
+    }
+    if location is not None:
+        error_message["error"]["location"] =  location
+    return error_message, error_code
 
 
 class CustomException(werkzeug.exceptions.HTTPException):
@@ -28,8 +31,10 @@ class CustomInternalServerError(CustomException, werkzeug.exceptions.InternalSer
 class CustomUnprocessableEntity(CustomException, werkzeug.exceptions.UnprocessableEntity):
     code = 422
 
+
 class CustomUnsupportedMediaType(CustomException, werkzeug.exceptions.UnsupportedMediaType):
     code = 415
+
 
 class JSONNotFound(CustomNotFound):
     description = "JSON data is not found"
@@ -38,8 +43,10 @@ class JSONNotFound(CustomNotFound):
 class TemplateNotFound(CustomNotFound):
     description = "Template file is not found"
 
+
 class HTMLNotFoundError(CustomUnsupportedMediaType):
     description = "HTML is not found"
+
 
 class InvalidDocumentFomat(CustomInternalServerError):
     description = 'Invalid template document format.'
