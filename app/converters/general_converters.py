@@ -15,6 +15,8 @@ from app.utils.utils import (
     Regex,
     FileContextManager,
 )
+from config import Config
+
 class DocxToHTMLConverter:
 
     def __init__(self, document):
@@ -45,7 +47,7 @@ class DocxToPdfConverter:
     def convert(self, timeout=None):
         full_path = self.document.full_path
         args = ['libreoffice', '--headless', '--convert-to',
-                'pdf', '--outdir', GeneralConstants.UPLOAD_FOLDER, full_path]
+                'pdf', '--outdir', Config.UPLOAD_FOLDER, full_path]
         try:
             process = subprocess.run(args, stdout=subprocess.PIPE,
                                      stderr=subprocess.PIPE, timeout=timeout)

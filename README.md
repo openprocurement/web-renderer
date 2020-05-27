@@ -1,5 +1,9 @@
 # web-renderer
 
+### Debug mode
+```
+export DEBUG=true
+```
 ### Requests:
 
 ```

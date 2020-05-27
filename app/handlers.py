@@ -70,8 +70,7 @@ def custom_exceptions_error_handler(error):
 @app.errorhandler(AttributeError)
 @app.errorhandler(NameError)
 def base_exceptions_handler(error):
-    location = inspect.trace()[-1][1:4]   
-    return format_exception(str(*error.args), 500, location)
+    return format_exception(str(*error.args), 500)
 
 @app.errorhandler(FileNotFoundError)
 def file_not_found_handler(error):

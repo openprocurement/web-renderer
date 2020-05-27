@@ -7,6 +7,7 @@ import re
 import json
 from copy import deepcopy
 from app import app
+from config import Config
 from app.utils.utils import (
     FileUtils,
     getNow,
@@ -90,7 +91,7 @@ class File(BaseFile):
 
     @property
     def path(self):
-        self.__path = GeneralConstants.UPLOAD_FOLDER + \
+        self.__path = Config.UPLOAD_FOLDER + \
             self.full_name
         return self.__path
 
@@ -100,7 +101,7 @@ class File(BaseFile):
 
     @property
     def full_path(self):
-        self.__full_path = GeneralConstants.UPLOADS_PATH + GeneralConstants.RENDERED_FILES_FOLDER + \
+        self.__full_path = GeneralConstants.UPLOADS_PATH + Config.RENDERED_FILES_FOLDER + \
             self.full_name
         return self.__full_path
 
@@ -189,13 +190,13 @@ class HTMLFile(GeneratedFile):
 
     @property
     def path(self):
-        self.__path = GeneralConstants.TEMP_FOLDER + \
+        self.__path = Config.TEMP_FOLDER + \
             self.name + "." + self.extension
         return self.__path
 
     @property
     def full_path(self):
-        self.__full_path = GeneralConstants.UPLOADS_PATH + GeneralConstants.TEMPLATES_TEMP_FOLDER + \
+        self.__full_path = GeneralConstants.UPLOADS_PATH + Config.TEMPLATES_TEMP_FOLDER + \
             self.name + "." + self.extension
         return self.__full_path
 

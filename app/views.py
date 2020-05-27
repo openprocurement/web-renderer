@@ -3,7 +3,9 @@ from flask import (
     render_template)
 import json
 import logging
+import os
 from app import app
+from config import Config
 from app.renderers import (
     TemplateFile,
     DocxToPDFRenderer,
@@ -24,7 +26,7 @@ from app.forms import(
 from app.files import (
     JSONFile,
 )
-import os
+
 
 
 @app.before_request
@@ -43,7 +45,7 @@ def upload_file():
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory((os.path.join(app.root_path), GeneralConstants.TEMPLATES_FOLDER + 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    return send_from_directory((os.path.join(app.root_path), Config.TEMPLATES_FOLDER + 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 @app.route('/display_template_form', methods=["GET"])
@@ -99,7 +101,7 @@ def post():
         FileUtils.does_data_attached(template_file, json_data)
         content = JSONFile('w', json_data)
         renderer = DocxToPDFRenderer(content, template_file)
-        generated_file = GeneralConstants.RENDERED_FILES_FOLDER + \
+        generated_file = Config.RENDERED_FILES_FOLDER + \
             renderer.generated_pdf_path.split("/")[-1]
         return send_file(generated_file,  as_attachment=True)
 

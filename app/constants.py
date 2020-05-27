@@ -6,11 +6,6 @@ from app import app
 class GeneralConstants:
     # Folders
     UPLOADS_PATH = dirname(realpath(__file__))+"/"
-    UPLOAD_FOLDER = os.path.join(app.config['UPLOAD_FOLDER'])
-    RENDERED_FILES_FOLDER = os.path.join(app.config['RENDERED_FILES_FOLDER'])
-    TEMPLATES_TEMP_FOLDER = os.path.join(app.config['TEMPLATES_TEMP_FOLDER'])
-    TEMPLATES_FOLDER = os.path.join(app.config['TEMPLATES_FOLDER'])
-    TEMP_FOLDER = os.path.join(app.config['TEMP_FOLDER'])
     # Prefixes
     TEMPLATE_PREFIX = "doc_template"
     GENERATED_DOC_PREFIX = "generated"
@@ -34,7 +29,7 @@ class RegexConstants:
     # Jinja template regexes
     ARRAY_FIELDS = r"\['(.{0,10})'\]"
     TEMPLATE_FORMULA = r"{{[\s\(]{0,2}([a-zA-Z\[\]\.]{1,50})[\}]{0,2}.{0,1}[\{]{0,2}.{0,30}}}"
-    TEMPLATE_FILTER = r"{{.{0,50}[\-\+\*\|]{1}.{0,50}}}"
+    TEMPLATE_FILTER = r"{{.{0,50}[\-\+\*\|]{1}.{0,100}}}"
     FOR_LOOP_BEGIN_TAG = r"{%[a-z. \S ]{0,20} for [a-zA-Z . \S]{0,300}%}"
     TAG_EXTRACT = r"({%[a-z.  ]{0,20})"
     FOR_LOOP_END_TAG = r"{%.{0,10}endfor %}"

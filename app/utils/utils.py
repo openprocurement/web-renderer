@@ -11,6 +11,7 @@ from pprint import pprint
 from flask import Flask
 
 from app import app
+from config import Config
 from app.constants import GeneralConstants, RegexConstants
 from app.exceptions import (DocumentConvertionError, FileNameIsCyrillic, HTMLNotFoundError, JSONNotFound,
                             TemplateIsEmpty, TemplateNotFound, UndefinedVariableJinja)
@@ -77,8 +78,8 @@ class FileUtils:
 class FileManager:
 
     TEMP_FOLDERS = [
-        GeneralConstants.UPLOADS_PATH + GeneralConstants.RENDERED_FILES_FOLDER,
-        GeneralConstants.UPLOADS_PATH + GeneralConstants.TEMPLATES_TEMP_FOLDER,
+        GeneralConstants.UPLOADS_PATH + Config.RENDERED_FILES_FOLDER,
+        GeneralConstants.UPLOADS_PATH + Config.TEMPLATES_TEMP_FOLDER,
     ]
 
     @classmethod

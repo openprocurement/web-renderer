@@ -1,7 +1,8 @@
 from flask import Flask
 import werkzeug
 from app import app
-
+from config import Config
+import inspect
 
 def format_exception(error, error_code, location=None):
     app.logger.error(str(error) + " " + str(error_code))
@@ -11,8 +12,10 @@ def format_exception(error, error_code, location=None):
             "message": error
         }
     }
-    if location is not None:
-        error_message["error"]["location"] =  location
+    if Config.DEBUG:
+        location = inspect.trace()[-1][1:4]
+        if location is not None:
+            error_message["error"]["location"] =  location
     return error_message, error_code
 
 

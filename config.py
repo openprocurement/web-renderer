@@ -2,6 +2,7 @@ import os
 
 
 class Config(object):
+    DEBUG = os.environ.get('DEBUG')
     SECRET_KEY = os.urandom(32)
     APP_FOLDER = 'app/'
     TEMPLATES_FOLDER = "templates/"
