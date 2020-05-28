@@ -59,7 +59,7 @@ class TemplateFormatter(object):
         return common_classification_description(items)
 
     @classmethod
-    def search(cls, data, search_string):
+    def json_query(cls, data, search_string):
         return jmespath_filter(data, search_string)
 
     def __get_method__(self, method_name):

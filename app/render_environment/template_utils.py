@@ -155,11 +155,11 @@ def common_classification_code(items):
     scheme, cpv = _get_common_cpv(items)
     return f"{scheme} {cpv.cpv}" if cpv else ""
 
-def jmespath_filter(data, search_string):
+def jmespath_filter(data, json_query_string):
     """
     An utility for data filtering.
     Input:
         data - JSON data
-        search_string - jmespath search string
+        json_query_string - jmespath search string
     """
-    return jmespath.search(search_string, data)
+    return jmespath.search(json_query_string, data)
