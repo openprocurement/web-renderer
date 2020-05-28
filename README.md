@@ -1,5 +1,9 @@
 # web-renderer
 
+### Debug mode
+```
+export DEBUG=true
+```
 ### Requests:
 
 ```
@@ -9,14 +13,71 @@ paths:
         summary: Render a document.
         requestBody:
             json_data:
-                description: json data of the Tender
+                description: json data
                 content: application/json:
             template:
                 description: template .docx file
-                content: file
+                content: application/msword
+            include_attachments:
+                description: include attachment files
+                content: True 
         responses:
         '200':
-            file: Generated file
+            file: 
+                description: Generated file
+                content: application/pdf
+    post:
+        summary: Get template JSON schema.
+        requestBody:
+            json_data:
+                description: json data
+                content: application/json:
+            template:
+                description: template .docx file
+                content: application/msword
+            get_template_json_schema:
+                content: True 
+            hide_empty_fields:
+                description: hide empty fields of the schema
+                content: True or False
+        responses:
+        '200':
+            data: 
+                description: generated JSON schema of the document
+                content: application/json
+    # Additional requests:
+    post:
+        summary: Get template JSON tag schema.
+        requestBody:
+            json_data:
+                description: json data
+                content: application/json:
+            template:
+                description: template .docx file
+                content: application/msword
+            get_template_tag_schema:
+                content: True 
+        responses:
+        '200':
+            data: 
+                description: generated JSON tag schema of the document
+                content: application/json
+    post:
+        summary: display html form from the document
+        requestBody:
+            json_data:
+                description: json data
+                content: application/json:
+            template:
+                description: template .docx file
+                content: application/msword
+            display_template_form:
+                content: True 
+        responses:
+        '200':
+            data: 
+                description: generated HTML document
+                content: text/html
 ```
 
 ### Jinja template functions:

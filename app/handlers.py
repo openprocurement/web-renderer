@@ -4,6 +4,7 @@ import werkzeug.exceptions
 import jinja2.exceptions
 import json
 import re
+import inspect
 from app import app
 from app.exceptions import(
     format_exception,

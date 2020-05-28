@@ -2,6 +2,7 @@ import os
 import re
 import subprocess
 from contextlib import contextmanager
+import uuid
 from datetime import datetime
 from json import loads
 from os import path
@@ -10,31 +11,19 @@ from pprint import pprint
 from flask import Flask
 
 from app import app
+from config import Config
 from app.constants import GeneralConstants, RegexConstants
 from app.exceptions import (DocumentConvertionError, FileNameIsCyrillic, HTMLNotFoundError, JSONNotFound,
                             TemplateIsEmpty, TemplateNotFound, UndefinedVariableJinja)
 
 
-class Path:
+# simple functions
+def getNow():
+    return datetime.now().strftime("%y%m%d%H%M%S%f")
 
-    @classmethod
-    def generate_file_name(cls, basename=GeneralConstants.TEMPLATE_PREFIX):
-        suffix = datetime.now().strftime("%y%m%d_%H%M%S%f")
-        file_name = "_".join([basename, suffix])
-        return file_name
-
-    @classmethod
-    def make_path(cls, file_name):
-        return GeneralConstants.UPLOAD_FOLDER + file_name
-
-    @classmethod
-    def make_full_file_path(cls, template_file, folder=GeneralConstants.RENDERED_FILES_FOLDER, extension=GeneralConstants.TEMPLATE_FILE_EXTENSION):
-        return GeneralConstants.UPLOADS_PATH + folder + template_file + "." + extension
-
-    @classmethod
-    def make_full_html_path(cls, template_file, folder=GeneralConstants.TEMPLATES_TEMP_FOLDER, extension=GeneralConstants.HTML_EXTENSION):
-        return cls.make_full_file_path(template_file, folder, extension)
-
+def getUUID():
+    return uuid.uuid4().hex
+    
 
 class FileUtils:
 
@@ -55,8 +44,8 @@ class FileUtils:
         return False
 
     @classmethod
-    def is_file_name_cyrillic(cls, file_name):
-        if (re.match(RegexConstants.CYRILLIC_TEXT, file_name)):
+    def is_file_name_cyrillic(cls, name):
+        if (re.match(RegexConstants.CYRILLIC_TEXT, name)):
             raise FileNameIsCyrillic()
         return False
 
@@ -89,8 +78,8 @@ class FileUtils:
 class FileManager:
 
     TEMP_FOLDERS = [
-        GeneralConstants.UPLOADS_PATH + GeneralConstants.RENDERED_FILES_FOLDER,
-        GeneralConstants.UPLOADS_PATH + GeneralConstants.TEMPLATES_TEMP_FOLDER,
+        GeneralConstants.UPLOADS_PATH + Config.RENDERED_FILES_FOLDER,
+        GeneralConstants.UPLOADS_PATH + Config.TEMPLATES_TEMP_FOLDER,
     ]
 
     @classmethod
@@ -100,11 +89,11 @@ class FileManager:
                 os.makedirs(temp_folder, exist_ok=True)
 
     @classmethod
-    def remove_all_except_last_one(cls, temp_folder=None, timeout=None):
+    def remove_all_except_last(cls, number_to_leave=4, temp_folder=None, timeout=None):
         if temp_folder is None:
             temp_folder = cls.TEMP_FOLDERS[0]
         args = ['ls', '-t1', temp_folder + "*", '|',
-                'tail', '-n', '+2', '|', 'xargs', 'rm']
+                'tail', '-n', '+'+str(number_to_leave+1), '|', 'xargs', 'rm']
         process = subprocess.run(' '.join(args), shell=True, stdout=subprocess.PIPE,
                                  stderr=subprocess.PIPE, timeout=timeout)
 
@@ -130,8 +119,9 @@ class ErrorUtils:
         """
         undefined_value = re.findall(
             "'[a-zA-Z ]*'", error.args[0])
-        undefined_value_item = 1 if len(undefined_value)>1 else 0
-        undefined_value = undefined_value[undefined_value_item].replace("'", "")
+        undefined_value_item = 1 if len(undefined_value) > 1 else 0
+        undefined_value = undefined_value[undefined_value_item].replace(
+            "'", "")
         error_message = {
             "jinja_error": error.args[0],
             "possible_locations": docx_template.search(undefined_value)
@@ -161,7 +151,8 @@ class Regex:
         if isinstance(init_strings, str):
             init_strings = [init_strings]
         for init_string in init_strings:
-            resulted_list = cls.find_all_regexes_in_list(regex_list, init_string)
+            resulted_list = cls.find_all_regexes_in_list(
+                regex_list, init_string)
             if len(resulted_list):
                 is_included += True
         return is_included > 0
@@ -175,15 +166,22 @@ class Regex:
 
 # Context managers
 
-@contextmanager
-def file_decorator(file_path, file_options, exception_to_rise):
-    try:
-        template_file = open(file_path, file_options)
-    except Exception as e:
-        raise exception_to_rise()
-    else:
-        with template_file:
-            yield
+class FileContextManager():
+    def __init__(self, filename, mode, exception_to_rise):
+        self.filename = filename
+        self.mode = mode
+        self.exception_to_rise = exception_to_rise
+        self.file = None
+
+    def __enter__(self):
+        try:
+            self.file = open(self.filename, self.mode)
+        except Exception as e:
+            raise exception_to_rise()
+        return self.file
+
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        self.file.close()
 
 
 class GeneratorContextManager:
@@ -215,7 +213,6 @@ class JSONListGeneratorContextManager(GeneratorContextManager):
         self.ITERATOR = 0
 
 
-
 def setdefaultattr(obj, name, value):
     if not hasattr(obj, name):
         setattr(obj, name, value)
@@ -229,3 +226,9 @@ def read_json(filename):
     with open(file_path) as _file:
         data = _file.read()
     return loads(data)
+
+def get_checkbox_value(value):
+    if value.lower() == "true":
+        return True
+    else:
+        return False

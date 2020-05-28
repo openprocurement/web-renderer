@@ -27,3 +27,5 @@ soupsieve==2.0
 waitress==1.4.3
 Werkzeug==1.0.0
 WTForms==2.2.1
+
+git+https://gitlab.quintagroup.com/op/e-contracting/PyPDF5.git

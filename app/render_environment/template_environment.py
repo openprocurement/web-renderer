@@ -11,7 +11,15 @@ from app.render_environment.template_utils import (common_classification, common
                                                    format_date, to_float, to_space_separated_float,
                                                    to_space_separated_int)
 from app.utils.utils import ErrorUtils
-
+from app.files import(
+    TemplateFile,
+)
+from app.constants import (
+    GeneralConstants,
+)
+from app.utils.utils import (
+    FileUtils,
+)
 
 class TemplateFormatter(object):
     """
@@ -75,6 +83,39 @@ class JinjaEnvironment:
 
 
 class DocxTemplateLocal(DocxTemplate):
+
+    def __init__(self, template_file :TemplateFile):
+        self.template_file = template_file
+        super().__init__(self.template_file.full_path)
+        FileUtils.is_file_empty(self)
+
+    @property
+    def full_path(self):
+        return self.template_file.full_path
+
+    @full_path.setter
+    def full_path(self, full_path):
+        self.template_file.full_path = full_path
+
+    @property
+    def full_name(self):
+        return self.template_file.full_name
+
+    @full_name.setter
+    def full_name(self, full_name):
+        self.template_file.full_name = full_name
+
+    @property
+    def extension(self):
+        return self.template_file.extension
+
+    @extension.setter
+    def extension(self, extension):
+        self.template_file.extension = extension
+
+    def save(self, full_path=None):
+        if full_path is None:
+            super().save(self.full_path)
 
     def search(self, regex):
         """

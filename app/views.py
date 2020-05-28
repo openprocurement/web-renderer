@@ -3,7 +3,9 @@ from flask import (
     render_template)
 import json
 import logging
+import os
 from app import app
+from config import Config
 from app.renderers import (
     TemplateFile,
     DocxToPDFRenderer,
@@ -17,11 +19,15 @@ from app.constants import (
 from app.utils.utils import (
     FileUtils,
     FileManager,
+    get_checkbox_value,
 )
 from app.forms import(
     UploadForm,
 )
-import os
+from app.files import (
+    JSONFile,
+)
+
 
 
 @app.before_request
@@ -40,14 +46,14 @@ def upload_file():
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory((os.path.join(app.root_path), GeneralConstants.TEMPLATES_FOLDER + 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    return send_from_directory((os.path.join(app.root_path), Config.TEMPLATES_FOLDER + 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 @app.route('/display_template_form', methods=["GET"])
 def display_template_form():
     template_file = request.args.get('template')
     html_renderer = DocxToHTMLRenderer(template_file)
-    html_file = GeneralConstants.TEMP_FOLDER + html_renderer.html_file_name + "." + GeneralConstants.HTML_EXTENSION
+    html_file = html_renderer.html_file.path
     return render_template(html_file)
 
 
@@ -78,32 +84,38 @@ def post():
         template_file = request.files.get('template')
         FileUtils.is_file_attached(template_file)
         docx_file = TemplateFile(template_file)
-        return redirect(url_for('display_template_form', template=docx_file.file_name))
+        return redirect(url_for('display_template_form', template=docx_file.name))
     elif "get_template_tag_schema" in form_values:
         template_file = request.files.get('template')
         FileUtils.is_file_attached(template_file)
         docx_file = TemplateFile(template_file)
-        return redirect(url_for('get_template_tag_schema', template=docx_file.file_name))
+        return redirect(url_for('get_template_tag_schema', template=docx_file.name))
     elif "get_template_json_schema" in form_values:
         template_file = request.files.get('template')
         FileUtils.is_file_attached(template_file)
         docx_file = TemplateFile(template_file)
         hide_empty_fields = 1 if "hide_empty_fields" in form_values else 0
-        return redirect(url_for('get_template_json_schema', template=docx_file.file_name, hide_empty_fields=hide_empty_fields))
+        return redirect(url_for('get_template_json_schema', template=docx_file.name, hide_empty_fields=hide_empty_fields))
     else:
         template_file = request.files.get('template')
         json_data = request.form.get('json_data')
+        if "include_attachments" in form_values:
+            print(form_values['include_attachments'])
+            include_attachments = get_checkbox_value(form_values['include_attachments'])
+        else:
+            include_attachments = False
+        
         FileUtils.does_data_attached(template_file, json_data)
-        content = json.loads(json_data)
-        renderer = DocxToPDFRenderer(content, template_file)
-        generated_file = GeneralConstants.RENDERED_FILES_FOLDER + \
+        content = JSONFile('w', json_data)
+        renderer = DocxToPDFRenderer(content, template_file, include_attachments)
+        generated_file = Config.RENDERED_FILES_FOLDER + \
             renderer.generated_pdf_path.split("/")[-1]
         return send_file(generated_file,  as_attachment=True)
 
 
 @app.after_request
 def after_request_func(response):
-    FileManager.remove_all_except_last_one()
+    FileManager.remove_all_except_last()
     FileManager.remove_temp()
     app.logger.info('Tempfiles are removed')
     app.logger.info('Request is finished')
