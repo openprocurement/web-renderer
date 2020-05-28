@@ -1,5 +1,12 @@
 import pytest
+import unittest
+from app import app
 
+@pytest.fixture
+def client():
+    app.config['TESTING'] = True
+    with app.test_client() as client:
+        yield client
 
 @pytest.fixture
 def items():
@@ -29,10 +36,22 @@ def items():
             "description": "Банкноти номіналом 1000 грн.",
             "classification": {
                 "id": "22412000-1",
-                "description" :"Нові марки",
+                "description": "Нові марки",
                 "scheme": "ДК021"
             },
             "quantity": 1000
         }
     ]
     return data
+
+
+class BaseTest(unittest.TestCase):
+
+    def setUp(self):
+        app.config['TESTING'] = True
+        app.config['WTF_CSRF_ENABLED'] = False
+        self.app = app.test_client()
+
+
+    def tearDown(self):
+        pass

@@ -100,7 +100,6 @@ def post():
         template_file = request.files.get('template')
         json_data = request.form.get('json_data')
         if "include_attachments" in form_values:
-            print(form_values['include_attachments'])
             include_attachments = get_checkbox_value(form_values['include_attachments'])
         else:
             include_attachments = False

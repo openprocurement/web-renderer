@@ -9,7 +9,8 @@ from app import app
 from app.render_environment.template_utils import (common_classification, common_classification_code,
                                                    common_classification_description, convert_amount_to_words,
                                                    format_date, to_float, to_space_separated_float,
-                                                   to_space_separated_int)
+                                                   to_space_separated_int, jmespath_filter,
+                                                   )
 from app.utils.utils import ErrorUtils
 from app.files import(
     TemplateFile,
@@ -57,6 +58,10 @@ class TemplateFormatter(object):
     def common_classification_description(cls, items):
         return common_classification_description(items)
 
+    @classmethod
+    def search(cls, data, search_string):
+        return jmespath_filter(data, search_string)
+
     def __get_method__(self, method_name):
         return getattr(self.__class__, method_name)
 
@@ -74,12 +79,13 @@ class JinjaEnvironment:
         self.formatter = formater_class()
 
     def set_template_functions(self):
-        all_funcs = [func for func in dir(TemplateFormatter) if callable(
-            getattr(TemplateFormatter, func))]
+        """
+            A function that sets all classmethods from the self.formatter as JinjaEnvironment filter. 
+        """
+        all_funcs = [func for func in dir(self.formatter) if callable(getattr(self.formatter, func))]
         method_list = [func for func in all_funcs if not func.startswith("__")]
         for method in method_list:
-            self.jinja_env.filters[method] = self.formatter.__get_method__(
-                method)
+            self.jinja_env.filters[method] = self.formatter.__get_method__(method)
 
 
 class DocxTemplateLocal(DocxTemplate):
