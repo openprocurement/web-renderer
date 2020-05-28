@@ -3,6 +3,9 @@ import PyPDF2
 from app.files import(
     AttachmentFile,
 )
+from app.constants import(
+    GeneralConstants,
+)
 
 class PdfAttacher:
     """
@@ -11,7 +14,7 @@ class PdfAttacher:
     def __init__(self, pdf_file_name):
         self.pdf_file_name = pdf_file_name
         self.pdf_file = AttachmentFile(self.pdf_file_name, 'rb')
-        self.output_file = AttachmentFile('pdfa_'+self.pdf_file_name, 'wb')
+        self.output_file = AttachmentFile(self.pdf_file_name, 'wb', True)
         self.create_reader()
         self.create_writer()
         self.transfer_data_to_new_pdf()
@@ -30,7 +33,7 @@ class PdfAttacher:
     def add_attachment(self, file_name):
         attachment_file = AttachmentFile(file_name, 'rb')
         self.pdf_writer.addAttachment(
-            attachment_file.name, attachment_file.body)
+            attachment_file.input_name, attachment_file.body)
         attachment_file.storage_object.close()
 
     def get_attachments(self):

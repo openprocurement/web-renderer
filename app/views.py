@@ -98,17 +98,16 @@ def post():
     else:
         template_file = request.files.get('template')
         json_data = request.form.get('json_data')
+        FileManager.does_data_attached(template_file, json_data)
         if "include_attachments" in form_values:
             include_attachments = get_checkbox_value(form_values['include_attachments'])
         else:
             include_attachments = False
-        
-        FileManager.does_data_attached(template_file, json_data)
-        content = JSONFile('w', json_data)
-        renderer = DocxToPDFRenderer(content, template_file, include_attachments)
-        generated_file = Config.RENDERED_FILES_FOLDER + \
-            renderer.generated_pdf_path.split("/")[-1]
-        return send_file(generated_file,  as_attachment=True)
+        file_name = str(template_file.filename).split('.')[0]
+        content = JSONFile('w', json_data, template_type=file_name)
+        renderer = DocxToPDFRenderer(content, template_file, include_attachments, template_type=file_name)
+        generated_file = Config.RENDERED_FILES_FOLDER + renderer.generated_pdf.full_name
+        return send_file(generated_file,  as_attachment=True, attachment_filename=renderer.generated_pdf.input_name)
 
 
 @app.after_request

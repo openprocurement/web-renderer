@@ -8,7 +8,7 @@ class GeneralConstants:
     # Folders
     UPLOADS_PATH = dirname(realpath(__file__))+"/"
     # Prefixes
-    TEMPLATE_PREFIX = "doc_template"
+    TEMPLATE_PREFIX = "template"
     GENERATED_DOC_PREFIX = "generated"
     TEST_PREFIX = "test"
     TEMP_PREFIX = "temp"
@@ -30,7 +30,7 @@ class RegexConstants:
     # Jinja template regexes
     ARRAY_FIELDS = r"\['(.{0,10})'\]"
     TEMPLATE_FORMULA = r"{{[\s\(]{0,2}([a-zA-Z\[\]\.]{1,50})[\}]{0,2}.{0,1}[\{]{0,2}.{0,30}}}"
-    TEMPLATE_FILTER = r"{{.{0,50}[\-\+\*\|]{1}.{0,100}}}"
+    TEMPLATE_FILTER = r"{{.{0,50}[\-\+\*\|]{1}.{0,150}}}"
     FOR_LOOP_BEGIN_TAG = r"{%[a-z. \S ]{0,20} for [a-zA-Z . \S]{0,300}%}"
     TAG_EXTRACT = r"({%[a-z.  ]{0,20})"
     FOR_LOOP_END_TAG = r"{%.{0,10}endfor %}"

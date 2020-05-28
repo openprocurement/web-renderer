@@ -53,9 +53,9 @@ class ObjectRenderer:
 
 class DocxToPDFRenderer(ObjectRenderer):
 
-    def __init__(self, json=None, template_file=None, include_attachments=None):
+    def __init__(self, json=None, template_file=None, include_attachments=None, template_type=None):
         self.json = json
-        self.template_file = TemplateFile(template_file)
+        self.template_file = TemplateFile(template_file, template_type=template_type)
         self.include_attachments = include_attachments
         self.docx_template = DocxTemplate(self.template_file)
         self.render()
@@ -71,18 +71,21 @@ class DocxToPDFRenderer(ObjectRenderer):
 
     def render_to_pdf(self):
         self.docx_converter = DocxToPdfConverter(self.docx_template)
-        self.generated_pdf_path = self.docx_converter.generated_pdf_path
-        if FileManager.does_file_exists(self.docx_template.full_path):
+        self.generated_pdf = self.docx_converter.pdf_document
+        if FileManager.does_file_exists(self.docx_converter.pdf_document.full_path):
             app.logger.info('Template is rendered to pdf')
         else:
             raise DocumentRenderError()
 
     def add_attachments_to_pdfa(self):
         if self.include_attachments:
-            self.pdf_attacher = PdfAttacher(self.docx_converter.document.full_name)
+            self.pdf_attacher = PdfAttacher(self.docx_converter.pdf_document.full_name)
+            # adding attachments
             self.pdf_attacher.add_attachment(self.json.full_name)
+            self.pdf_attacher.add_attachment(self.docx_template.full_name)
+            # writing output
             self.pdf_attacher.write_output()
-            self.generated_pdf_path = self.pdf_attacher.output_file.full_path
+            self.generated_pdf = self.pdf_attacher.output_file
             app.logger.info('Attachments are added.')
 
     def render(self):
