@@ -9,7 +9,7 @@ from app import app
 from app.render_environment.template_utils import (common_classification, common_classification_code,
                                                    common_classification_description, convert_amount_to_words,
                                                    format_date, to_float, to_space_separated_float,
-                                                   to_space_separated_int, data_filter,
+                                                   to_space_separated_int, jmespath_filter,
                                                    )
 from app.utils.utils import ErrorUtils
 
@@ -51,8 +51,8 @@ class TemplateFormatter(object):
         return common_classification_description(items)
 
     @classmethod
-    def jmespath(cls, data, search_string):
-        return data_filter(data, search_string)
+    def search(cls, data, search_string):
+        return jmespath_filter(data, search_string)
 
     def __get_method__(self, method_name):
         return getattr(self.__class__, method_name)
