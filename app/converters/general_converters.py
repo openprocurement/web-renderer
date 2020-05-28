@@ -11,11 +11,12 @@ from app.files import (
     PdfFile,
 )
 from app.utils.utils import (
-    FileUtils,
+    FileManager,
     Regex,
     FileContextManager,
 )
 from config import Config
+
 
 class DocxToHTMLConverter:
 
@@ -35,10 +36,8 @@ class DocxToHTMLConverter:
         document = mammoth.convert_to_html(template_file)
         return document
 
-    
 
 class DocxToPdfConverter:
-
 
     def __init__(self, document):
         self.document = document
@@ -53,7 +52,7 @@ class DocxToPdfConverter:
                                      stderr=subprocess.PIPE, timeout=timeout)
         except FileNotFoundError as e:
             raise DocumentConvertionError()
-        
+
         self.document.extension = GeneralConstants.GENERATED_DOC_EXTENSION
         self.generated_pdf_path = self.document.full_path
         self.document.template_file.close()

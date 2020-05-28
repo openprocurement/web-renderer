@@ -1,17 +1,17 @@
-from flask import Flask
 import json
 import os
 import time
 import re
 from copy import deepcopy
+
+from flask import Flask
 from app import app
 from app.render_environment.template_environment import (
     DocxTemplateLocal as DocxTemplate,
 )
 from app.utils.utils import (
-    FileUtils,
+    FileManager,
     Regex,
-    FileContextManager,
 )
 from app.converters.general_converters import(
     DocxToHTMLConverter,
@@ -25,6 +25,8 @@ from app.converters.converter_to_json_schema import(
 )
 from app.constants import (
     GeneralConstants,
+    RegexConstants,
+    HTMLConstants,
 )
 from app.files import (
     TemplateFile,
@@ -37,11 +39,6 @@ from app.exceptions import (
     DocumentSavingError,
     HTMLNotFoundError,
 )
-from app.constants import (
-    RegexConstants,
-    HTMLConstants,
-)
-
 from app.attachers import(
     PdfAttacher,
 )
@@ -67,7 +64,7 @@ class DocxToPDFRenderer(ObjectRenderer):
     def render_to_docx(self):
         self.docx_template.render_document(self.json.data)
         self.docx_template.save()
-        if FileUtils.does_file_exists(self.docx_template.full_path):
+        if FileManager.does_file_exists(self.docx_template.full_path):
             app.logger.info('Template is rendered to docx.')
         else:
             raise DocumentRenderError()
@@ -75,7 +72,7 @@ class DocxToPDFRenderer(ObjectRenderer):
     def render_to_pdf(self):
         self.docx_converter = DocxToPdfConverter(self.docx_template)
         self.generated_pdf_path = self.docx_converter.generated_pdf_path
-        if FileUtils.does_file_exists(self.docx_template.full_path):
+        if FileManager.does_file_exists(self.docx_template.full_path):
             app.logger.info('Template is rendered to pdf')
         else:
             raise DocumentRenderError()

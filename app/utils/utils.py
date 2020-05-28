@@ -18,15 +18,13 @@ from app.exceptions import (DocumentConvertionError, FileNameIsCyrillic, HTMLNot
                             TemplateIsEmpty, TemplateNotFound, UndefinedVariableJinja)
 
 
-# simple functions
-def getNow():
-    return datetime.now().strftime("%y%m%d%H%M%S%f")
 
-def getUUID():
-    return uuid.uuid4().hex
-    
+class FileManager:
 
-class FileUtils:
+    TEMP_FOLDERS = [
+        GeneralConstants.UPLOADS_PATH + Config.RENDERED_FILES_FOLDER,
+        GeneralConstants.UPLOADS_PATH + Config.TEMPLATES_TEMP_FOLDER,
+    ]
 
     @classmethod
     def does_file_exists(cls, file):
@@ -75,14 +73,6 @@ class FileUtils:
         cls.is_json_attached(json_data)
         return True
 
-
-class FileManager:
-
-    TEMP_FOLDERS = [
-        GeneralConstants.UPLOADS_PATH + Config.RENDERED_FILES_FOLDER,
-        GeneralConstants.UPLOADS_PATH + Config.TEMPLATES_TEMP_FOLDER,
-    ]
-
     @classmethod
     def make_temp_folders(cls, timeout=True):
         for temp_folder in cls.TEMP_FOLDERS:
@@ -121,7 +111,8 @@ class ErrorUtils:
     @classmethod
     def process_jinja_undefined_var_error(cls, docx_template, error):
         """
-                The function for processing jinja2.exceptions.UndefinedError. 
+            The function for processing jinja2.exceptions.UndefinedError. 
+            It adds `possible_locations` ti 
         """
         undefined_value = re.findall(
             "'[a-zA-Z ]*'", error.args[0])
@@ -173,6 +164,7 @@ class Regex:
 # Context managers
 
 class FileContextManager():
+
     def __init__(self, filename, mode, exception_to_rise):
         self.filename = filename
         self.mode = mode
@@ -218,12 +210,22 @@ class JSONListGeneratorContextManager(GeneratorContextManager):
         self.FOR_LOOP_ITERATED_LIST = 2
         self.ITERATOR = 0
 
+# Single functions
+
+def getNow():
+    return datetime.now().strftime("%y%m%d%H%M%S%f")
+
+def getUUID():
+    return uuid.uuid4().hex
+
+# Object functions
 
 def setdefaultattr(obj, name, value):
     if not hasattr(obj, name):
         setattr(obj, name, value)
     return getattr(obj, name)
 
+# JSON utils
 
 def read_json(filename):
     curr_dir = os.path.dirname(os.path.realpath(__file__))
@@ -232,6 +234,8 @@ def read_json(filename):
     with open(file_path) as _file:
         data = _file.read()
     return loads(data)
+
+# Form utils
 
 def get_checkbox_value(value):
     if value.lower() == "true":

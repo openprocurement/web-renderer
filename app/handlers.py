@@ -1,10 +1,11 @@
-from flask import Flask
-import docx.opc.exceptions
-import werkzeug.exceptions
-import jinja2.exceptions
 import json
 import re
 import inspect
+import jinja2.exceptions
+import docx.opc.exceptions
+import werkzeug.exceptions
+
+from flask import Flask
 from app import app
 from app.exceptions import(
     format_exception,
@@ -48,6 +49,7 @@ def method_not_allowed_handler(error):
 def bad_request_key_error(error):
     return format_exception(error.description, 500)
 
+
 @app.errorhandler(re.error)
 def regex_error(error):
     return format_exception(str(*error.args), 500)
@@ -71,6 +73,7 @@ def custom_exceptions_error_handler(error):
 @app.errorhandler(NameError)
 def base_exceptions_handler(error):
     return format_exception(str(*error.args), 500)
+
 
 @app.errorhandler(FileNotFoundError)
 def file_not_found_handler(error):

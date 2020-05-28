@@ -5,15 +5,15 @@ import time
 import re
 import json
 from copy import deepcopy
-from werkzeug.datastructures import FileStorage
 from docx import Document
 from docx.shared import Inches
+from werkzeug.datastructures import FileStorage
 
 from flask import Flask
 from app import app
 from config import Config
 from app.utils.utils import (
-    FileUtils,
+    FileManager,
     getNow,
     getUUID,
 )
@@ -41,7 +41,7 @@ class FileStorageObject(FileStorage):
 
 
 class BaseFile():
-    
+
     def __init__(self, storage_object=None, full_path=None, method=None):
         self.full_path = full_path
         self.read_method = method
@@ -75,6 +75,7 @@ class BaseFile():
         self.storage_object.close()
 
 # File objects
+
 
 class File(BaseFile):
 
@@ -128,7 +129,7 @@ class File(BaseFile):
     def save(self):
         if not isinstance(self.storage_object, io.BufferedReader):
             self.storage_object.save(self.full_path)
-        if FileUtils.does_file_exists(self.full_path):
+        if FileManager.does_file_exists(self.full_path):
             app.logger.info('File is saved.')
         else:
             raise DocumentSavingError()
@@ -140,6 +141,7 @@ class GeneratedFile(File):
         File class that provides methods for generating file name, paths.
 
     """
+
     def __init__(self, storage_object=None, timestamp=None, uuid=None, read_method='rb', template_type=GeneralConstants.TEMPLATE_PREFIX, extension=None):
         self.storage_object = storage_object
         self.template_type = template_type
@@ -176,7 +178,7 @@ class GeneratedFile(File):
     def get_obj_by_name(cls, file_name, template_type=GeneralConstants.TEMPLATE_PREFIX, extension=GeneralConstants.TEMPLATE_FILE_EXTENSION):
         """
             The class method for creating GeneratedFile obj from only file_name.
-        """     
+        """
         timestamp, uuid = file_name.split(template_type)[1].split("_")[1:]
         return cls(timestamp=timestamp, uuid=uuid, template_type=template_type, extension=extension)
 
@@ -185,6 +187,7 @@ class TemplateFile(GeneratedFile):
     """
         Docx template file class.
     """
+
     def __init__(self, storage_object=None, timestamp=None, uuid=None, template_type=GeneralConstants.TEMPLATE_PREFIX, extension=None):
         super().__init__(storage_object=storage_object, timestamp=timestamp,
                          uuid=uuid, template_type=template_type, extension=extension)
@@ -250,12 +253,14 @@ class AttachmentFile(File):
     """
         File class that is used for attachments.
     """
+
     def __init__(self, full_name, read_method):
         self.name = full_name.split('.')[0]
         self.extension = full_name.split('.')[1]
         self.read_method = read_method
         super().__init__(name=self.name, extension=self.extension, read_method=self.read_method)
         self.read()
+
 
 class DocxFile:
     """

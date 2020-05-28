@@ -1,11 +1,12 @@
-from flask import (
-    Flask, request, abort, jsonify, send_from_directory, send_file, redirect, url_for,
-    render_template)
 import json
 import logging
 import os
-from app import app
+
+from flask import (
+    Flask, request, abort, jsonify, send_from_directory, send_file, redirect, url_for,
+    render_template)
 from config import Config
+from app import app
 from app.renderers import (
     TemplateFile,
     DocxToPDFRenderer,
@@ -17,7 +18,7 @@ from app.constants import (
     GeneralConstants,
 )
 from app.utils.utils import (
-    FileUtils,
+    FileManager,
     FileManager,
     get_checkbox_value,
 )
@@ -27,8 +28,6 @@ from app.forms import(
 from app.files import (
     JSONFile,
 )
-
-
 
 @app.before_request
 def before_request_func():
@@ -82,17 +81,17 @@ def post():
     form_values = request.form.to_dict(flat=True)
     if "display_template_form" in form_values:
         template_file = request.files.get('template')
-        FileUtils.is_file_attached(template_file)
+        FileManager.is_file_attached(template_file)
         docx_file = TemplateFile(template_file)
         return redirect(url_for('display_template_form', template=docx_file.name))
     elif "get_template_tag_schema" in form_values:
         template_file = request.files.get('template')
-        FileUtils.is_file_attached(template_file)
+        FileManager.is_file_attached(template_file)
         docx_file = TemplateFile(template_file)
         return redirect(url_for('get_template_tag_schema', template=docx_file.name))
     elif "get_template_json_schema" in form_values:
         template_file = request.files.get('template')
-        FileUtils.is_file_attached(template_file)
+        FileManager.is_file_attached(template_file)
         docx_file = TemplateFile(template_file)
         hide_empty_fields = 1 if "hide_empty_fields" in form_values else 0
         return redirect(url_for('get_template_json_schema', template=docx_file.name, hide_empty_fields=hide_empty_fields))
@@ -104,7 +103,7 @@ def post():
         else:
             include_attachments = False
         
-        FileUtils.does_data_attached(template_file, json_data)
+        FileManager.does_data_attached(template_file, json_data)
         content = JSONFile('w', json_data)
         renderer = DocxToPDFRenderer(content, template_file, include_attachments)
         generated_file = Config.RENDERED_FILES_FOLDER + \

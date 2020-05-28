@@ -1,8 +1,9 @@
-from flask import Flask
-import werkzeug
-from app import app
-from config import Config
 import inspect
+import werkzeug
+
+from app import app
+from flask import Flask
+from config import Config
 
 def format_exception(error, error_code, location=None):
     app.logger.error(str(error) + " " + str(error_code))

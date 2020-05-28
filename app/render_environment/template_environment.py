@@ -19,7 +19,7 @@ from app.constants import (
     GeneralConstants,
 )
 from app.utils.utils import (
-    FileUtils,
+    FileManager,
 )
 
 class TemplateFormatter(object):
@@ -93,7 +93,7 @@ class DocxTemplateLocal(DocxTemplate):
     def __init__(self, template_file :TemplateFile):
         self.template_file = template_file
         super().__init__(self.template_file.full_path)
-        FileUtils.is_file_empty(self)
+        FileManager.is_file_empty(self)
 
     @property
     def full_path(self):
