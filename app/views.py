@@ -98,9 +98,10 @@ def post():
     else:
         template_file = request.files.get('template')
         json_data = request.form.get('json_data')
+        include_attachments = True if "include_attachments" in form_values else False
         FileUtils.does_data_attached(template_file, json_data)
         content = JSONFile('w', json_data)
-        renderer = DocxToPDFRenderer(content, template_file)
+        renderer = DocxToPDFRenderer(content, template_file, include_attachments)
         generated_file = Config.RENDERED_FILES_FOLDER + \
             renderer.generated_pdf_path.split("/")[-1]
         return send_file(generated_file,  as_attachment=True)

@@ -16,6 +16,7 @@ class UploadForm(FlaskForm):
     json_data = StringField(
         u'JSON_DATA', [validators.length(max=10000)])
     display_template_form = SubmitField(label='Display template form')
+    include_attachments = widgets.CheckboxInput()
     hide_empty_fields = widgets.CheckboxInput()
     get_template_json_schema = SubmitField(label='Get template json schema')
     get_template_tag_schema = SubmitField(label='Get template tag schema')

@@ -226,3 +226,9 @@ def read_json(filename):
     with open(file_path) as _file:
         data = _file.read()
     return loads(data)
+
+def str_to_bool(value):
+    if value == 'True':
+        return True
+    elif value == 'False':
+        return False

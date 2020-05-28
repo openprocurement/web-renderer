@@ -56,9 +56,10 @@ class ObjectRenderer:
 
 class DocxToPDFRenderer(ObjectRenderer):
 
-    def __init__(self, json=None, template_file=None):
+    def __init__(self, json=None, template_file=None, include_attachments=None):
         self.json = json
         self.template_file = TemplateFile(template_file)
+        self.include_attachments = include_attachments
         self.docx_template = DocxTemplate(self.template_file)
         self.render()
 
@@ -80,11 +81,12 @@ class DocxToPDFRenderer(ObjectRenderer):
             raise DocumentRenderError()
 
     def add_attachments_to_pdfa(self):
-        self.pdf_attacher = PdfAttacher(self.docx_converter.document.full_name)
-        self.pdf_attacher.add_attachment(self.json.full_name)
-        self.pdf_attacher.write_output()
-        self.generated_pdf_path = self.pdf_attacher.output_file.full_path
-        app.logger.info('Attachments are added.')
+        if self.include_attachments:
+            self.pdf_attacher = PdfAttacher(self.docx_converter.document.full_name)
+            self.pdf_attacher.add_attachment(self.json.full_name)
+            self.pdf_attacher.write_output()
+            self.generated_pdf_path = self.pdf_attacher.output_file.full_path
+            app.logger.info('Attachments are added.')
 
     def render(self):
         self.render_to_docx()

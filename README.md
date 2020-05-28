@@ -17,10 +17,12 @@ paths:
                 content: application/json:
             template:
                 description: template .docx file
-                content: file
+                content: application/msword
         responses:
         '200':
-            file: Generated file
+            file: 
+                description: Generated file
+                content: application/pdf
 ```
 
 ### Jinja template functions:
