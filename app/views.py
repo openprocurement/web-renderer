@@ -19,6 +19,7 @@ from app.constants import (
 from app.utils.utils import (
     FileUtils,
     FileManager,
+    get_checkbox_value,
 )
 from app.forms import(
     UploadForm,
@@ -98,7 +99,10 @@ def post():
     else:
         template_file = request.files.get('template')
         json_data = request.form.get('json_data')
-        include_attachments = True if "include_attachments" in form_values else False
+        if "include_attachments" in form_values:
+            include_attachments = get_checkbox_value(form_values['include_attachments'])
+        else:
+            include_attachments = False
         FileUtils.does_data_attached(template_file, json_data)
         content = JSONFile('w', json_data)
         renderer = DocxToPDFRenderer(content, template_file, include_attachments)

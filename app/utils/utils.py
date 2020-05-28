@@ -227,8 +227,8 @@ def read_json(filename):
         data = _file.read()
     return loads(data)
 
-def str_to_bool(value):
-    if value == 'True':
+def get_checkbox_value(value):
+    if value == 'True' or value == 'on':
         return True
-    elif value == 'False':
+    else:
         return False
