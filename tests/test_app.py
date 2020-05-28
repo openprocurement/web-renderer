@@ -47,7 +47,7 @@ class TestDataFilters(BaseTest):
     def test_empties(self):
         docx_document = DocxFile(folder=Config.TESTS_TEMP_FOLDER)
         docx_document.save()
-        docx_storage_object = FileStorageObject(docx_document.path, docx_document.name, "application/msword")
+        docx_storage_object = FileStorageObject(docx_document.path, docx_document.full_name, "application/msword")
         response = self.app.post(
             "/",
             data={"template": docx_storage_object, 'json_data': json.dumps(test_json_data)},
@@ -62,7 +62,7 @@ class TestDataFilters(BaseTest):
         docx_document = DocxFile(folder=Config.TESTS_TEMP_FOLDER)
         docx_document.add_paragraph('hello')
         docx_document.save()
-        docx_storage_object = FileStorageObject(docx_document.path, docx_document.name, "application/msword")
+        docx_storage_object = FileStorageObject(docx_document.path, docx_document.full_name, "application/msword")
         response = self.app.post(
             "/",
             data={"template": docx_storage_object, 'json_data': json.dumps(test_json_data)},

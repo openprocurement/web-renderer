@@ -86,19 +86,21 @@ class TestDataFilters(BaseTest):
         docx_document.save()
         contract_supplier_id = test_json_data['contract']['supplier']['id']
 
+        print(docx_document.full_name)
         # Form data and post it 
-        docx_storage_object = FileStorageObject(docx_document.path, docx_document.name, "application/msword")
+        docx_storage_object = FileStorageObject(docx_document.path, docx_document.full_name, "application/msword")
         response = self.app.post(
             "/",
             data={"template": docx_storage_object, 'json_data': json.dumps(test_json_data)},
             content_type="multipart/form-data",
             follow_redirects=True,
         )
+        # self.assertEqual(response.json, {})
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/pdf")
         
         # Save generated pdf document
-        pdf_document_path = docx_document.path +".pdf"
+        pdf_document_path = docx_document.name +".pdf"
         stream = response.get_data()
         f = open(pdf_document_path, 'wb')
         f.write(stream)

@@ -98,6 +98,7 @@ class DocxFile:
 
     def __init__(self, name=None, folder=None):
         self.name = name
+        self.extension = GeneralConstants.TEMPLATE_FILE_EXTENSION
         self.folder = folder
         self.object = Document()
 
@@ -110,12 +111,23 @@ class DocxFile:
         if name is not None:
             self.__name = name
         else:
-            self.__name = str(getUUID()) + "." + \
-                GeneralConstants.TEMPLATE_FILE_EXTENSION
+            self.__name = str(getUUID())
+
+    @property
+    def extension(self):
+        return self.__extension
+
+    @extension.setter
+    def extension(self, extension):
+        self.__extension = extension
+
+    @property
+    def full_name(self):
+        return self.name + "." + self.extension
 
     @property
     def path(self):
-        return self.folder + self.name
+        return self.folder + self.full_name
 
     def save(self):
         self.object.save(self.path)
