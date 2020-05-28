@@ -82,7 +82,7 @@ class TestDataFilters(BaseTest):
     def test_jmespath_filter(self):
         # Creating the docx file with the content
         docx_document = DocxFile(folder=Config.TESTS_TEMP_FOLDER)
-        docx_document.add_paragraph("{{ contract.supplier | search ('id')}}")
+        docx_document.add_paragraph("{{ contract.supplier | json_query ('id')}}")
         docx_document.save()
         contract_supplier_id = test_json_data['contract']['supplier']['id']
 
