@@ -5,6 +5,7 @@ from contextlib import contextmanager
 from datetime import datetime
 from json import loads
 from os import path
+import uuid
 from pprint import pprint
 
 from flask import Flask
@@ -14,6 +15,9 @@ from app.constants import GeneralConstants, RegexConstants
 from app.exceptions import (DocumentConvertionError, FileNameIsCyrillic, HTMLNotFoundError, JSONNotFound,
                             TemplateIsEmpty, TemplateNotFound, UndefinedVariableJinja)
 
+
+def getUUID():
+    return uuid.uuid4().hex
 
 class Path:
 
@@ -120,6 +124,11 @@ class FileManager:
         process = subprocess.run(' '.join(args), shell=True, stdout=subprocess.PIPE,
                                  stderr=subprocess.PIPE, timeout=timeout)
 
+    @classmethod
+    def remove_file(cls, file_name):
+        args = ['rm', file_name]
+        process = subprocess.run(' '.join(args), shell=True, stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE)
 
 class ErrorUtils:
 
