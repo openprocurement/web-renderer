@@ -228,7 +228,7 @@ def read_json(filename):
     return loads(data)
 
 def get_checkbox_value(value):
-    if value == 'True' or value == 'on':
+    if value.lower() == "true":
         return True
     else:
         return False

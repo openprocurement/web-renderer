@@ -19,8 +19,8 @@ paths:
                 description: template .docx file
                 content: application/msword
             include_attachments:
-                description: include attachment
-                content: True or False 
+                description: include attachment files
+                content: True 
         responses:
         '200':
             file: 
