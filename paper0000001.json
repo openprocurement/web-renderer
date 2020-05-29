@@ -1,0 +1,1086 @@
+{
+    "tender": {
+        "procurementMethod": "selective",
+        "profile": "801157-30190000-501919-40000777",
+        "awardPeriod": {
+            "startDate": "2020-05-27T11:32:49.004607+03:00",
+            "endDate": "2020-05-27T11:32:53.080629+03:00"
+        },
+        "mainProcurementCategory": "goods",
+        "submissionMethod": "electronicAuction",
+        "procuringEntity": {
+            "contactPoint": {
+                "telephone": "+380664376747",
+                "name": "Валентина Колпак",
+                "email": "centr_novoukr_buh@ukr.net"
+            },
+            "identifier": {
+                "scheme": "UA-EDR",
+                "id": "36734786",
+                "legalName": "Комунальне некомерційне підприємство \"Центр первинної медико-санітарної допомоги\" Новоукраїнської районної ради"
+            },
+            "name": "Комунальне некомерційне підприємство \"Центр первинної медико-санітарної допомоги\" Новоукраїнської районної ради",
+            "kind": "general",
+            "address": {
+                "postalCode": "27100",
+                "countryName": "Україна",
+                "streetAddress": "пров. Лікарняний, 1",
+                "region": "Кіровоградська область",
+                "locality": "м. Новоукраїнка"
+            }
+        },
+        "owner": "broker",
+        "id": "37f439c4ce3c4b11bf2db16496d124cf",
+        "description": "Папір ксероксний",
+        "title": "ДК 021:2015 \"30190000-7 - Офісне устаткування та приладдя різне\" (бумага)",
+        "shortlistedFirms": [{
+                "status": "active",
+                "scale": "micro",
+                "name": "Товариство з обмеженою відповідальністю «СПІРАЛЬ УКРАЇНА»",
+                "address": {
+                    "postalCode": "08700",
+                    "countryName": "Україна",
+                    "streetAddress": "вул.Малишка, 1",
+                    "region": "Київська область",
+                    "locality": "м.Обухів"
+                },
+                "contactPoint": {
+                    "telephone": "(093) 788-53-33",
+                    "name": "Скрипник Павло Володимирович",
+                    "email": "spiralukraine@gmail.com"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "39336967",
+                    "legalName": "Товариство з обмеженою відповідальністю «СПІРАЛЬ УКРАЇНА»"
+                },
+                "id": "UA-EDR-39336967"
+            },
+            {
+                "status": "active",
+                "scale": "mid",
+                "name": "Товариство з обмеженою відповідальністю «Виробничо-комерційна фірма «ВВ»",
+                "address": {
+                    "postalCode": "14000",
+                    "countryName": "Україна",
+                    "streetAddress": "вул. Гетьмана Полуботко, 18",
+                    "region": "Чернігівська область",
+                    "locality": "м.Чернігів"
+                },
+                "contactPoint": {
+                    "telephone": "(050) 382-66-56",
+                    "name": "Молчанова Ганна Василівна",
+                    "email": "a.molchanova@vv.ua"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "14236166",
+                    "legalName": "Товариство з обмеженою відповідальністю «Виробничо-комерційна фірма «ВВ»"
+                },
+                "id": "UA-EDR-14236166"
+            },
+            {
+                "status": "active",
+                "scale": "large",
+                "name": "Товариство з обмеженою відповідальністю «МЕТРО КЕШ ЕНД КЕРІ УКРАЇНА» ",
+                "address": {
+                    "postalCode": "02140",
+                    "countryName": "Україна",
+                    "streetAddress": "пр-т. П.Григоренка, 43",
+                    "region": "Київська область",
+                    "locality": "Київ"
+                },
+                "contactPoint": {
+                    "telephone": "(050) 410-30-14",
+                    "name": "Черський Олександр",
+                    "email": "oleksandr.cherskiy@metro.ua"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "32049199",
+                    "legalName": "Товариство з обмеженою відповідальністю «МЕТРО КЕШ ЕНД КЕРІ УКРАЇНА» "
+                },
+                "id": "UA-EDR-32049199"
+            },
+            {
+                "status": "active",
+                "scale": "large",
+                "name": "Товариство з обмеженою відповідальністю «АШАН УКРАЇНА ГІПЕРМАРКЕТ»",
+                "address": {
+                    "postalCode": "04073",
+                    "countryName": "Україна",
+                    "streetAddress": "пр-т. С.Бандери, 15-А",
+                    "region": "Київська область",
+                    "locality": "м.Київ"
+                },
+                "contactPoint": {
+                    "telephone": "(093) 409-91-92",
+                    "name": "Кальмуцький Юрій",
+                    "email": "ikalmoutskyy@auchan.ua"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "35442481",
+                    "legalName": "Товариство з обмеженою відповідальністю «АШАН УКРАЇНА ГІПЕРМАРКЕТ»"
+                },
+                "id": "UA-EDR-35442481"
+            },
+            {
+                "status": "active",
+                "scale": "large",
+                "name": "Товариство з обмеженою відповідальністю «РОЗЕТКА.УА»",
+                "address": {
+                    "postalCode": "01103",
+                    "countryName": "Україна",
+                    "streetAddress": "бул.Дружби Народів, 8-А",
+                    "region": "Київська область",
+                    "locality": "м.Київ"
+                },
+                "contactPoint": {
+                    "telephone": "(067) 657-00-26",
+                    "name": "Оксана Лой",
+                    "email": "loy@rozetka.com.ua"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "37193071",
+                    "legalName": "Товариство з обмеженою відповідальністю «РОЗЕТКА.УА»"
+                },
+                "id": "UA-EDR-37193071"
+            },
+            {
+                "status": "active",
+                "scale": "sme",
+                "name": "Товариство з обмеженою відповідальністю «Діавестенд комплексні рішення»",
+                "address": {
+                    "postalCode": "08130",
+                    "countryName": "Україна",
+                    "streetAddress": "вул.Авіаторів, 62",
+                    "region": "Київська область",
+                    "locality": "с.Петропавлівська Борщагівка"
+                },
+                "contactPoint": {
+                    "telephone": "(068) 960-45-30",
+                    "name": "Інна Саврук",
+                    "email": "sales@diawest.com"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "30256061",
+                    "legalName": "Товариство з обмеженою відповідальністю «Діавестенд комплексні рішення»"
+                },
+                "id": "UA-EDR-30256061"
+            },
+            {
+                "status": "active",
+                "scale": "sme",
+                "name": "Товариство з обмеженою відповідальністю «Інфотрейд»",
+                "address": {
+                    "postalCode": "01042",
+                    "countryName": "Україна",
+                    "streetAddress": "вул.Патріса Лумумби, 19",
+                    "region": "Київська область",
+                    "locality": "м.Київ"
+                },
+                "contactPoint": {
+                    "telephone": "(050) 998-96-18",
+                    "name": "Галина Мартынюк",
+                    "email": "galina.martynuk@infotrade.com.ua"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "30969602",
+                    "legalName": "Товариство з обмеженою відповідальністю «Інфотрейд»"
+                },
+                "id": "UA-EDR-30969602"
+            },
+            {
+                "status": "active",
+                "scale": "micro",
+                "name": "Товариство з обмеженою відповідальністю «ЗЕТА-ТЕХНО»",
+                "address": {
+                    "postalCode": "04080",
+                    "countryName": "Україна",
+                    "streetAddress": "вул.Кирилівська, 40",
+                    "region": "Київська область",
+                    "locality": "м.Київ"
+                },
+                "contactPoint": {
+                    "telephone": "(095) 573-26-26",
+                    "name": "Алла Сулиманова",
+                    "email": "alla@zeta.kiev.ua"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "40218897",
+                    "legalName": "Товариство з обмеженою відповідальністю «ЗЕТА-ТЕХНО»"
+                },
+                "id": "UA-EDR-40218897"
+            },
+            {
+                "status": "active",
+                "scale": "mid",
+                "name": "Товариство з обмеженою відповідальністю «Український папір»",
+                "address": {
+                    "postalCode": "04073",
+                    "countryName": "Україна",
+                    "streetAddress": "пров.Куренівський, 2-Б",
+                    "region": "Київська область",
+                    "locality": "м.Київ"
+                },
+                "contactPoint": {
+                    "telephone": "(097) 674-20-82",
+                    "name": "Ліщук Оксана Василівна",
+                    "email": "tender_ukrpapir@ukr.net"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "25394112",
+                    "legalName": "Товариство з обмеженою відповідальністю «Український папір»"
+                },
+                "id": "UA-EDR-25394112"
+            },
+            {
+                "status": "active",
+                "scale": "mid",
+                "name": "Товариство з обмеженою відповідальністю ДІСТРІ ІНВАЙТ ІТ",
+                "address": {
+                    "postalCode": "04116",
+                    "countryName": "Україна",
+                    "streetAddress": "вул.Старокиївська, 8/12",
+                    "region": "м. Київ",
+                    "locality": "м.Київ"
+                },
+                "contactPoint": {
+                    "telephone": "(093) 452-84-08",
+                    "name": "Олександр Піонтковський",
+                    "email": "Alex.Piontkovskiy@distriinviteit.com.ua"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "40955533",
+                    "legalName": "Товариство з обмеженою відповідальністю ДІСТРІ ІНВАЙТ ІТ"
+                },
+                "id": "UA-EDR-40955533"
+            },
+            {
+                "status": "active",
+                "scale": "sme",
+                "name": "Товариство з обмеженою відповідальністю «ТРОДАТ УКРАИНА»",
+                "address": {
+                    "postalCode": "01032",
+                    "countryName": "Україна",
+                    "streetAddress": "вул.Комінтерну, 30",
+                    "region": "м. Київ",
+                    "locality": "м.Київ"
+                },
+                "contactPoint": {
+                    "telephone": "(067) 403-67-04",
+                    "name": "Олександра Яковлева",
+                    "email": "yakovleva@trodat.kiev.ua"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "30652855",
+                    "legalName": "Товариство з обмеженою відповідальністю «ТРОДАТ УКРАИНА»"
+                },
+                "id": "UA-EDR-30652855"
+            },
+            {
+                "status": "active",
+                "scale": "micro",
+                "name": "Товариство з обмеженою відповідальністю «ВАШ АВТОГРАФ»",
+                "address": {
+                    "postalCode": "01001",
+                    "countryName": "Україна",
+                    "streetAddress": "вул.Грушевського, 4-Б, оф.52",
+                    "region": "м. Київ",
+                    "locality": "м.Київ"
+                },
+                "contactPoint": {
+                    "telephone": "(044) 207-47-20",
+                    "name": "Любіна Наталія Миколаївна",
+                    "email": "lim.va@ukr.net"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "38703681",
+                    "legalName": "Товариство з обмеженою відповідальністю «ВАШ АВТОГРАФ»"
+                },
+                "id": "UA-EDR-38703681"
+            },
+            {
+                "status": "active",
+                "scale": "sme",
+                "name": "Товариство з обмеженою відповідальністю «ТОРНАДО»",
+                "address": {
+                    "postalCode": "40030",
+                    "countryName": "Україна",
+                    "streetAddress": "вул Горького, 26",
+                    "region": "Сумська область",
+                    "locality": "м.Суми"
+                },
+                "contactPoint": {
+                    "telephone": "(050) 970-15-23",
+                    "name": "Олена Петровська",
+                    "email": "elena.tornado@ukr.net"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "30561234",
+                    "legalName": "Товариство з обмеженою відповідальністю «ТОРНАДО»"
+                },
+                "id": "UA-EDR-30561234"
+            },
+            {
+                "status": "active",
+                "scale": "micro",
+                "name": "Товариство з обмеженою відповідальністю «Сервіс-імперіал»",
+                "address": {
+                    "postalCode": "03118",
+                    "countryName": "Україна",
+                    "streetAddress": "вул.Гвардійська, 87-А",
+                    "region": "м. Київ",
+                    "locality": "м.Київ"
+                },
+                "contactPoint": {
+                    "telephone": "(067) 402-61-68",
+                    "name": "Огрудков Сергій Іванович",
+                    "email": "service-i@outlook.com"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "41424580",
+                    "legalName": "Товариство з обмеженою відповідальністю «Сервіс-імперіал»"
+                },
+                "id": "UA-EDR-41424580"
+            },
+            {
+                "status": "active",
+                "scale": "sme",
+                "name": "Товариство з обмеженою відповідальністю  «АРКУШ ТРЕЙДИНГ»",
+                "address": {
+                    "postalCode": "03037",
+                    "countryName": "Україна",
+                    "streetAddress": "просп. В.Лобановського, 4-Ж, кв. 114",
+                    "region": "м. Київ",
+                    "locality": "м.Київ"
+                },
+                "contactPoint": {
+                    "telephone": "(063) 851-60-62",
+                    "name": "Наталия Луковникова",
+                    "email": "lukovnikovan5@gmail.com"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "40949231",
+                    "legalName": "Товариство з обмеженою відповідальністю  «АРКУШ ТРЕЙДИНГ»"
+                },
+                "id": "UA-EDR-40949231"
+            },
+            {
+                "status": "active",
+                "scale": "micro",
+                "name": "Фізична особа підприємець Слободянюк Сергій Григорович",
+                "address": {
+                    "postalCode": "03037",
+                    "countryName": "Україна",
+                    "streetAddress": "просп. Валерія Лобановського, 5-А, кв. 93",
+                    "region": "м. Київ",
+                    "locality": "м. Київ"
+                },
+                "contactPoint": {
+                    "telephone": "(050) 334-54-34",
+                    "name": "Слободянюк Сергій Григорович",
+                    "email": "slobod1975@gmail.com"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "2761512354",
+                    "legalName": "Фізична особа підприємець Слободянюк Сергій Григорович"
+                },
+                "id": "UA-EDR-2761512354"
+            },
+            {
+                "status": "active",
+                "scale": "micro",
+                "name": "Товариство з обмеженою відповідальністю «Тонар»",
+                "address": {
+                    "postalCode": "03037",
+                    "countryName": "Україна",
+                    "streetAddress": "просп. Валерія Лобановського, 5-А",
+                    "region": "м. Київ",
+                    "locality": "м. Київ"
+                },
+                "contactPoint": {
+                    "telephone": "(044) 249-80-65",
+                    "name": "Слободянюк Сергій Григорович",
+                    "email": "tonar2007@bigmir.net"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "13679269",
+                    "legalName": "Товариство з обмеженою відповідальністю «Тонар»"
+                },
+                "id": "UA-EDR-13679269"
+            },
+            {
+                "status": "active",
+                "scale": "sme",
+                "name": "Товариство з обмеженою відповідальністю «ВИЛАЙН ГРУП»",
+                "address": {
+                    "postalCode": "65007",
+                    "countryName": "Україна",
+                    "streetAddress": "вул. Старопортофранківська, буд.117",
+                    "region": "Одеська область",
+                    "locality": "м. Одеса"
+                },
+                "contactPoint": {
+                    "telephone": "(067) 488-34-55",
+                    "name": "Чернишев Олександр Васильович",
+                    "email": "op5@klyaksa.biz"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "38295925",
+                    "legalName": "Товариство з обмеженою відповідальністю «ВИЛАЙН  ГРУП»"
+                },
+                "id": "UA-EDR-38295925"
+            },
+            {
+                "status": "active",
+                "scale": "sme",
+                "name": "Товариство з обмеженою відповідальністю «ДМД-СЕРВІС»",
+                "address": {
+                    "postalCode": "61037",
+                    "countryName": "Україна",
+                    "streetAddress": "вул.Балашовська, 6",
+                    "region": "Харківська область",
+                    "locality": "м.Харків"
+                },
+                "contactPoint": {
+                    "telephone": "(057) 784-05-29",
+                    "name": "Іващенко Олег Валерійович",
+                    "email": "dmd-service@ukr.net"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "31939411",
+                    "legalName": "Товариство з обмеженою відповідальністю «ДМД-СЕРВІС»"
+                },
+                "id": "UA-EDR-31939411"
+            },
+            {
+                "status": "active",
+                "scale": "mid",
+                "name": "Товариство з обмеженою відповідальністю «Техноюг»",
+                "address": {
+                    "postalCode": "65020",
+                    "countryName": "Україна",
+                    "streetAddress": "вул. Льва Толстого, 30",
+                    "region": "Одеська область",
+                    "locality": "м.Одеса"
+                },
+                "contactPoint": {
+                    "telephone": "(050) 644-10-77",
+                    "name": "Моісєєва Єлізавета Миколаївна",
+                    "email": "moiseeva.e@tu.odessa.ua"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "23863399",
+                    "legalName": "Товариство з обмеженою відповідальністю «Техноюг»"
+                },
+                "id": "UA-EDR-23863399"
+            },
+            {
+                "scale": "mid",
+                "contactPoint": {
+                    "name": "Демянович М.М",
+                    "telephone": "+380661401133"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "2920707533",
+                    "legalName": "Демянович Микола Миколайович"
+                },
+                "name": "Демянович Микола Миколайович",
+                "address": {
+                    "postalCode": "27100",
+                    "countryName": "Україна",
+                    "streetAddress": "вул. Ломоносова, 7",
+                    "region": "Кіровоградська область",
+                    "locality": "місто Новоукраїнка"
+                }
+            }
+        ],
+        "tenderID": "UA-2020-05-27-000035",
+        "criteria": [{
+                "requirementGroups": [{
+                    "requirements": [{
+                        "dataType": "string",
+                        "id": "801157-0001-001-01",
+                        "expectedValue": "А4 (210х297 мм)",
+                        "title": "Формат паперу"
+                    }],
+                    "id": "801157-0001-001",
+                    "description": "Формат паперу А4 (210х297 мм)"
+                }],
+                "description": "Формат паперу",
+                "id": "801157-0001",
+                "title": "Формат паперу"
+            },
+            {
+                "requirementGroups": [{
+                    "requirements": [{
+                        "dataType": "integer",
+                        "expectedValue": "80",
+                        "id": "801157-0002-001-01",
+                        "unit": {
+                            "code": "GM",
+                            "name": "г/м²"
+                        },
+                        "title": "Щільність аркуша"
+                    }],
+                    "id": "801157-0002-001",
+                    "description": "Щільність аркуша 80 гр/м²"
+                }],
+                "description": "Щільність аркуша",
+                "id": "801157-0002",
+                "title": "Щільність аркуша"
+            },
+            {
+                "requirementGroups": [{
+                    "requirements": [{
+                        "dataType": "integer",
+                        "minValue": "105",
+                        "id": "801157-0003-001-01",
+                        "unit": {
+                            "code": "4H",
+                            "name": "мкм"
+                        },
+                        "title": "Товщина аркуша"
+                    }],
+                    "id": "801157-0003-001",
+                    "description": "Товщина аркуша, не менше 100 мкм"
+                }],
+                "description": "Товщина аркуша",
+                "id": "801157-0003",
+                "title": "Товщина аркуша"
+            },
+            {
+                "requirementGroups": [{
+                    "requirements": [{
+                        "dataType": "integer",
+                        "minValue": "92",
+                        "id": "801157-0004-001-01",
+                        "unit": {
+                            "code": "P1",
+                            "name": "%"
+                        },
+                        "title": "Непрозорість паперу"
+                    }],
+                    "id": "801157-0004-001",
+                    "description": "Непрозорість паперу, не менше 92%"
+                }],
+                "description": "Непрозорість паперу",
+                "id": "801157-0004",
+                "title": "Непрозорість паперу"
+            },
+            {
+                "requirementGroups": [{
+                    "requirements": [{
+                        "dataType": "integer",
+                        "expectedValue": "500",
+                        "id": "801157-0005-001-01",
+                        "unit": {
+                            "code": "Н87",
+                            "name": "штуки"
+                        },
+                        "title": "Кількість аркушів в пачці"
+                    }],
+                    "id": "801157-0005-001",
+                    "description": "Кількість аркушів в пачці 500 шт."
+                }],
+                "description": "Кількість аркушів в пачці",
+                "id": "801157-0005",
+                "title": "Кількість аркушів в пачці"
+            },
+            {
+                "requirementGroups": [
+                    {
+                    "requirements": [{
+                        "dataType": "string",
+                        "id": "801157-0006-001-01",
+                        "expectedValue": "білий",
+                        "title": "Колір паперу"
+                    }],
+                    "id": "801157-0006-001",
+                    "description": "Колір паперу білий"
+                }
+                ],
+                "description": "Колір паперу",
+                "id": "801157-0006",
+                "title": "Колір паперу"
+            },
+            {
+                "requirementGroups": [{
+                    "requirements": [{
+                        "dataType": "integer",
+                        "minValue": "161",
+                        "id": "801157-0007-001-01",
+                        "unit": {
+                            "code": "P1",
+                            "name": "%"
+                        },
+                        "title": "Білизна аркуша"
+                    }],
+                    "id": "801157-0007-001",
+                    "description": "Білизна аркуша CIE, не менше 161%"
+                }],
+                "description": "Білизна аркуша",
+                "id": "801157-0007",
+                "title": "Білизна аркуша"
+            },
+            {
+                "requirementGroups": [{
+                    "requirements": [{
+                        "dataType": "integer",
+                        "minValue": "101",
+                        "id": "801157-0008-001-01",
+                        "unit": {
+                            "code": "P1",
+                            "name": "%"
+                        },
+                        "title": "Яскравість аркуша"
+                    }],
+                    "id": "801157-0008-001",
+                    "description": "Яскравість аркуша, не менше 101%"
+                }],
+                "description": "Яскравість аркуша",
+                "id": "801157-0008",
+                "title": "Яскравість аркуша"
+            }
+        ],
+        "dateModified": "2020-05-27T11:32:53.095104+03:00",
+        "status": "active.awarded",
+        "tenderPeriod": {
+            "startDate": "2020-05-27T11:28:43.157509+03:00",
+            "endDate": "2020-05-27T11:31:41.253069+03:00"
+        },
+        "contracts": [{
+            "status": "pending",
+            "items": [{
+                "description": "Папір білий для принтера А4",
+                "classification": {
+                    "scheme": "ДК021",
+                    "description": "Офісне устаткування та приладдя різне",
+                    "id": "30190000-7"
+                },
+                "additionalClassifications": [{
+                    "scheme": "INN",
+                    "id": "17.21.1",
+                    "description": "папір і картон гофровані, паперова й картонна тара"
+                }],
+                "deliveryAddress": {
+                    "postalCode": "27100",
+                    "countryName": "Україна",
+                    "streetAddress": "пров. Лікарняний, 1",
+                    "region": "Кіровоградська область",
+                    "locality": "м. Новоукраїнка"
+                },
+                "deliveryDate": {
+                    "startDate": "2020-05-29T11:28:41.253069+03:00",
+                    "endDate": "2020-06-01T11:28:41.253069+03:00"
+                },
+                "id": "8226203152d4403f92c567812877a507",
+                "unit": {
+                    "code": "RM",
+                    "name": "пачка"
+                },
+                "quantity": 25
+            }],
+            "suppliers": [{
+                "scale": "mid",
+                "contactPoint": {
+                    "name": "Демянович М.М",
+                    "telephone": "+380661401133"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "2920707533",
+                    "legalName": "Демянович Микола Миколайович"
+                },
+                "name": "Демянович Микола Миколайович",
+                "address": {
+                    "postalCode": "27100",
+                    "countryName": "Україна",
+                    "streetAddress": "вул. Ломоносова, 7",
+                    "region": "Кіровоградська область",
+                    "locality": "місто Новоукраїнка"
+                }
+            }],
+            "value": {
+                "currency": "UAH",
+                "amount": 2500,
+                "amountNet": 2500,
+                "valueAddedTaxIncluded": true
+            },
+            "date": "2020-05-27T11:32:53.080051+03:00",
+            "awardID": "a374119f2e984059bf8902099b63f3d8",
+            "id": "5591946414fd4a239e583aa9bfa10f83",
+            "contractID": "UA-2020-05-27-000035-1"
+        }],
+        "procurementMethodDetails": "quick, accelerator=1440",
+        "procurementMethodType": "priceQuotation",
+        "awards": [{
+            "status": "active",
+            "suppliers": [{
+                "scale": "mid",
+                "contactPoint": {
+                    "name": "Демянович М.М",
+                    "telephone": "+380661401133"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "2920707533",
+                    "legalName": "Демянович Микола Миколайович"
+                },
+                "name": "Демянович Микола Миколайович",
+                "address": {
+                    "postalCode": "27100",
+                    "countryName": "Україна",
+                    "streetAddress": "вул. Ломоносова, 7",
+                    "region": "Кіровоградська область",
+                    "locality": "місто Новоукраїнка"
+                }
+            }],
+            "bid_id": "58da17a74e18463c85c6198629e5f825",
+            "value": {
+                "currency": "UAH",
+                "amount": 2500,
+                "valueAddedTaxIncluded": true
+            },
+            "date": "2020-05-27T11:32:53.095104+03:00",
+            "id": "a374119f2e984059bf8902099b63f3d8"
+        }],
+        "date": "2020-05-27T11:32:53.095104+03:00",
+        "numberOfBids": 1,
+        "items": [{
+            "description": "Папір білий для принтера А4",
+            "classification": {
+                "scheme": "ДК021",
+                "description": "Офісне устаткування та приладдя різне",
+                "id": "30190000-7"
+            },
+            "additionalClassifications": [{
+                "scheme": "INN",
+                "id": "17.21.1",
+                "description": "папір і картон гофровані, паперова й картонна тара"
+            }],
+            "deliveryAddress": {
+                "postalCode": "27100",
+                "countryName": "Україна",
+                "streetAddress": "пров. Лікарняний, 1",
+                "region": "Кіровоградська область",
+                "locality": "м. Новоукраїнка"
+            },
+            "deliveryDate": {
+                "startDate": "2020-05-29T11:28:41.253069+03:00",
+                "endDate": "2020-06-01T11:28:41.253069+03:00"
+            },
+            "id": "8226203152d4403f92c567812877a507",
+            "unit": {
+                "code": "RM",
+                "name": "пачка"
+            },
+            "quantity": 25
+        }],
+        "bids": [{
+            "status": "active",
+            "value": {
+                "currency": "UAH",
+                "amount": 2500,
+                "valueAddedTaxIncluded": true
+            },
+            "requirementResponses": [{
+                    "requirement": {
+                        "id": "801157-0001-001-01"
+                    },
+                    "id": "26e1c42912154669ae49f39b5c345efd",
+                    "value": "А4 (210х297 мм)"
+                },
+                {
+                    "requirement": {
+                        "id": "801157-0002-001-01"
+                    },
+                    "id": "302e6cb7997f4dbf9c15b644d3971483",
+                    "value": "80"
+                },
+                {
+                    "requirement": {
+                        "id": "801157-0003-001-01"
+                    },
+                    "id": "4994708d65544cd5969a5508bb937c45",
+                    "value": "105"
+                },
+                {
+                    "requirement": {
+                        "id": "801157-0004-001-01"
+                    },
+                    "id": "8e1c07e0db244be3b131d094884d4339",
+                    "value": "95"
+                },
+                {
+                    "requirement": {
+                        "id": "801157-0005-001-01"
+                    },
+                    "id": "5127597929084669b99ec66fcdcf6e16",
+                    "value": "500"
+                },
+                {
+                    "requirement": {
+                        "id": "801157-0006-001-01"
+                    },
+                    "id": "9f2155f3f64d43949c862b051a968be0",
+                    "value": "білий"
+                },
+                {
+                    "requirement": {
+                        "id": "801157-0007-001-01"
+                    },
+                    "id": "d3af3ff4522543f197b15de89b57abe7",
+                    "value": "170"
+                },
+                {
+                    "requirement": {
+                        "id": "801157-0008-001-01"
+                    },
+                    "id": "95d531f3504548dfac7c2cbedaa9951e",
+                    "value": "110"
+                }
+            ],
+            "tenderers": [{
+                "scale": "mid",
+                "contactPoint": {
+                    "name": "Демянович М.М",
+                    "telephone": "+380661401133"
+                },
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "2920707533",
+                    "legalName": "Демянович Микола Миколайович"
+                },
+                "name": "Демянович Микола Миколайович",
+                "address": {
+                    "postalCode": "27100",
+                    "countryName": "Україна",
+                    "streetAddress": "вул. Ломоносова, 7",
+                    "region": "Кіровоградська область",
+                    "locality": "місто Новоукраїнка"
+                }
+            }],
+            "date": "2020-05-27T11:28:47.684025+03:00",
+            "id": "58da17a74e18463c85c6198629e5f825"
+        }],
+        "value": {
+            "currency": "UAH",
+            "amount": 2500,
+            "valueAddedTaxIncluded": true
+        },
+        "awardCriteria": "lowestCost"
+    },
+    "contract": {
+        "status": "active",
+        "items": [{
+            "description": "Папір білий для принтера А4",
+            "classification": {
+                "scheme": "ДК021",
+                "description": "Офісне устаткування та приладдя різне",
+                "id": "30190000-7"
+            },
+            "additionalClassifications": [{
+                "scheme": "INN",
+                "id": "17.21.1",
+                "description": "папір і картон гофровані, паперова й картонна тара"
+            }],
+            "deliveryAddress": {
+                "postalCode": "27100",
+                "countryName": "Україна",
+                "streetAddress": "пров. Лікарняний, 1",
+                "region": "Кіровоградська область",
+                "locality": "м. Новоукраїнка"
+            },
+            "deliveryDate": {
+                "startDate": "2020-05-29T11:28:41.253069+03:00",
+                "endDate": "2020-06-01T11:28:41.253069+03:00"
+            },
+            "id": "8226203152d4403f92c567812877a507",
+            "unit": {
+                "code": "RM",
+                "name": "пачка"
+            },
+            "quantity": 25
+        }],
+        "contractNumber": "261",
+        "dateSigned": "2020-05-08T12:30:00+03:00",
+        "period": {
+            "startDate": "2020-05-08T00:00:00+03:00",
+            "endDate": "2020-12-31T00:00:00+02:00"
+        },
+        "suppliers": [{
+            "scale": "mid",
+            "contactPoint": {
+                "name": "Демянович М.М",
+                "telephone": "+380661401133"
+            },
+            "identifier": {
+                "scheme": "UA-EDR",
+                "id": "2920707533",
+                "legalName": "Демянович Микола Миколайович"
+            },
+            "name": "Демянович Микола Миколайович",
+            "address": {
+                "postalCode": "27100",
+                "countryName": "Україна",
+                "streetAddress": "вул. Ломоносова, 7",
+                "region": "Кіровоградська область",
+                "locality": "місто Новоукраїнка"
+            }
+        }],
+        "value": {
+            "currency": "UAH",
+            "amount": 2500,
+            "valueAddedTaxIncluded": true
+        },
+        "date": "2020-05-27T11:32:53.080051+03:00",
+        "awardID": "a374119f2e984059bf8902099b63f3d8",
+        "id": "5591946414fd4a239e583aa9bfa10f83",
+        "contractID": "UA-2020-05-27-000035-1"
+    },
+    "bid": {
+        "status": "active",
+        "value": {
+            "currency": "UAH",
+            "amount": 2500,
+            "valueAddedTaxIncluded": true
+        },
+        "requirementResponses": [{
+                "requirement": {
+                    "id": "801157-0001-001-01"
+                },
+                "id": "26e1c42912154669ae49f39b5c345efd",
+                "value": "А4 (210х297 мм)"
+            },
+            {
+                "requirement": {
+                    "id": "801157-0002-001-01"
+                },
+                "id": "302e6cb7997f4dbf9c15b644d3971483",
+                "value": "80"
+            },
+            {
+                "requirement": {
+                    "id": "801157-0003-001-01"
+                },
+                "id": "4994708d65544cd5969a5508bb937c45",
+                "value": "105"
+            },
+            {
+                "requirement": {
+                    "id": "801157-0004-001-01"
+                },
+                "id": "8e1c07e0db244be3b131d094884d4339",
+                "value": "95"
+            },
+            {
+                "requirement": {
+                    "id": "801157-0005-001-01"
+                },
+                "id": "5127597929084669b99ec66fcdcf6e16",
+                "value": "500"
+            },
+            {
+                "requirement": {
+                    "id": "801157-0006-001-01"
+                },
+                "id": "9f2155f3f64d43949c862b051a968be0",
+                "value": "білий"
+            },
+            {
+                "requirement": {
+                    "id": "801157-0007-001-01"
+                },
+                "id": "d3af3ff4522543f197b15de89b57abe7",
+                "value": "170"
+            },
+            {
+                "requirement": {
+                    "id": "801157-0008-001-01"
+                },
+                "id": "95d531f3504548dfac7c2cbedaa9951e",
+                "value": "110"
+            }
+        ],
+        "tenderers": [{
+            "scale": "mid",
+            "contactPoint": {
+                "name": "Демянович М.М",
+                "telephone": "+380661401133"
+            },
+            "identifier": {
+                "scheme": "UA-EDR",
+                "id": "2920707533",
+                "legalName": "Демянович Микола Миколайович"
+            },
+            "name": "Демянович Микола Миколайович",
+            "address": {
+                "postalCode": "27100",
+                "countryName": "Україна",
+                "streetAddress": "вул. Ломоносова, 7",
+                "region": "Кіровоградська область",
+                "locality": "місто Новоукраїнка"
+            }
+        }],
+        "date": "2020-05-27T11:28:47.684025+03:00",
+        "id": "58da17a74e18463c85c6198629e5f825"
+    },
+    "buyer": {
+        "bankAccount": {
+            "accountIdentification": [
+                {
+                    "scheme": "IBAN",
+                    "id": "UA843235830000026002052930338"
+                }
+            ]
+        },
+        "signatory": {
+            "name": "Фортинська Валентина Володимирівна",
+            "genetiveName": "Фортинської Валентини Володимирівної",
+            "position": "головний лікар",
+            "genetivePosition": "головного лікаря",
+            "authorityDocument": "наказ №123 від 10.10.2010р.",
+            "genetiveAuthorityDocument": "наказу №123 від 10.10.2010р."
+        },
+        "taxationMode": "звільненого від сплати ПДВ"
+    },
+    "supplier": {
+        "bankAccount": {
+            "accountIdentification": [
+                {
+                    "scheme": "IBAN",
+                    "id": "UA843235830000026001052902709"
+                }
+            ]
+        },
+        "signatory": {
+            "name": "Демянович Микола Миколайович",
+            "genetiveName": "Демяновича Миколи Миколайовича",
+            "position": "директор",
+            "genetivePosition": "директора",
+            "authorityDocument": "свідоцтво № 518622 про державну реєстрацію суб’єкта підприємницької діяльності, виданого виконкомом Новоукраїнської міської ради м.Новоукраїнки",
+            "genetiveAuthorityDocument": "свідоцтва № 518622 про державну реєстрацію суб’єкта підприємницької діяльності, виданого виконкомом Новоукраїнської міської ради м.Новоукраїнки"
+        },
+        "taxationMode": "звільненого від сплати ПДВ"
+    }
+}
