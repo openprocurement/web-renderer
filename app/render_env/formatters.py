@@ -3,6 +3,7 @@ from app.render_env.filters import (common_classification, common_classification
                                             common_classification_description, convert_amount_to_words,
                                             format_date, to_float, to_space_separated_float,
                                             to_space_separated_int, jmespath_filter,
+                                            default_filter,
                                             )
 
 class TemplateFormatter:
@@ -45,6 +46,10 @@ class TemplateFormatter:
     def json_query(cls, data, search_string):
         return jmespath_filter(data, search_string)
 
+    @classmethod 
+    def default(cls, data, default_value):
+        return default_filter(data, default_value)
+        
     @classmethod
     def __get_method__(cls, method_name):
         return getattr(cls, method_name)

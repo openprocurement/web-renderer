@@ -105,3 +105,26 @@ class TestDataFilters(BaseTest):
 
         # Check  results
         self.assertEqual(contract_supplier_id, response_document_content)
+
+
+    def test_default_filter(self):
+        # Form data
+        default_value = "new"
+        docx_document, docx_storage_object = create_one_pargraph_docx(f'{{{{ contract.supplier.new | default ("{default_value}")}}}}')
+        # Post data
+        response = self.app.post(
+            "/",
+            data={"template": docx_storage_object,
+                  'json_data': json.dumps(test_json_data)},
+            content_type="multipart/form-data",
+            follow_redirects=True,
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/pdf")
+
+        # Process response pdf document and extract the content
+        response_document_path, response_document_content = process_response_document(
+            response)
+
+        # Check  results
+        self.assertEqual(default_value, response_document_content)

@@ -7,6 +7,7 @@ from num2words import num2words
 
 from app import app
 from app.utils.cpv import ClassificationTree
+from app.render_env.utils import is_undefined
 
 CPVTree = ClassificationTree()
 
@@ -162,3 +163,11 @@ def jmespath_filter(data, json_query_string):
         json_query_string - jmespath search string
     """
     return jmespath.search(json_query_string, data)
+
+def default_filter(var, default=''):
+    """
+    An utility for returning the default value.
+    """
+    if is_undefined(var) or var == "":
+        return default
+    return var

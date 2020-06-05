@@ -1,3 +1,6 @@
+import re
+from jinja2.runtime import Undefined
+
 from app.exceptions import UndefinedVariableJinja
 
 # Error utils:
@@ -17,3 +20,10 @@ def process_jinja_undefined_var_error(docx_template, error):
         "possible_locations": docx_template.search(undefined_value)
     }
     raise UndefinedVariableJinja(error_message)
+
+
+def is_undefined(obj):
+    """
+    Check if the passed object is undefined.
+    """
+    return isinstance(obj, Undefined)
