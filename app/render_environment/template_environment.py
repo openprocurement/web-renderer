@@ -112,6 +112,14 @@ class DocxTemplateLocal(DocxTemplate):
         self.template_file.full_name = full_name
 
     @property
+    def name(self):
+        return self.template_file.name
+
+    @full_name.setter
+    def full_name(self, name):
+        self.template_file.name = name
+
+    @property
     def extension(self):
         return self.template_file.extension
 

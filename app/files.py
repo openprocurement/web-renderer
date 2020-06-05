@@ -107,6 +107,15 @@ class File(BaseFile):
         return self.__full_name
 
     @property
+    def input_name(self):
+        self.__input_name = self.template_type + "." + self.extension
+        return self.__input_name
+
+    @input_name.setter
+    def input_name(self, input_name):
+        self.__input_name = input_name
+
+    @property
     def path(self):
         self.__path = Config.UPLOAD_FOLDER + \
             self.full_name
@@ -179,7 +188,7 @@ class GeneratedFile(File):
         """
             The class method for creating GeneratedFile obj from only file_name.
         """
-        timestamp, uuid = file_name.split(template_type)[1].split("_")[1:]
+        template_type, timestamp, uuid = file_name.split('_')
         return cls(timestamp=timestamp, uuid=uuid, template_type=template_type, extension=extension)
 
 
@@ -252,15 +261,23 @@ class PdfFile(File):
 class AttachmentFile(File):
     """
         File class that is used for attachments.
+        Attachment is already rendered file with the exact name.   
     """
 
-    def __init__(self, full_name, read_method):
-        self.name = full_name.split('.')[0]
-        self.extension = full_name.split('.')[1]
+    def __init__(self, full_name, read_method, change_name=None):
         self.read_method = read_method
+        self.form_values(full_name, change_name)
         super().__init__(name=self.name, extension=self.extension, read_method=self.read_method)
         self.read()
 
+    def form_values(self, full_name, change_name):
+        """
+            Template full file name is formed as "template_type _ timestamp _ uuid . extension".
+            To form an attachment, extract them.
+        """
+        self.name = "_" + full_name.split('.')[0] if change_name else full_name.split('.')[0]
+        self.extension = full_name.split('.')[-1]
+        self.template_type = full_name.split('_')[0]
 
 class DocxFile:
     """
