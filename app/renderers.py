@@ -6,7 +6,7 @@ from copy import deepcopy
 
 from flask import Flask
 from app import app
-from app.render_environment.template_environment import (
+from app.render_env.templates import (
     DocxTemplateLocal as DocxTemplate,
 )
 from app.utils.utils import (
@@ -62,7 +62,7 @@ class DocxToPDFRenderer(ObjectRenderer):
 
 
     def render_to_docx(self):
-        self.docx_template.render_document(self.json.data)
+        self.docx_template.render(self.json.data)
         self.docx_template.save()
         if FileManager.does_file_exists(self.docx_template.full_path):
             app.logger.info('Template is rendered to docx.')

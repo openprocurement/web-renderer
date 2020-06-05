@@ -6,7 +6,7 @@ from config import Config
 from .base import (
     test_json_data,
 )
-from app.render_environment.template_utils import (common_classification, common_classification_code,
+from app.render_env.utils import (common_classification, common_classification_code,
                                                    common_classification_description)
 from app.files import (
     FileStorageObject,

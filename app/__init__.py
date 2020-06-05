@@ -18,8 +18,8 @@ from app import models
 from app import handlers
 from app import exceptions
 from app import utils
-from app import render_environment
-from app.render_environment.template_environment import JinjaEnvironment
+from app import render_env
+from app.render_env.env import JinjaEnvironment
 app.jinja_env_obj = JinjaEnvironment()
 
 @app.template_filter()
