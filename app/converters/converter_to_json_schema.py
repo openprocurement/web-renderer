@@ -7,9 +7,12 @@ from app.constants import (
     RegexConstants,
 )
 from app.utils.utils import (
-    Regex,
-    JSONListGeneratorContextManager,
+    remove_prefix,
+    does_strings_matches_regex,
     setdefaultattr,
+)
+from app.utils.context_managers import(
+    JSONListGeneratorContextManager,
 )
 
 HIDE_EMPTY_FIELDS = 0
@@ -29,7 +32,7 @@ class HTMLToJSONSchemaConverter:
 
     def find_all_fields(self, tags_to_find):
         """
-            The function for finding all tags that match regex.
+            The function for finding all tags that match 
             Input:
                 - tags_to_find - list of touples: [("tag","tag_regex"), ...]
             Output:
@@ -108,7 +111,7 @@ class HTMLToJSONSchemaConverter:
                 return
             else:
                 current = self.change_loop_items_name(decorator, current, tree)
-                if not Regex.does_strings_matches_regex(HTMLToJSONSchemaConverter.BLACK_LIST_VARIABLES, current):
+                if not does_strings_matches_regex(HTMLToJSONSchemaConverter.BLACK_LIST_VARIABLES, current):
                     tree.append(current)
                     #TODO add compatibility to other fields except String.
                     self.set_json_value(json_tree, current, StringField)
@@ -139,7 +142,7 @@ class HTMLToJSONSchemaConverter:
         """
         if len(tree) and isinstance(tree[decorator.FOR_LOOP_CONDITION], tuple):
             current = tree[decorator.FOR_LOOP_CONDITION][decorator.FOR_LOOP_ITERATED_LIST]+"." + \
-                Regex.remove_prefix(
+                remove_prefix(
                     tree[decorator.FOR_LOOP_CONDITION][decorator.FOR_LOOP_VARIABLE], current)
         return current
 

@@ -13,7 +13,7 @@ from flask import Flask
 from app import app
 from config import Config
 from app.utils.utils import (
-    FileManager,
+    does_file_exists,
     getNow,
     getUUID,
 )
@@ -138,7 +138,7 @@ class File(BaseFile):
     def save(self):
         if not isinstance(self.storage_object, io.BufferedReader):
             self.storage_object.save(self.full_path)
-        if FileManager.does_file_exists(self.full_path):
+        if does_file_exists(self.full_path):
             app.logger.info('File is saved.')
         else:
             raise DocumentSavingError()
@@ -276,7 +276,7 @@ class AttachmentFile(File):
             To form an attachment, extract them.
         """
         self.name = "_" + full_name.split('.')[0] if change_name else full_name.split('.')[0]
-        self.extension = full_name.split('.')[-1]
+        self.extension = full_name.split('.')[1]
         self.template_type = full_name.split('_')[0]
 
 class DocxFile:

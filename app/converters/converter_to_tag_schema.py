@@ -6,7 +6,7 @@ from app.constants import (
 	RegexConstants,
 )
 from app.utils.utils import (
-	Regex,
+	replace_regex_list,
 )
 
 class BSToJSONConverter:

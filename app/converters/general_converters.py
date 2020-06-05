@@ -12,9 +12,7 @@ from app.files import (
     TemplateFile,
 )
 from app.utils.utils import (
-    FileManager,
-    Regex,
-    FileContextManager,
+    replace_regex_list,
 )
 from config import Config
 
@@ -30,7 +28,7 @@ class DocxToHTMLConverter:
 
     def replace_regexes(self, regexes):
         formatted_html = deepcopy(self.html.value)
-        return Regex.replace_regex_list(formatted_html, regexes)
+        return replace_regex_list(formatted_html, regexes)
 
     @classmethod
     def convert_to_html(cls, template_file):
