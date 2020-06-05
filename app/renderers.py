@@ -10,8 +10,8 @@ from app.render_env.templates import (
     DocxTemplateLocal as DocxTemplate,
 )
 from app.utils.utils import (
-    FileManager,
-    Regex,
+    does_file_exists,
+    replace_regex_list,
 )
 from app.converters.general_converters import(
     DocxToHTMLConverter,
@@ -64,7 +64,7 @@ class DocxToPDFRenderer(ObjectRenderer):
     def render_to_docx(self):
         self.docx_template.render(self.json.data)
         self.docx_template.save()
-        if FileManager.does_file_exists(self.docx_template.full_path):
+        if does_file_exists(self.docx_template.full_path):
             app.logger.info('Template is rendered to docx.')
         else:
             raise DocumentRenderError()
@@ -72,7 +72,7 @@ class DocxToPDFRenderer(ObjectRenderer):
     def render_to_pdf(self):
         self.docx_converter = DocxToPdfConverter(self.docx_template)
         self.generated_pdf = self.docx_converter.pdf_document
-        if FileManager.does_file_exists(self.docx_converter.pdf_document.full_path):
+        if does_file_exists(self.docx_converter.pdf_document.full_path):
             app.logger.info('Template is rendered to pdf')
         else:
             raise DocumentRenderError()
@@ -154,6 +154,7 @@ class DocxToHTMLRenderer(BaseHTMLRenderer):
     def save_html(self):
         self.html_file = HTMLFile('wb', content=self.unicode_html)
         self.html_file.write()
+        self.html_file.close()
         app.logger.info('Template is saved.')
 
     def convert(self):

@@ -4,7 +4,6 @@ from docxtpl import DocxTemplate
 
 from flask import Flask
 from app import app
-from app.utils.utils import ErrorUtils
 from app.files import(
     TemplateFile,
 )
@@ -12,7 +11,10 @@ from app.constants import (
     GeneralConstants,
 )
 from app.utils.utils import (
-    FileManager,
+    is_file_empty,
+)
+from app.render_env.utils import (
+    process_jinja_undefined_var_error,
 )
 
 
@@ -21,7 +23,7 @@ class DocxTemplateLocal(DocxTemplate):
     def __init__(self, template_file :TemplateFile):
         self.template_file = template_file
         super().__init__(self.template_file.full_path)
-        FileManager.is_file_empty(self)
+        is_file_empty(self)
 
     @property
     def full_path(self):
@@ -32,13 +34,17 @@ class DocxTemplateLocal(DocxTemplate):
         self.template_file.full_path = full_path
 
     @property
+    def name(self):
+        return self.template_file.name
+
+    @name.setter
+    def name(self, name):
+        self.template_file.name = name
+
+    @property
     def full_name(self):
         return self.template_file.full_name
-
-    @full_name.setter
-    def full_name(self, full_name):
-        self.template_file.full_name = full_name
-
+        
     @property
     def extension(self):
         return self.template_file.extension
@@ -82,4 +88,4 @@ class DocxTemplateLocal(DocxTemplate):
         try:
             super().render(context, app.jinja_env_obj)
         except jinja2.exceptions.UndefinedError as error:
-            ErrorUtils.process_jinja_undefined_var_error(self, error)
+            process_jinja_undefined_var_error(self, error)

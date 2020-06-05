@@ -6,14 +6,14 @@ from config import Config
 from .base import (
     test_json_data,
 )
-from app.render_env.utils import (common_classification, common_classification_code,
+from app.render_env.filters import (common_classification, common_classification_code,
                                                    common_classification_description)
 from app.files import (
     FileStorageObject,
     DocxFile,
 )
 from app.utils.utils import(
-    FileManager,
+    remove_file,
 )
 
 class TestCommonClassification:
@@ -82,7 +82,7 @@ class TestDataFilters(BaseTest):
     def test_jmespath_filter(self):
         # Creating the docx file with the content
         docx_document = DocxFile(folder=Config.TESTS_TEMP_FOLDER)
-        docx_document.add_paragraph("{{ contract.supplier | json_query ('id')}}")
+        docx_document.add_paragraph("{{ contract.supplier | search ('id')}}")
         docx_document.save()
         contract_supplier_id = test_json_data['contract']['supplier']['id']
 
@@ -116,5 +116,5 @@ class TestDataFilters(BaseTest):
         self.assertEqual(contract_supplier_id, result)
         
         # Remove all files
-        FileManager.remove_file(docx_document.path)
-        FileManager.remove_file(pdf_document_path)
+        remove_file(docx_document.path)
+        remove_file(pdf_document_path)

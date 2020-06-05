@@ -18,8 +18,11 @@ from app.constants import (
     GeneralConstants,
 )
 from app.utils.utils import (
-    FileManager,
-    FileManager,
+    make_temp_folders,
+    remove_temp,
+    remove_all_except_last,
+    is_file_attached,
+    is_data_attached,
     get_checkbox_value,
 )
 from app.forms import(
@@ -32,7 +35,7 @@ from app.files import (
 @app.before_request
 def before_request_func():
     app.logger.info('Request is started')
-    FileManager.make_temp_folders()
+    make_temp_folders()
     app.logger.info('Tempfolder is created')
 
 
@@ -81,24 +84,24 @@ def post():
     form_values = request.form.to_dict(flat=True)
     if "display_template_form" in form_values:
         template_file = request.files.get('template')
-        FileManager.is_file_attached(template_file)
+        is_file_attached(template_file)
         docx_file = TemplateFile(template_file)
         return redirect(url_for('display_template_form', template=docx_file.name))
     elif "get_template_tag_schema" in form_values:
         template_file = request.files.get('template')
-        FileManager.is_file_attached(template_file)
+        is_file_attached(template_file)
         docx_file = TemplateFile(template_file)
         return redirect(url_for('get_template_tag_schema', template=docx_file.name))
     elif "get_template_json_schema" in form_values:
         template_file = request.files.get('template')
-        FileManager.is_file_attached(template_file)
+        is_file_attached(template_file)
         docx_file = TemplateFile(template_file)
         hide_empty_fields = 1 if "hide_empty_fields" in form_values else 0
         return redirect(url_for('get_template_json_schema', template=docx_file.name, hide_empty_fields=hide_empty_fields))
     else:
         template_file = request.files.get('template')
         json_data = request.form.get('json_data')
-        FileManager.does_data_attached(template_file, json_data)
+        is_data_attached(template_file, json_data)
         if "include_attachments" in form_values:
             include_attachments = get_checkbox_value(form_values['include_attachments'])
         else:
@@ -112,8 +115,8 @@ def post():
 
 @app.after_request
 def after_request_func(response):
-    FileManager.remove_all_except_last()
-    FileManager.remove_temp()
+    remove_all_except_last()
+    remove_temp(with_folder=False)
     app.logger.info('Tempfiles are removed')
     app.logger.info('Request is finished')
     return response
@@ -121,5 +124,5 @@ def after_request_func(response):
 
 @app.teardown_request
 def after_all_requests(response):
-    FileManager.remove_temp(True)
+    remove_temp(with_folder=True)
     app.logger.info('Tempfolder is removed')
