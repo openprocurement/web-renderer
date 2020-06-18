@@ -57,14 +57,14 @@ class ObjectRenderer:
 @form_data
 class DocxToPDFRenderer(ObjectRenderer):
 
-    def __init__(self, json=None, template_file=None, include_attachments=None, output_name=None, session_id=None):
+    def __init__(self, json=None, template_file=None, include_attachments=None, document_names=None, session_id=None):
         cls = self.__class__
         self.session_id = session_id
-        self.output_name = output_name
+        self.document_names = document_names
         self.json = JSONFile(name=session_id, read_method='w', data=json, \
-                             output_name=self.output_name)
+                             output_name=self.document_names[cls.CONTRACT_DATA])
         self.template_file = TemplateFile(name=session_id, storage_object=template_file,\
-                                          output_name=self.output_name)
+                                          output_name=self.document_names[cls.CONTRACT_TEMPLATE])
         self.include_attachments = include_attachments
         self.docx_template = DocxTemplate(self.template_file)
         self.render()
@@ -80,7 +80,7 @@ class DocxToPDFRenderer(ObjectRenderer):
 
     def render_to_pdf(self):
         self.pdf_document = DocxToPdfConverter(self.docx_template.template_file,
-                                output_name=self.output_name).pdf_document
+                            output_name=self.document_names[self.__class__.CONTRACT_PROFORMA]).pdf_document
         if does_file_exists(self.pdf_document.full_path):
             app.logger.info('Template is rendered to pdf')
         else:
