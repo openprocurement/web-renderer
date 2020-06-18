@@ -63,10 +63,11 @@ class BaseFile():
 
     def save(self):
         self.storage_object.save()
-
-    def change_mode(self, method):
-        self.method = method
-        self.storage_object = open(self.full_path, self.method)
+    
+    def set_mode(self, read_method):
+        self.read_method = read_method
+        self.close()
+        self.storage_object = open(self.full_path, self.read_method)
 
     def write(self, data):
         self.storage_object.write(data)
@@ -107,17 +108,8 @@ class File(BaseFile):
         return self.__full_name
 
     @property
-    def input_name(self):
-        self.__input_name = self.template_type + "." + self.extension
-        return self.__input_name
-
-    @input_name.setter
-    def input_name(self, input_name):
-        self.__input_name = input_name
-
-    @property
     def path(self):
-        self.__path = Config.UPLOAD_FOLDER + \
+        self.__path = Config.RENDERED_FILES_FOLDER + \
             self.full_name
         return self.__path
 
@@ -127,8 +119,7 @@ class File(BaseFile):
 
     @property
     def full_path(self):
-        self.__full_path = GeneralConstants.UPLOADS_PATH + Config.RENDERED_FILES_FOLDER + \
-            self.full_name
+        self.__full_path = GeneralConstants.UPLOADS_PATH + self.path
         return self.__full_path
 
     @full_path.setter
@@ -147,59 +138,60 @@ class File(BaseFile):
 class GeneratedFile(File):
 
     """
-        File class that provides methods for generating file name, paths.
+        File class with the additional output fields.
 
     """
-
-    def __init__(self, storage_object=None, timestamp=None, uuid=None, read_method='rb', template_type=GeneralConstants.TEMPLATE_PREFIX, extension=None):
+    def __init__(self, name, storage_object=None, read_method='rb', output_name=GeneralConstants.TEMPLATE_PREFIX, extension=None):
         self.storage_object = storage_object
-        self.template_type = template_type
-        self.timestamp = getNow() if timestamp is None else timestamp
-        self.uuid = getUUID() if uuid is None else uuid
+        self.name = name
+        self.output_name = output_name
         self.extension = self.form_file_extension() if extension is None else extension
         self.read_method = read_method
 
     @property
-    def name(self):
-        self.__name = "_".join([self.template_type, self.timestamp, self.uuid])
-        return self.__name
+    def output_name(self):
+        return self.__output_name
+
+    @output_name.setter
+    def output_name(self, output_name):
+        self.__output_name = output_name
 
     @property
-    def template_type(self):
-        return self.__template_type
+    def output_full_name(self):
+        self.__output_full_name = self.output_name + "." + self.extension
+        return self.__output_full_name
 
-    @template_type.setter
-    def template_type(self, template_type):
-        self.__template_type = template_type
-
-    def generate_file_name(self):
-        self.timestamp = getNow()
-        self.uuid = getUUID()
-        self.name = "_".join([self.template_type, self.timestamp, self.uuid])
+    @output_full_name.setter
+    def output_full_name(self, output_full_name):
+        self.__output_full_name = output_full_name
 
     def form_file_extension(self):
         if "." in self.storage_object.filename:
             return self.storage_object.filename.split('.')[1]
         else:
             raise InvalidDocumentFomat()
-
+    
     @classmethod
-    def get_obj_by_name(cls, file_name, template_type=GeneralConstants.TEMPLATE_PREFIX, extension=GeneralConstants.TEMPLATE_FILE_EXTENSION):
+    def get_obj_by_name(cls, file_name, output_name=GeneralConstants.TEMPLATE_PREFIX, extension=GeneralConstants.TEMPLATE_FILE_EXTENSION):
         """
             The class method for creating GeneratedFile obj from only file_name.
         """
-        template_type, timestamp, uuid = file_name.split('_')
-        return cls(timestamp=timestamp, uuid=uuid, template_type=template_type, extension=extension)
+        return cls(name=file_name, output_name=output_name, extension=extension)
 
+    @classmethod
+    def make_copy(cls, file_object):
+        """
+            The class method for creating the GeneratedFile obj copy.
+        """
+        return cls(name=file_object.name, output_name=file_object.output_name, extension=file_object.extension)
 
 class TemplateFile(GeneratedFile):
     """
         Docx template file class.
     """
 
-    def __init__(self, storage_object=None, timestamp=None, uuid=None, template_type=GeneralConstants.TEMPLATE_PREFIX, extension=None):
-        super().__init__(storage_object=storage_object, timestamp=timestamp,
-                         uuid=uuid, template_type=template_type, extension=extension)
+    def __init__(self, name=None, storage_object=None, output_name=GeneralConstants.TEMPLATE_PREFIX, extension=None):
+        super().__init__(name=name, storage_object=storage_object, output_name=output_name, extension=extension)
         self.save()
 
     def save(self):
@@ -211,10 +203,9 @@ class TemplateFile(GeneratedFile):
 
 class HTMLFile(GeneratedFile):
 
-    def __init__(self, read_method, content=None, storage_object=None, timestamp=None, uuid=None, template_type=GeneralConstants.TEMPLATE_PREFIX, extension=GeneralConstants.HTML_EXTENSION):
-        super().__init__(storage_object=storage_object, timestamp=timestamp,
-                         uuid=uuid, read_method=read_method,  template_type=template_type, extension=extension)
-        self.content = content
+    def __init__(self, name, read_method, data=None, storage_object=None, output_name=GeneralConstants.TEMPLATE_PREFIX, extension=GeneralConstants.HTML_EXTENSION):
+        super().__init__(name, storage_object=storage_object, read_method=read_method,  output_name=output_name, extension=extension)
+        self.data = data
 
     @property
     def path(self):
@@ -229,14 +220,14 @@ class HTMLFile(GeneratedFile):
         return self.__full_path
 
     def write(self):
-        self.storage_object.write(self.content)
+        self.storage_object.write(self.data)
 
 
 class JSONFile(GeneratedFile):
 
-    def __init__(self, read_method, data=None, storage_object=None, timestamp=None, uuid=None, template_type=GeneralConstants.TEMPLATE_PREFIX, extension=GeneralConstants.JSON_EXTENSION):
-        super().__init__(read_method=read_method, storage_object=storage_object,
-                         timestamp=timestamp, uuid=uuid, template_type=template_type, extension=extension)
+    def __init__(self, name, read_method, data=None, storage_object=None, output_name=GeneralConstants.TEMPLATE_PREFIX, extension=GeneralConstants.JSON_EXTENSION):
+        super().__init__(name=name, read_method=read_method, storage_object=storage_object,
+                         output_name=output_name, extension=extension)
         self.data = data
 
     @property
@@ -247,37 +238,15 @@ class JSONFile(GeneratedFile):
     def data(self, data):
         if data is not None:
             self.__data = json.loads(data)
-        with open(self.full_path, self.read_method) as f:
+        with self.storage_object as f:
             json.dump(self.__data, f, indent=3)
 
 
-class PdfFile(File):
+class PdfFile(GeneratedFile):
 
-    def __init__(self, path, read_method):
-        super().__init__(path=path, read_method=read_method)
-        self.read()
-
-
-class AttachmentFile(File):
-    """
-        File class that is used for attachments.
-        Attachment is already rendered file with the exact name.   
-    """
-
-    def __init__(self, full_name, read_method, change_name=None):
-        self.read_method = read_method
-        self.form_values(full_name, change_name)
-        super().__init__(name=self.name, extension=self.extension, read_method=self.read_method)
-        self.read()
-
-    def form_values(self, full_name, change_name):
-        """
-            Template full file name is formed as "template_type _ timestamp _ uuid . extension".
-            To form an attachment, extract them.
-        """
-        self.name = "_" + full_name.split('.')[0] if change_name else full_name.split('.')[0]
-        self.extension = full_name.split('.')[1]
-        self.template_type = full_name.split('_')[0]
+    def __init__(self, name=None, storage_object=None, output_name=GeneralConstants.TEMPLATE_PREFIX, extension=None):
+        super().__init__(name=name, storage_object=storage_object, output_name=output_name, extension=extension)
+        self.save()
 
 class DocxFile:
     """

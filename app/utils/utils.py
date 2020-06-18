@@ -78,13 +78,14 @@ def make_temp_folders(timeout=True):
             os.makedirs(temp_folder, exist_ok=True)
 
 
-def remove_all_except_last(number_to_leave=4, temp_folder=None, timeout=None):
-    if temp_folder is None:
-        temp_folder = TEMP_FOLDERS[0]
-    args = ['ls', '-t1', temp_folder + "*", '|',
-            'tail', '-n', '+'+str(number_to_leave+1), '|', 'xargs', 'rm']
-    process = subprocess.run(' '.join(args), shell=True, stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE, timeout=timeout)
+def remove_session_files(number_to_leave=4, temp_folder=None, timeout=None):
+    pass
+    # if temp_folder is None:
+    #     temp_folder = TEMP_FOLDERS[0]
+    # args = ['ls', '-t1', temp_folder + "*", '|',
+    #         'tail', '-n', '+'+str(number_to_leave+1), '|', 'xargs', 'rm']
+    # process = subprocess.run(' '.join(args), shell=True, stdout=subprocess.PIPE,
+    #                             stderr=subprocess.PIPE, timeout=timeout)
 
 
 def remove_temp(with_folder=False, temp_folder=None, timeout=None):

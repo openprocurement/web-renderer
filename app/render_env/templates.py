@@ -21,7 +21,7 @@ from app.render_env.utils import (
 class DocxTemplateLocal(DocxTemplate):
 
     def __init__(self, template_file :TemplateFile):
-        self.template_file = template_file
+        self.template_file = TemplateFile.make_copy(template_file)
         super().__init__(self.template_file.full_path)
         is_file_empty(self)
 
@@ -55,6 +55,7 @@ class DocxTemplateLocal(DocxTemplate):
 
     def save(self, full_path=None):
         if full_path is None:
+            self.template_file.name = "template_"+self.template_file.name
             super().save(self.full_path)
 
     def search(self, regex):

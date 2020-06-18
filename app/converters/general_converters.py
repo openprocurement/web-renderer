@@ -9,7 +9,6 @@ from app.constants import (
 )
 from app.files import (
     PdfFile,
-    TemplateFile,
 )
 from app.utils.utils import (
     replace_regex_list,
@@ -38,8 +37,9 @@ class DocxToHTMLConverter:
 
 class DocxToPdfConverter:
 
-    def __init__(self, document):
+    def __init__(self, document, output_name):
         self.document = document
+        self.output_name = output_name
         self.convert()
 
     def convert(self, timeout=None):
@@ -52,8 +52,8 @@ class DocxToPdfConverter:
         except FileNotFoundError as e:
             raise DocumentConvertionError()
         
-        self.pdf_document = TemplateFile.get_obj_by_name(self.document.name)
+        self.pdf_document = PdfFile.make_copy(self.document)
+        self.pdf_document.output_name = self.output_name
         self.pdf_document.extension = GeneralConstants.GENERATED_DOC_EXTENSION
-        self.generated_pdf_path = self.pdf_document.full_path
-        self.document.template_file.close()
+        self.document.close()
         self.pdf_document.close()
