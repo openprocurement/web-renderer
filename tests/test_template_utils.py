@@ -114,7 +114,3 @@ class TestDataFilters(BaseTest):
         # Check  results
         result = repr(text).replace("'","")
         self.assertEqual(contract_supplier_id, result)
-        
-        # Remove all files
-        remove_file(docx_document.path)
-        remove_file(pdf_document_path)

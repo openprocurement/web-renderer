@@ -42,7 +42,6 @@ class TestDataFilters(BaseTest):
         self.assertEqual(response.status, "404 NOT FOUND")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json, {'error': {'code': 404, 'message': 'JSON data is not found'}})
-        remove_file(docx_document.path)
 
     def test_empties(self):
         docx_document = DocxFile(folder=Config.TESTS_TEMP_FOLDER)
@@ -56,7 +55,7 @@ class TestDataFilters(BaseTest):
         self.assertEqual(response.status, "422 UNPROCESSABLE ENTITY")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json, {'error': {'code': 422, 'message': 'Template is empty'}})
-        remove_file(docx_document.path)
+
 
     def test_response_format(self):
         docx_document = DocxFile(folder=Config.TESTS_TEMP_FOLDER)
@@ -70,4 +69,3 @@ class TestDataFilters(BaseTest):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/pdf")
-        remove_file(docx_document.path)
