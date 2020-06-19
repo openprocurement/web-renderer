@@ -10,7 +10,12 @@ from app.utils.cpv import ClassificationTree
 
 CPVTree = ClassificationTree()
 
-
+def slugify(string):
+    """
+        The filter for template to HTML form rendering. 
+    """
+    return string.lower().replace(' ', '_')
+    
 class MoneyAmount:
     """
         class MoneyAmount:

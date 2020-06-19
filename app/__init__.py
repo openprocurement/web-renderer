@@ -14,6 +14,7 @@ app.logger.setLevel(logging.INFO)
 
 from app import constants
 from app import views
+from app import urls
 from app import models
 from app import handlers
 from app import exceptions

@@ -31,6 +31,7 @@ from app.constants import (
 from app.files import (
     TemplateFile,
     HTMLFile,
+    JSONFile,
 )
 from app.handlers import format_exception
 from app.exceptions import (
@@ -42,7 +43,9 @@ from app.exceptions import (
 from app.attachers import(
     PdfAttacher,
 )
-
+from app.decorators import(
+    form_data,
+)
 # Renderers
 
 class ObjectRenderer:
@@ -51,11 +54,17 @@ class ObjectRenderer:
         self.template_file = template_file
 
 
+@form_data
 class DocxToPDFRenderer(ObjectRenderer):
 
-    def __init__(self, json=None, template_file=None, include_attachments=None, template_type=None):
-        self.json = json
-        self.template_file = TemplateFile(template_file, template_type=template_type)
+    def __init__(self, json=None, template_file=None, include_attachments=None, output_name=None, session_id=None):
+        cls = self.__class__
+        self.session_id = session_id
+        self.output_name = output_name
+        self.json = JSONFile(name=session_id, read_method='w', data=json, \
+                             output_name=self.output_name)
+        self.template_file = TemplateFile(name=session_id, storage_object=template_file,\
+                                          output_name=self.output_name)
         self.include_attachments = include_attachments
         self.docx_template = DocxTemplate(self.template_file)
         self.render()
@@ -70,35 +79,36 @@ class DocxToPDFRenderer(ObjectRenderer):
             raise DocumentRenderError()
 
     def render_to_pdf(self):
-        self.docx_converter = DocxToPdfConverter(self.docx_template)
-        self.generated_pdf = self.docx_converter.pdf_document
-        if does_file_exists(self.docx_converter.pdf_document.full_path):
+        self.pdf_document = DocxToPdfConverter(self.docx_template.template_file,
+                                output_name=self.output_name).pdf_document
+        if does_file_exists(self.pdf_document.full_path):
             app.logger.info('Template is rendered to pdf')
         else:
             raise DocumentRenderError()
 
-    def add_attachments_to_pdfa(self):
+    def add_attachments_to_pdfa_file(self):
         if self.include_attachments:
-            self.pdf_attacher = PdfAttacher(self.docx_converter.pdf_document.full_name)
+            self.pdf_attacher = PdfAttacher(self.pdf_document)
             # adding attachments
-            self.pdf_attacher.add_attachment(self.json.full_name)
-            self.pdf_attacher.add_attachment(self.docx_template.full_name)
+            self.pdf_attacher.add_attachment(self.json)
+            self.pdf_attacher.add_attachment(self.template_file)
             # writing output
             self.pdf_attacher.write_output()
-            self.generated_pdf = self.pdf_attacher.output_file
+            self.pdf_document = self.pdf_attacher.pdfa_file
             app.logger.info('Attachments are added.')
 
     def render(self):
         self.render_to_docx()
         self.render_to_pdf()
-        self.add_attachments_to_pdfa()
+        self.add_attachments_to_pdfa_file()
 
 
 class BaseHTMLRenderer(ObjectRenderer):
 
     REGEX_TO_REPLACE = []
 
-    def __init__(self, template_file_name):
+    def __init__(self, template_file_name, session_id=None):
+        self.session_id = session_id
         self.template_file = TemplateFile.get_obj_by_name(template_file_name)
         self.render()
 
@@ -139,8 +149,8 @@ class DocxToHTMLRenderer(BaseHTMLRenderer):
         HTMLConstants.END_BLOCK_TEMPLATE_CONTENT,
     ]
 
-    def __init__(self, template_file_name):
-        super().__init__(template_file_name)
+    def __init__(self, template_file_name, session_id=None):
+        super().__init__(template_file_name, session_id=session_id)
 
     def reformat_html(self):
         html_headers = ' '.join(self.__class__.HTML_HEADERS)
@@ -152,7 +162,7 @@ class DocxToHTMLRenderer(BaseHTMLRenderer):
         app.logger.info('Template is encoded.')
 
     def save_html(self):
-        self.html_file = HTMLFile('wb', content=self.unicode_html)
+        self.html_file = HTMLFile(name=self.session_id, read_method='wb', data=self.unicode_html)
         self.html_file.write()
         self.html_file.close()
         app.logger.info('Template is saved.')
@@ -170,8 +180,8 @@ class DocxToTagSchemaRenderer(BaseHTMLRenderer):
         [RegexConstants.A_LINKS, ""],
     ]
 
-    def __init__(self, template_file_name):
-        super().__init__(template_file_name)
+    def __init__(self, template_file_name, session_id=None):
+        super().__init__(template_file_name, session_id=session_id)
 
     def convert(self):
         self.json_schema = HTMLToJSONTagSchemeConverter().convert(self.formatted_html)
@@ -186,9 +196,9 @@ class DocxToJSONSchemaRenderer(BaseHTMLRenderer):
         [RegexConstants.TEMPLATE_FILTER, ""],
     ]
 
-    def __init__(self, template_file_name, hide_empty_fields):
+    def __init__(self, template_file_name, hide_empty_fields, session_id=None):
         self.hide_empty_fields = hide_empty_fields
-        super().__init__(template_file_name)
+        super().__init__(template_file_name, session_id=session_id)
 
     def convert(self):
         self.json_schema = HTMLToJSONSchemaConverter(
