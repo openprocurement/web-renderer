@@ -21,6 +21,14 @@ paths:
             include_attachments:
                 description: include attachment files
                 content: True 
+            document_names:
+                description: output document names without extensions
+                content: application/json
+                fields: {
+                    "contractProforma": "contractProformaFileName",
+                    "contractData"    : "contractDataFileName",
+                    "contractTemplate": "contractTemplateFileName"
+                }
         responses:
         '200':
             file: 
