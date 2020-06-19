@@ -1,6 +1,10 @@
 import pytest
 import unittest
+from os.path import join, dirname, realpath
+
 from app import app
+from app.utils.utils import remove_temp
+from config import Config
 
 @pytest.fixture
 def client():
@@ -54,4 +58,5 @@ class BaseTest(unittest.TestCase):
 
 
     def tearDown(self):
-        pass
+        temp_folder = dirname(realpath(__file__))+"/"+Config.TEMP_FOLDER
+        remove_temp(temp_folder=temp_folder)

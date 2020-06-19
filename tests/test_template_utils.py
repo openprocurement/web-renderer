@@ -7,7 +7,8 @@ from .base import (
     test_json_data,
 )
 from app.render_env.filters import (common_classification, common_classification_code,
-                                                   common_classification_description)
+                                                   common_classification_description, 
+                                                   )
 from app.files import (
     FileStorageObject,
     DocxFile,
@@ -15,7 +16,10 @@ from app.files import (
 from app.utils.utils import(
     remove_file,
 )
-
+from tests.utils import(
+    create_one_pargraph_docx,
+    process_response_document,
+)
 class TestCommonClassification:
 
     def test_common_classification_code(self, items):
@@ -80,41 +84,23 @@ class TestCommonClassification:
 class TestDataFilters(BaseTest):
 
     def test_jmespath_filter(self):
-        # Creating the docx file with the content
-        docx_document = DocxFile(folder=Config.TESTS_TEMP_FOLDER)
-        docx_document.add_paragraph("{{ contract.supplier | search ('id')}}")
-        docx_document.save()
+        # Form data
         contract_supplier_id = test_json_data['contract']['supplier']['id']
-
-        # Form data and post it 
-        docx_storage_object = FileStorageObject(docx_document.path, docx_document.full_name, "application/msword")
+        docx_document, docx_storage_object = create_one_pargraph_docx(
+            "{{ contract.supplier | search ('id')}}")
+        # Post data
         response = self.app.post(
             "/",
-            data={"template": docx_storage_object, 'json_data': json.dumps(test_json_data)},
+            data={"template": docx_storage_object,
+                  'json_data': json.dumps(test_json_data)},
             content_type="multipart/form-data",
             follow_redirects=True,
         )
-        # self.assertEqual(response.json, {})
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/pdf")
         
-        # Save generated pdf document
-        pdf_document_path = docx_document.name +".pdf"
-        stream = response.get_data()
-        f = open(pdf_document_path, 'wb')
-        f.write(stream)
-        f.close()
-
-        # Read pdf document and extract the content
-        pdf = pdfplumber.open(pdf_document_path)
-        page = pdf.pages[0]
-        text = page.extract_text()
-        pdf.close()
+        # Process response pdf document and extract the content
+        response_document_path, response_document_content = process_response_document(response)
 
         # Check  results
-        result = repr(text).replace("'","")
-        self.assertEqual(contract_supplier_id, result)
-        
-        # Remove all files
-        remove_file(docx_document.path)
-        remove_file(pdf_document_path)
+        self.assertEqual(contract_supplier_id, response_document_content)
