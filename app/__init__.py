@@ -9,8 +9,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 cors = CORS(app)
 
-import logging
-app.logger.setLevel(logging.INFO)
+from app import log
 
 from app import constants
 from app import views

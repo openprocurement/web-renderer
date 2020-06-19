@@ -36,6 +36,7 @@ pyparsing==2.4.7
 pytest==5.4.2
 pytest-cov==2.8.1
 python-docx==0.8.7
+python-json-logger==0.1.11
 pytz==2019.3
 requests==2.23.0
 six==1.14.0
@@ -52,5 +53,4 @@ wcwidth==0.1.9
 Werkzeug==1.0.0
 WTForms==2.2.1
 zipp==3.1.0
-
 git+https://gitlab.quintagroup.com/op/e-contracting/PyPDF5.git@dev
