@@ -147,14 +147,17 @@ class RenderView(MethodView):
 
 @app.after_request
 def after_request_func(response):
-    remove_session_files(session['id'])
     remove_temp(with_folder=False)
-    app.logger.info('Tempfiles are removed')
-    app.logger.info('Request is finished')
+    if response.headers.get('Location') is None: 
+        # Session files are being removed only after all redirections
+        remove_session_files(session['id'])
+        app.logger.info('Sessions files were removed')
+    app.logger.info('Templates temp files were removed')
     return response
 
 
 @app.teardown_request
 def after_all_requests(response):
     remove_temp(with_folder=True)
-    app.logger.info('Tempfolder is removed')
+    app.logger.info('Template temp folder was removed')
+    app.logger.info('Request completed')

@@ -77,19 +77,24 @@ def make_temp_folders(timeout=True):
         if not os.path.exists(temp_folder):
             os.makedirs(temp_folder, exist_ok=True)
 
+def make_or_clear(folder):
+    if not os.path.exists(Config.UPLOAD_FOLDER):
+        os.makedirs(Config.UPLOAD_FOLDER, exist_ok=True)
+    else:
+        remove_temp(temp_folder=Config.UPLOAD_FOLDER)
 
-def remove_session_files(number_to_leave=4, temp_folder=None, timeout=None):
-    pass
-    # if temp_folder is None:
-    #     temp_folder = TEMP_FOLDERS[0]
-    # args = ['ls', '-t1', temp_folder + "*", '|',
-    #         'tail', '-n', '+'+str(number_to_leave+1), '|', 'xargs', 'rm']
-    # process = subprocess.run(' '.join(args), shell=True, stdout=subprocess.PIPE,
-    #                             stderr=subprocess.PIPE, timeout=timeout)
+def remove_session_files(session_id, temp_folder=None, timeout=None):
+    """
+        The function that clears all session files.
+    """
+    if temp_folder is None:
+        temp_folder = TEMP_FOLDERS[0]
+    args = ['find',TEMP_FOLDERS[0], '-name', f'*{session_id}*.*', '-delete']
+    process = subprocess.run(' '.join(args), shell=True, stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE, timeout=timeout)
 
 
-def remove_temp(with_folder=False, temp_folder=None, timeout=None):
-    temp_folder = TEMP_FOLDERS[1] if temp_folder is None else temp_folder
+def remove_temp(with_folder=False, temp_folder=TEMP_FOLDERS[1], timeout=None):
     end_path = "" if with_folder else "*"
     args = ['rm', '-r', '-f', temp_folder + end_path]
     process = subprocess.run(' '.join(args), shell=True, stdout=subprocess.PIPE,
