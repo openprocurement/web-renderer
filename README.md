@@ -121,6 +121,8 @@ paths:
       - search_string, e.g: 'id'
     - **output:** 
       - search result
+- ##### `{{ data | default ('default')}}`
+    If data is empty return default
 
 ### Run tests
 
