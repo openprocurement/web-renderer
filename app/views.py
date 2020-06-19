@@ -25,6 +25,7 @@ from app.utils.utils import (
     make_temp_folders,
     remove_temp,
     remove_session_files,
+    remove_all_except_last,
     is_file_attached,
     is_data_attached,
     is_json_attached,
@@ -159,5 +160,6 @@ def after_request_func(response):
 @app.teardown_request
 def after_all_requests(response):
     remove_temp(with_folder=True)
+    remove_all_except_last()
     app.logger.info('Template temp folder was removed')
     app.logger.info('Request completed')

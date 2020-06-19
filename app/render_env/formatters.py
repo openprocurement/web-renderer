@@ -2,7 +2,7 @@ from app import app
 from app.render_env.filters import (common_classification, common_classification_code,
                                             common_classification_description, convert_amount_to_words,
                                             format_date, to_float, to_space_separated_float,
-                                            to_space_separated_int, jmespath_filter, slugify,
+                                            to_space_separated_int, jmespath_filter,
                                             )
 
 class TemplateFormatter:

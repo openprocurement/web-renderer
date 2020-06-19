@@ -56,7 +56,6 @@ class TestDataFilters(BaseTest):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json, {'error': {'code': 422, 'message': 'Template is empty'}})
 
-
     def test_response_format(self):
         docx_document = DocxFile(folder=Config.TESTS_TEMP_FOLDER)
         docx_document.add_paragraph('hello')

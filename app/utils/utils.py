@@ -93,6 +93,13 @@ def remove_session_files(session_id, temp_folder=None, timeout=None):
     process = subprocess.run(' '.join(args), shell=True, stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE, timeout=timeout)
 
+def remove_all_except_last(number_to_leave=10, temp_folder=None, timeout=None):
+    if temp_folder is None:
+        temp_folder = TEMP_FOLDERS[0]
+    args = ['ls', '-t1', temp_folder + "*", '|',
+            'tail', '-n', '+'+str(number_to_leave+1), '|', 'xargs', 'rm']
+    process = subprocess.run(' '.join(args), shell=True, stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE, timeout=timeout)
 
 def remove_temp(with_folder=False, temp_folder=TEMP_FOLDERS[1], timeout=None):
     end_path = "" if with_folder else "*"
