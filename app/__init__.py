@@ -28,3 +28,7 @@ def slugify(string):
         The filter for template to HTML form rendering. 
     """
     return string.lower().replace(' ', '_')
+
+# make temp folders
+from app.utils.utils import make_or_clear
+make_or_clear(Config.UPLOAD_FOLDER)
