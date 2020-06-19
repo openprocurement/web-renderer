@@ -95,6 +95,14 @@ class RenderView(MethodView):
         result = request.form
         return render_template('upload_form.html', result=result)
 
+    def form_document_names(self, request):
+        cls = self.__class__
+        document_names = request.form.get(cls.DOCUMENT_NAMES)
+        file_name = str(request.files.get(cls.TEMPLATE).filename).split('.')[0]
+        document_names = json.loads(document_names) if document_names is not None else \
+            dict.fromkeys([cls.CONTRACT_DATA, cls.CONTRACT_TEMPLATE,
+                           cls.CONTRACT_PROFORMA], file_name)
+        return document_names
 
     def post(self):
         """
@@ -130,9 +138,9 @@ class RenderView(MethodView):
             is_json_attached(json_data)
             include_attachments = get_checkbox_value(request.form.get(cls.INCLUDE_ATTACHMENTS)) \
                 if request.form.get(cls.INCLUDE_ATTACHMENTS) is not None else False
-            file_name = str(request.files.get(cls.TEMPLATE).filename).split('.')[0]
+            document_names = self.form_document_names(request)
             renderer = DocxToPDFRenderer(
-                json_data, template_file, include_attachments, output_name=file_name, session_id=session['id'])
+                json_data, template_file, include_attachments, document_names=document_names, session_id=session['id'])
             return send_file(renderer.pdf_document.path,  as_attachment=True,
                              attachment_filename=renderer.pdf_document.output_full_name)
 
