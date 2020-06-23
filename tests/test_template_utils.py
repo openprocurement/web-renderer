@@ -1,25 +1,17 @@
 import json
-import pdfplumber
 
-from .conftest import BaseTest
+from tests.utils import create_one_pargraph_docx, process_response_document
+
+import pdfplumber
+from app.files import DocxFile, FileStorageObject
+from app.render_env.filters import (convert_amount_to_words, common_classification, common_classification_code,
+                                    common_classification_description)
+from app.utils.utils import remove_file
 from config import Config
-from .base import (
-    test_json_data,
-)
-from app.render_env.filters import (common_classification, common_classification_code,
-                                                   common_classification_description, 
-                                                   )
-from app.files import (
-    FileStorageObject,
-    DocxFile,
-)
-from app.utils.utils import(
-    remove_file,
-)
-from tests.utils import(
-    create_one_pargraph_docx,
-    process_response_document,
-)
+
+from .base import test_json_data
+from .conftest import BaseTest
+
 
 class TestCommonClassification:
 
@@ -99,7 +91,7 @@ class TestDataFilters(BaseTest):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/pdf")
-        
+
         # Process response pdf document and extract the content
         response_document_path, response_document_content = process_response_document(response)
 
@@ -128,3 +120,16 @@ class TestDataFilters(BaseTest):
 
         # Check  results
         self.assertEqual(default_value, response_document_content)
+
+
+class TestMoneyAmount:
+
+    def test_convert_amount_to_words(self):
+        test_values = {
+            111.11: 'сто одинадцять гривень одинадцять копійок',
+            1.01: 'одна гривня одна копійка',
+            10011.00: 'десять тисяч одинадцять гривень нуль копійок',
+            '0.09': 'нуль гривень дев\'ять копійок'
+        }
+        for amount, result in test_values.items():
+            assert result == convert_amount_to_words(amount)
