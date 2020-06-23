@@ -35,8 +35,10 @@ class MoneyAmount:
         suffixes = {
             0: ["гривень", "копійок"],
             1: ["гривня", "копійка"],
+            11: ["гривень", "копійок"],
             2: ["гривні", "копійки"],
-            2: ["гривні", "копійки"],
+            3: ["гривні", "копійки"],
+            4: ["гривні", "копійки"],
             5: ["гривень", "копійок"],
             6: ["гривень", "копійок"],
             7: ["гривень", "копійок"],
@@ -46,18 +48,21 @@ class MoneyAmount:
         return suffixes[number][unit]
 
     def convert_fractial_part_to_words(self):
-        fractial_part = int((self.float_amount % 1)*100)
-        fractial_part_str = str(fractial_part) if len(
-            str(fractial_part)) == 2 else "0" + str(fractial_part)
-        unit_str = self.get_str_currency(
-            fractial_part % 10, MoneyAmount.KOPIYKA_SUFFIX)
+        fractial_part = int(round((self.float_amount % 1)*100, 1))
+        fractial_part_str = num2words(fractial_part, lang='uk')
+        if str(fractial_part)[-2:] == '11':
+            unit_str = self.get_str_currency(11, MoneyAmount.KOPIYKA_SUFFIX)
+        else:
+            unit_str = self.get_str_currency(fractial_part % 10, MoneyAmount.KOPIYKA_SUFFIX)
         return fractial_part_str + " " + unit_str
 
     def convert_integer_part_to_words(self):
         integer_part = int(self.float_amount)
         integer_part_str = num2words(integer_part, lang='uk')
-        unit_str = self.get_str_currency(
-            integer_part % 10, MoneyAmount.HRYVNIA_SUFFIX)
+        if str(integer_part)[-2:] == '11':
+            unit_str = self.get_str_currency(11, MoneyAmount.HRYVNIA_SUFFIX)
+        else:
+            unit_str = self.get_str_currency(integer_part % 10, MoneyAmount.HRYVNIA_SUFFIX)
         return integer_part_str + " " + unit_str
 
     def convert_amount_to_words(self):
@@ -68,9 +73,9 @@ class MoneyAmount:
 
 def convert_amount_to_words(amount):
     """
-        The function for formatting an amount of money to the word string. 
+        The function for formatting an amount of money to the word string.
     """
-    money_amount = MoneyAmount(amount)
+    money_amount = MoneyAmount(str(amount))
     return money_amount.amount_in_words
 
 
