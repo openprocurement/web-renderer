@@ -2,7 +2,6 @@ FROM fedora:31
 
 RUN dnf update -y -q
 RUN dnf install -q -y python3-pip git libreoffice-core libreoffice-pdfimport libreoffice-opensymbol-fonts.noarch libreoffice-filters libreoffice-pyuno libreoffice-writer libreoffice-calc
-RUN echo "machine gitlab.quintagroup.com login ${TOKEN_NAME} password ${D_TOKEN}" > ~/.netrc
 
 
 WORKDIR /app
