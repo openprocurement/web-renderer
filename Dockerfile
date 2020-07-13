@@ -13,7 +13,7 @@ RUN pip install -r /app/requirements.txt
 COPY libreoffice_config.txt ~/libreoffice_config.txt
 RUN libreoffice --headless --terminate_after_init
 RUN sed -i -e '/<\/oor:items>/{r ~/libreoffice_config.txt' -e 'd}' /root/.config/libreoffice/4/user/registrymodifications.xcu
-RUN dnf clean all && rm ~/.netrc
+RUN dnf clean all
 
 EXPOSE 8080
 
