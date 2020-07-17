@@ -2,6 +2,7 @@ from jinja2.runtime import Context, StrictUndefined, Undefined
 from jinja2.exceptions import UndefinedError
 from jinja2.utils import internalcode
 from enum import Enum
+from app.render_env.utils import Mock
 
 
 class RenderMode(Enum):
@@ -24,6 +25,8 @@ class RenderMode(Enum):
             undefined.__call__ = undefined.raise_exception
             undefined.__getattr__ = undefined.raise_exception
         elif self.name == str(self.SOFT):
+            undefined.__call__ = undefined._get_attr
+            undefined.__getattr__ = undefined._get_attr
             undefined.__unicode__ = undefined.return_default
             undefined.__str__ = undefined.return_default
 
@@ -35,12 +38,15 @@ class RenderUndefined(StrictUndefined):
 
     def __init__(self, hint=None, obj=None, name=None, exc=UndefinedError):
         super(StrictUndefined, self).__init__(hint, obj, name, exc)
-        self.default_value = "" # the default value for the all template variables
+        self.default_value = Mock() # the default value for the all template variables
         self.apply_mode()
 
     @internalcode
     def __repr__(self):
         return 'RenderUndefined'
+
+    def _get_attr(self, attr):
+        return self.default_value
 
     def return_default(self):
         """

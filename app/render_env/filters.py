@@ -7,7 +7,7 @@ from num2words import num2words
 
 from app import app
 from app.utils.cpv import ClassificationTree
-from app.render_env.utils import is_undefined
+from app.render_env.utils import is_undefined, Mock
 
 CPVTree = ClassificationTree()
 
@@ -66,9 +66,12 @@ class MoneyAmount:
         return f"{integer_part_str} {unit_str}"
 
     def convert_amount_to_words(self):
-        integer_part = self.convert_integer_part_to_words()
-        fractial_part = self.convert_fractial_part_to_words()
-        self.amount_in_words = integer_part + " " + fractial_part
+        try:
+            integer_part = self.convert_integer_part_to_words()
+            fractial_part = self.convert_fractial_part_to_words()
+            self.amount_in_words = integer_part + " " + fractial_part
+        except (ValueError,):
+            self.amount_in_words = ""
 
 
 def convert_amount_to_words(amount):
@@ -87,8 +90,11 @@ def format_date(data):
         output:
             date (str): "22" серпня 2019 року
     """
-    date_object = datetime.fromisoformat(data)
-    str_date = format_datetime(date_object, '"d" MMMM Y року', locale='uk_UA')
+    try:
+        date_object = datetime.fromisoformat(data)
+        str_date = format_datetime(date_object, '"d" MMMM Y року', locale='uk_UA')
+    except (ValueError, TypeError):
+        str_date = ""
     return str_date
 
 
@@ -98,13 +104,16 @@ def to_float(float_string):
         input: "12\xa0588\xa0575.00"
         output: 12588575.0
     """
-    if (isinstance(float_string, int)):
-        float_string=str(float_string)
-    else:
-        float_string = float_string.encode('ascii', 'ignore').decode("utf-8")
-    float_string = float_string.replace(" ", "").replace(',', ".")
-    float_string = float(float_string)
-    return float_string
+    try:
+        if (isinstance(float_string, int)):
+            float_string=str(float_string)
+        else:
+            float_string = float_string.encode('ascii', 'ignore').decode("utf-8")
+        float_string = float_string.replace(" ", "").replace(',', ".")
+        float_string = float(float_string)
+        return float_string
+    except (ValueError,):
+        return ""
 
 
 def to_space_separated(number, numbers_after_comma):
@@ -113,9 +122,12 @@ def to_space_separated(number, numbers_after_comma):
         input: 1234567.33
         output: 1 234 567.33
     """
-    float_var = float(number)
-    separated_number = '{:,.{}f}'.format(number, numbers_after_comma).replace(',', ' ').replace('.', ',')
-    return separated_number
+    try:
+        float_var = float(number)
+        separated_number = '{:,.{}f}'.format(number, numbers_after_comma).replace(',', ' ').replace('.', ',')
+        return separated_number
+    except Exception as error:
+        return ""
 
 
 def to_space_separated_int(number):
@@ -129,11 +141,14 @@ def _get_common_cpv(items):
     """
     An utility for getting common classification from list items with classification objects
     """
-    ids = jmespath.search("[].classification.id", items)
-    scheme = jmespath.search("[].classification.scheme", items)[0]
-    scheme = f"{scheme}:2015" if scheme == "ДК021" else scheme
-    cpv_id = CPVTree.get_common_cpv(ids)
-    return scheme, CPVTree.get_cpv(cpv_id)
+    try:
+        ids = jmespath.search("[].classification.id", items)
+        scheme = jmespath.search("[].classification.scheme", items)[0]
+        scheme = f"{scheme}:2015" if scheme == "ДК021" else scheme
+        cpv_id = CPVTree.get_common_cpv(ids)
+        return scheme, CPVTree.get_cpv(cpv_id)
+    except (TypeError,):
+        return "", ""
 
 
 def common_classification(items):
@@ -173,6 +188,6 @@ def default_filter(var, default=''):
     """
     An utility for returning the default value.
     """
-    if is_undefined(var) or var == "":
+    if is_undefined(var) or var == "" or isinstance(var, Mock):
         return default
     return var

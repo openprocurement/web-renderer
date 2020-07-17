@@ -1,6 +1,8 @@
 import jinja2
 from jinja2 import Environment, Template, TemplateError, TemplateSyntaxError, meta
 from jinja2.runtime import Context, StrictUndefined
+from jinja2.exceptions import UndefinedError
+from jinja2.environment import string_types
 
 from flask import Flask
 from app import app
@@ -81,9 +83,26 @@ class JinjaEnvironment (Environment):
         """
         try:
             return getattr(obj, attribute)
-        except AttributeError:
+        except (AttributeError, UndefinedError):
             pass
         try:
             return obj[attribute]
         except (TypeError, LookupError, AttributeError):
             return self.undefined(obj=obj, name=attribute)
+
+    def getitem(self, obj, argument):
+        """Get an item or attribute of an object but prefer the item."""
+        try:
+            return obj[argument]
+        except (AttributeError, TypeError, LookupError, IndexError, UndefinedError):
+            if isinstance(argument, string_types):
+                try:
+                    attr = str(argument)
+                except Exception:
+                    pass
+                else:
+                    try:
+                        return getattr(obj, attr)
+                    except AttributeError:
+                        pass
+            return self.undefined(obj=obj, name=argument)

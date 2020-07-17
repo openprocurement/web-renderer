@@ -27,3 +27,41 @@ def is_undefined(obj):
     Check if the passed object is undefined.
     """
     return isinstance(obj, Undefined)
+
+
+class Mock:
+    default_value = ""
+
+    def __call__(self, *args, **kwargs):
+        return self.default_value
+
+    def __repr__(self):
+        return self.default_value
+
+    def __str__(self):
+        return self.default_value
+
+    def __getattr__(self, attribute):
+        # return self.default_value
+        return self
+
+    def __unicode__(self):
+        return self.default_value
+
+    def __nonzero__(self):
+        return True
+
+    def __len__(self):
+        return 1
+
+    def __iter__(self):
+        yield self
+
+    def __mul__(self, other):
+        return self.default_value
+
+    def __add__(self, other):
+        return self.default_value
+
+    def __sub__(self, other):
+        return self.default_value
