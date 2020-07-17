@@ -51,24 +51,24 @@ class RenderContext(Context):
         self._update_skipped(value)
         return value
 
-        
+
 class JinjaEnvironment (Environment):
     '''
     Our custom environment, which simply allows us to override the class-level
     values for the Template and Context classes used by jinja2 internally.
     '''
     context_class = RenderContext
-    
+
     def __init__(self):
         self.undefined = RenderUndefined
         self.undefined.render_mode = RenderMode.SOFT # the error handling mode
         super().__init__(undefined=self.undefined)
         self.formatter = TemplateFormatter
         self.set_template_functions()
-    
+
     def set_template_functions(self):
         """
-            A function that sets all classmethods from the self.formatter as JinjaEnvironment filter. 
+            A function that sets all classmethods from the self.formatter as JinjaEnvironment filter.
         """
         all_funcs = [func for func in dir(self.formatter) if callable(getattr(self.formatter, func))]
         method_list = [func for func in all_funcs if not func.startswith("__")]

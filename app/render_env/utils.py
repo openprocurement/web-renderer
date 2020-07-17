@@ -4,11 +4,11 @@ from jinja2.runtime import Undefined
 from app.exceptions import UndefinedVariableJinja
 
 # Error utils:
-    
+
 def process_jinja_undefined_var_error(docx_template, error):
     """
-        The function for processing jinja2.exceptions.UndefinedError. 
-        It adds `possible_locations` ti 
+        The function for processing jinja2.exceptions.UndefinedError.
+        It adds `possible_locations` ti
     """
     undefined_value = re.findall(
         "'[a-zA-Z ]*'", error.args[0])

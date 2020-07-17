@@ -44,7 +44,7 @@ class DocxTemplateLocal(DocxTemplate):
     @property
     def full_name(self):
         return self.template_file.full_name
-        
+
     @property
     def extension(self):
         return self.template_file.extension
