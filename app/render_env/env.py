@@ -1,6 +1,8 @@
 import jinja2
 from jinja2 import Environment, Template, TemplateError, TemplateSyntaxError, meta
 from jinja2.runtime import Context, StrictUndefined
+from jinja2.exceptions import UndefinedError
+from jinja2.environment import string_types
 
 from flask import Flask
 from app import app
@@ -51,24 +53,24 @@ class RenderContext(Context):
         self._update_skipped(value)
         return value
 
-        
+
 class JinjaEnvironment (Environment):
     '''
     Our custom environment, which simply allows us to override the class-level
     values for the Template and Context classes used by jinja2 internally.
     '''
     context_class = RenderContext
-    
+
     def __init__(self):
         self.undefined = RenderUndefined
         self.undefined.render_mode = RenderMode.SOFT # the error handling mode
         super().__init__(undefined=self.undefined)
         self.formatter = TemplateFormatter
         self.set_template_functions()
-    
+
     def set_template_functions(self):
         """
-            A function that sets all classmethods from the self.formatter as JinjaEnvironment filter. 
+            A function that sets all classmethods from the self.formatter as JinjaEnvironment filter.
         """
         all_funcs = [func for func in dir(self.formatter) if callable(getattr(self.formatter, func))]
         method_list = [func for func in all_funcs if not func.startswith("__")]
@@ -81,9 +83,26 @@ class JinjaEnvironment (Environment):
         """
         try:
             return getattr(obj, attribute)
-        except AttributeError:
+        except (AttributeError, UndefinedError):
             pass
         try:
             return obj[attribute]
         except (TypeError, LookupError, AttributeError):
             return self.undefined(obj=obj, name=attribute)
+
+    def getitem(self, obj, argument):
+        """Get an item or attribute of an object but prefer the item."""
+        try:
+            return obj[argument]
+        except (AttributeError, TypeError, LookupError, IndexError, UndefinedError):
+            if isinstance(argument, string_types):
+                try:
+                    attr = str(argument)
+                except Exception:
+                    pass
+                else:
+                    try:
+                        return getattr(obj, attr)
+                    except AttributeError:
+                        pass
+            return self.undefined(obj=obj, name=argument)

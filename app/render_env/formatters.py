@@ -46,10 +46,10 @@ class TemplateFormatter:
     def json_query(cls, data, search_string):
         return jmespath_filter(data, search_string)
 
-    @classmethod 
+    @classmethod
     def default(cls, data, default_value):
         return default_filter(data, default_value)
-        
+
     @classmethod
     def __get_method__(cls, method_name):
         return getattr(cls, method_name)

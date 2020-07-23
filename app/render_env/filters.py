@@ -1,13 +1,14 @@
 from datetime import datetime
 
-import jmespath
 from babel.dates import format_datetime
+
+import jmespath
+from app import app
+from app.decorators import ignore
+from app.render_env.utils import Mock, is_undefined
+from app.utils.cpv import ClassificationTree
 from flask import Flask
 from num2words import num2words
-
-from app import app
-from app.utils.cpv import ClassificationTree
-from app.render_env.utils import is_undefined
 
 CPVTree = ClassificationTree()
 
@@ -24,7 +25,7 @@ class MoneyAmount:
     def __init__(self, amount):
         self.amount = amount
         self.amount_to_float()
-        self.convert_amount_to_words()
+        self.amount_in_words = self.convert_amount_to_words()
 
     def amount_to_float(self):
         amount = self.amount
@@ -65,10 +66,11 @@ class MoneyAmount:
             unit_str = self.get_str_currency(integer_part % 10, MoneyAmount.HRYVNIA_SUFFIX)
         return f"{integer_part_str} {unit_str}"
 
+    @ignore(exceptions=(ValueError,))
     def convert_amount_to_words(self):
         integer_part = self.convert_integer_part_to_words()
         fractial_part = self.convert_fractial_part_to_words()
-        self.amount_in_words = integer_part + " " + fractial_part
+        return integer_part + " " + fractial_part
 
 
 def convert_amount_to_words(amount):
@@ -79,6 +81,7 @@ def convert_amount_to_words(amount):
     return money_amount.amount_in_words
 
 
+@ignore(exceptions=(ValueError, TypeError))
 def format_date(data):
     """
         The function for formating an ISO date to the string one.
@@ -88,10 +91,10 @@ def format_date(data):
             date (str): "22" серпня 2019 року
     """
     date_object = datetime.fromisoformat(data)
-    str_date = format_datetime(date_object, '"d" MMMM Y року', locale='uk_UA')
-    return str_date
+    return format_datetime(date_object, '"d" MMMM Y року', locale='uk_UA')
 
 
+@ignore(exceptions=(ValueError,))
 def to_float(float_string):
     """
         A function for formatting comma float string to float.
@@ -107,6 +110,7 @@ def to_float(float_string):
     return float_string
 
 
+@ignore()
 def to_space_separated(number, numbers_after_comma):
     """
         A function for formatting int or float number to the space separated one.
@@ -125,6 +129,7 @@ def to_space_separated_float(number):
     return to_space_separated(number, 2)
 
 
+@ignore(exceptions=(TypeError), default_value=("", ""))
 def _get_common_cpv(items):
     """
     An utility for getting common classification from list items with classification objects
@@ -173,6 +178,6 @@ def default_filter(var, default=''):
     """
     An utility for returning the default value.
     """
-    if is_undefined(var) or var == "":
+    if is_undefined(var) or var == "" or isinstance(var, Mock):
         return default
     return var
