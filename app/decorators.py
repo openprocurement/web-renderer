@@ -19,3 +19,18 @@ def form_data(cls):
             super(FormData, self).__init__(*args, **kargs)
 
     return FormData
+
+
+def ignore(exceptions=(Exception,), default_value=""):
+    """Decorator for ignoring exceptions in SOFT mode"""
+
+    def wrap(func):
+        def wrapped(*args, **kwargs):
+            try:
+                result = func(*args, **kwargs)
+            except exceptions:
+                result = default_value
+            return result
+
+        return wrapped
+    return wrap
