@@ -5,7 +5,7 @@ from tests.utils import create_one_pargraph_docx, process_response_document
 import pdfplumber
 from app.files import DocxFile, FileStorageObject
 from app.render_env.filters import (convert_amount_to_words, common_classification, common_classification_code,
-                                    common_classification_description)
+                                    common_classification_description, classification_filter)
 from app.utils.utils import remove_file
 from config import Config
 
@@ -72,6 +72,24 @@ class TestCommonClassification:
         })
         result = common_classification(items)
         assert result == ""
+
+    def test_classification(self):
+        classification_data = {
+            'id': '72212411-3',
+            'description': 'Послуги з розробки програмного забезпечення для управління інвестиціями',
+            'scheme': 'ДК021'
+        }
+
+        result = classification_filter({})
+        assert result == ''
+
+        result = classification_filter(classification_data)
+        assert result == classification_data["description"]
+
+        description = classification_data.pop('description')
+        classification_data['description'] = 'Invalid description'
+        result = classification_filter(classification_data)
+        assert result == description
 
 
 class TestDataFilters(BaseTest):

@@ -181,3 +181,12 @@ def default_filter(var, default=''):
     if is_undefined(var) or var == "" or isinstance(var, Mock):
         return default
     return var
+
+@ignore()
+def classification_filter(cpv_data):
+    cpv_id = cpv_data.get('id', '')
+    if not cpv_id:
+        return ""
+
+    cpv = CPVTree.get_cpv(cpv_id)
+    return f"{cpv.description}"
