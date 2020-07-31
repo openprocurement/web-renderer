@@ -114,6 +114,10 @@ paths:
     The function for getting common classification description of all items
     - **input:** "Список айтемів контракту"
     - **output:** "Текстовий опис спільного для всіх айтемів класифікатора"
+- ##### `{{ classification_data | classification}}`
+    The function for getting classification description
+    - **input:** "об'єкт класифікатора"
+    - **output:** "Текстовий опис класифікатора згідно словника"
 - ##### `{{ data | json_query ('search_string')}}`
     The function for searching a string using JMESPATH format in data JSON.
     - **input:**:
