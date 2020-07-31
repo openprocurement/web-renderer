@@ -8,3 +8,4 @@ __pycache__/
 .temp/
 .pdf2/
 .envrc
+.coverage
