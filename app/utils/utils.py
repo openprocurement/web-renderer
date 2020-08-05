@@ -1,21 +1,20 @@
 import os
 import re
 import subprocess
-from contextlib import contextmanager
 import uuid
+from contextlib import contextmanager
 from datetime import datetime
 from json import loads
 from os import path
-import uuid
 from pprint import pprint
 
-from flask import Flask
+from yaml import safe_load
 
 from app import app
-from config import Config
 from app.constants import GeneralConstants, RegexConstants
-from app.exceptions import (FileNameIsCyrillic, JSONNotFound, TemplateIsEmpty, TemplateNotFound,)
-
+from app.exceptions import FileNameIsCyrillic, JSONNotFound, TemplateIsEmpty, TemplateNotFound
+from config import Config
+from flask import Flask
 
 # File utils:
 
@@ -162,13 +161,18 @@ def setdefaultattr(obj, name, value):
 
 # JSON utils
 
-def read_json(filename):
+def read_file(filename):
+    ext = filename.split('.')[-1]
+    loader = {
+        'yaml': safe_load,
+        'json': loads
+    }
     curr_dir = os.path.dirname(os.path.realpath(__file__))
     project_dir = "/".join(curr_dir.split('/')[:-1])
     file_path = os.path.join(project_dir, filename)
     with open(file_path) as _file:
         data = _file.read()
-    return loads(data)
+    return loader[ext](data)
 
 # Form utils
 

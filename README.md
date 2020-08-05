@@ -127,7 +127,10 @@ paths:
       - search result
 - ##### `{{ data | default ('default')}}`
     If data is empty return default
-
+- ##### `{{ unit_code | unit_shortcut}}`
+    The function for getting the shortcut of measurement units
+    - **input:** "MLT"
+    - **output:** "мл."
 ### Run tests
 
 ```bash

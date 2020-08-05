@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from babel.dates import format_datetime
+from app.utils.utils import read_file
 
 import jmespath
 from app import app
@@ -11,6 +12,7 @@ from flask import Flask
 from num2words import num2words
 
 CPVTree = ClassificationTree()
+units = read_file('data/uk_pretty.yaml')
 
 class MoneyAmount:
     """
@@ -190,3 +192,10 @@ def classification_filter(cpv_data):
 
     cpv = CPVTree.get_cpv(cpv_id)
     return f"{cpv.description}"
+
+
+def unit_shortcut_filter(value):
+    """
+    An utility for getting shortcut for measurement units
+    """
+    return units.get(value, {}).get('symbol_uk', '')

@@ -38,6 +38,7 @@ pytest-cov==2.8.1
 python-docx==0.8.7
 python-json-logger==0.1.11
 pytz==2019.3
+PyYAML==5.3.1
 requests==2.23.0
 six==1.14.0
 sortedcontainers==2.1.0

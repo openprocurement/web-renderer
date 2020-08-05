@@ -4,8 +4,8 @@ from tests.utils import create_one_pargraph_docx, process_response_document
 
 import pdfplumber
 from app.files import DocxFile, FileStorageObject
-from app.render_env.filters import (convert_amount_to_words, common_classification, common_classification_code,
-                                    common_classification_description, classification_filter)
+from app.render_env.filters import (classification_filter, common_classification, common_classification_code,
+                                    common_classification_description, convert_amount_to_words, unit_shortcut_filter)
 from app.utils.utils import remove_file
 from config import Config
 
@@ -152,3 +152,13 @@ class TestMoneyAmount:
         }
         for amount, result in test_values.items():
             assert result == convert_amount_to_words(amount)
+
+
+class TestUnits:
+
+    def test_unit_shortcut(self):
+        result = unit_shortcut_filter('MLT')
+        assert result == 'мл.'
+
+        result = unit_shortcut_filter(None)
+        assert result == ''

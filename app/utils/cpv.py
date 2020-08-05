@@ -1,4 +1,4 @@
-from app.utils.utils import read_json
+from app.utils.utils import read_file
 
 
 class CPV:
@@ -31,7 +31,7 @@ class ClassificationTree:
         self.categories = {}
         self.details = {}
         self.cpvs = {}
-        cpvs = read_json('data/uk.json')
+        cpvs = read_file('data/uk.json')
         for cpv_id, description in cpvs.items():
             cpv = CPV(cpv_id, description)
             if '0' * 6 in cpv_id[2:]:
