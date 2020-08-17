@@ -1,159 +1,159 @@
 4A:
-  name_uk: Бобіна
-  symbol_uk: ''
+  name: Бобіна
+  symbol: ''
 BX:
-  name_uk: ящик
-  symbol_uk: ящ.
+  name: ящик
+  symbol: ящ.
 D44:
-  name_uk: Вар
-  symbol_uk: ВАр
+  name: Вар
+  symbol: ВАр
 D64:
-  name_uk: блок
-  symbol_uk: блок
+  name: блок
+  symbol: блок
 E07:
-  name_uk: мегават-година в годину
-  symbol_uk: МВт-год/год
+  name: мегават-година в годину
+  symbol: МВт-год/год
 E11:
-  name_uk: Гігакалорія
-  symbol_uk: Гкал
+  name: Гігакалорія
+  symbol: Гкал
 E14:
-  name_uk: Кілокалорія
-  symbol_uk: Ккал
+  name: Кілокалорія
+  symbol: Ккал
 E48:
-  name_uk: послуга
-  symbol_uk: посл.
+  name: послуга
+  symbol: посл.
 E49:
-  name_uk: Робочі дні
-  symbol_uk: Роб.дні
+  name: Робочі дні
+  symbol: Роб.дні
 E50:
-  name_uk: Одиниця
-  symbol_uk: од.
+  name: Одиниця
+  symbol: од.
 E51:
-  name_uk: роботи
-  symbol_uk: роб.
+  name: роботи
+  symbol: роб.
 E54:
-  name_uk: рейс
-  symbol_uk: рейс
+  name: рейс
+  symbol: рейс
 GRM:
-  name_uk: Грам
-  symbol_uk: г
+  name: Грам
+  symbol: г
 H87:
-  name_uk: штуки
-  symbol_uk: шт.
+  name: штуки
+  symbol: шт.
 HAR:
-  name_uk: гектар
-  symbol_uk: га.
+  name: гектар
+  symbol: га.
 HUR:
-  name_uk: Година
-  symbol_uk: Год.
+  name: Година
+  symbol: Год.
 IE:
-  name_uk: Людей
-  symbol_uk: ''
+  name: Людей
+  symbol: ''
 KGM:
-  name_uk: кілограми
-  symbol_uk: кг.
+  name: кілограми
+  symbol: кг.
 KMT:
-  name_uk: кілометри
-  symbol_uk: км
+  name: кілометри
+  symbol: км
 KT:
-  name_uk: комплект
-  symbol_uk: комп.
+  name: комплект
+  symbol: комп.
 KVR:
-  name_uk: Кіловар
-  symbol_uk: кВар
+  name: Кіловар
+  symbol: кВар
 KWH:
-  name_uk: Кіловат-година
-  symbol_uk: кВт⋅год
+  name: Кіловат-година
+  symbol: кВт⋅год
 KWT:
-  name_uk: Кіловат
-  symbol_uk: Квт
+  name: Кіловат
+  symbol: Квт
 LM:
-  name_uk: Погонний метр
-  symbol_uk: пог.м.
+  name: Погонний метр
+  symbol: пог.м.
 LO:
-  name_uk: лот
-  symbol_uk: лот
+  name: лот
+  symbol: лот
 LTR:
-  name_uk: літр
-  symbol_uk: л.
+  name: літр
+  symbol: л.
 MON:
-  name_uk: місяць
-  symbol_uk: місяць
+  name: місяць
+  symbol: місяць
 MTK:
-  name_uk: метри квадратні
-  symbol_uk: м.кв.
+  name: метри квадратні
+  symbol: м.кв.
 MTQ:
-  name_uk: метри кубічні
-  symbol_uk: м.куб.
+  name: метри кубічні
+  symbol: м.куб.
 MTR:
-  name_uk: метри
-  symbol_uk: м
+  name: метри
+  symbol: м
 NMP:
-  name_uk: пачок
-  symbol_uk: пач.
+  name: пачок
+  symbol: пач.
 PK:
-  name_uk: упаковка
-  symbol_uk: упак.
+  name: упаковка
+  symbol: упак.
 PR:
-  name_uk: пара
-  symbol_uk: пар.
+  name: пара
+  symbol: пар.
 R9:
-  name_uk: тисяча кубічних метрів
-  symbol_uk: т.м.куб
+  name: тисяча кубічних метрів
+  symbol: т.м.куб
 RH:
-  name_uk: Людино-година
-  symbol_uk: ''
+  name: Людино-година
+  symbol: ''
 RM:
-  name_uk: пачка
-  symbol_uk: пач.
+  name: пачка
+  symbol: пач.
 RO:
-  name_uk: Рулон
-  symbol_uk: ''
+  name: Рулон
+  symbol: ''
 SET:
-  name_uk: набір
-  symbol_uk: наб.
+  name: набір
+  symbol: наб.
 T3:
-  name_uk: Тисяч штук
-  symbol_uk: Тис. шт.
+  name: Тисяч штук
+  symbol: Тис. шт.
 TNE:
-  name_uk: тони
-  symbol_uk: т.
+  name: тони
+  symbol: т.
 VI:
-  name_uk: Флакон
-  symbol_uk: флак.
+  name: Флакон
+  symbol: флак.
 SEC:
-  name_uk: секунда
-  symbol_uk: с.
+  name: секунда
+  symbol: с.
 DMK:
-  name_uk: дециметр в квадраті
-  symbol_uk: дц.кв.
+  name: дециметр в квадраті
+  symbol: дц.кв.
 JR:
-  name_uk: банка
-  symbol_uk: банк.
+  name: банка
+  symbol: банк.
 E27:
-  name_uk: доза
-  symbol_uk: доз.
+  name: доза
+  symbol: доз.
 MLT:
-  name_uk: мілілітр
-  symbol_uk: мл.
+  name: мілілітр
+  symbol: мл.
 ST:
-  name_uk: аркуш
-  symbol_uk: арк.
+  name: аркуш
+  symbol: арк.
 BO:
-  name_uk: Пляшки
-  symbol_uk: пляш.
+  name: Пляшки
+  symbol: пляш.
 PA:
-  name_uk: пакунок
-  symbol_uk: пак.
+  name: пакунок
+  symbol: пак.
 MIN:
-  name_uk: хвилина
-  symbol_uk: хв.
+  name: хвилина
+  symbol: хв.
 CMT:
-  name_uk: сантиметр
-  symbol_uk: см.
+  name: сантиметр
+  symbol: см.
 CMK:
-  name_uk: сантиметр в квадраті
-  symbol_uk: см.кв.
+  name: сантиметр в квадраті
+  symbol: см.кв.
 CMQ:
-  name_uk: сантиментр в кубі
-  symbol_uk: см.куб.
+  name: сантиментр в кубі
+  symbol: см.куб.
