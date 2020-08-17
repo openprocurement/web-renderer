@@ -1,18 +1,20 @@
 from datetime import datetime
 
 from babel.dates import format_datetime
-from app.utils.utils import read_file
 
 import jmespath
 from app import app
 from app.decorators import ignore
+from app.log import logger
 from app.render_env.utils import Mock, is_undefined
 from app.utils.cpv import ClassificationTree
+from app.utils.utils import read_file
 from flask import Flask
 from num2words import num2words
 
 CPVTree = ClassificationTree()
-units = read_file('data/uk_pretty.yaml')
+units = read_file('data/all_units.yaml')
+units.update(read_file('data/uk_pretty.yaml'))
 
 class MoneyAmount:
     """
@@ -198,4 +200,8 @@ def unit_shortcut_filter(value):
     """
     An utility for getting shortcut for measurement units
     """
-    return units.get(value, {}).get('symbol_uk', '')
+    result = units.get(value, {}).get('symbol', '') or units.get(value, {}).get('name', '')
+    if not result:
+        logger.warning(f"Received unknown unit code: {value}",
+        extra={'MESSAGE_ID': 'unknown_unit_code', 'unit_code': value})
+    return result

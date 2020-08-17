@@ -160,5 +160,14 @@ class TestUnits:
         result = unit_shortcut_filter('MLT')
         assert result == 'мл.'
 
+        result = unit_shortcut_filter('RO')
+        assert result == 'Рулон'
+
+        result = unit_shortcut_filter('2R')
+        assert result == 'kCi'
+
+        result = unit_shortcut_filter('2W')
+        assert result == 'bin'
+
         result = unit_shortcut_filter(None)
         assert result == ''
