@@ -52,7 +52,7 @@ class Mock:
         return True
 
     def __len__(self):
-        return 1
+        return 0
 
     def __iter__(self):
         yield self
@@ -64,4 +64,40 @@ class Mock:
         return self.default_value
 
     def __sub__(self, other):
+        return self.default_value
+
+    def __div__(self, other):
+        return self.default_value
+
+    def __rmul__(self, other):
+        return self.default_value
+
+    def __radd__(self, other):
+        return self.default_value
+
+    def __rsub__(self, other):
+        return self.default_value
+
+    def __rdivmod__(self, other):
+        return self.default_value
+
+    def __rfloordiv__(self, other):
+        return self.default_value
+
+    def __rmod__(self, other):
+        return self.default_value
+
+    def __rdiv__(self, other):
+        return self.default_value
+
+    def __int__(self):
+        return self.default_value
+
+    def __float__(self):
+        return self.default_value
+
+    def __truediv__(self, other):
+        return self.default_value
+
+    def __rtruediv__(self, other):
         return self.default_value
