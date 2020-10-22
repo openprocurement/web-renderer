@@ -130,7 +130,12 @@ paths:
 - ##### `{{ unit_code | unit_shortcut}}`
     The function for getting the shortcut of measurement units
     - **input:** "MLT"
-    - **output:** "мл."
+    - **output:** "мл."  
+- ##### `{{ Image | InlineImage(width=50, height=50, unit=’mm’)}}`
+    The function for getting image by download url
+    Units: Inches, Cm, Mm, Pt, Emu
+    - **input:** "Image url"
+    - **output:** "InlineImage"
 ### Run tests
 
 ```bash

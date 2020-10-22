@@ -1,4 +1,3 @@
-import json
 import os
 import time
 import re
@@ -67,6 +66,7 @@ class DocxToPDFRenderer(ObjectRenderer):
                                           output_name=self.document_names[cls.CONTRACT_TEMPLATE])
         self.include_attachments = include_attachments
         self.docx_template = DocxTemplate(self.template_file)
+        GeneralConstants.DOCX_TEMPLATE = self.docx_template
         self.render()
 
 

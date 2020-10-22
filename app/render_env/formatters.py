@@ -2,7 +2,7 @@ from app import app
 from app.render_env.filters import (classification_filter, common_classification, common_classification_code,
                                     common_classification_description, convert_amount_to_words, default_filter,
                                     format_date, jmespath_filter, to_float, to_space_separated_float,
-                                    to_space_separated_int, unit_shortcut_filter)
+                                    to_space_separated_int, unit_shortcut_filter, inline_image_filter)
 
 
 class TemplateFormatter:
@@ -60,3 +60,7 @@ class TemplateFormatter:
     @classmethod
     def unit_shortcut(cls, value):
         return unit_shortcut_filter(value)
+    
+    @classmethod
+    def InlineImage(cls, value, width=50, height=50, unit='Mm'):
+        return inline_image_filter(value=value, width=width, height=height, unit=unit)

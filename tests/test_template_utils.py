@@ -1,14 +1,14 @@
 import json
+from unittest.mock import patch
 
-from tests.utils import create_one_pargraph_docx, process_response_document
+import io
+from PIL import Image
+from docxtpl import InlineImage
 
-import pdfplumber
-from app.files import DocxFile, FileStorageObject
 from app.render_env.filters import (classification_filter, common_classification, common_classification_code,
-                                    common_classification_description, convert_amount_to_words, unit_shortcut_filter)
-from app.utils.utils import remove_file
-from config import Config
-
+                                    common_classification_description, convert_amount_to_words, unit_shortcut_filter,
+                                    inline_image_filter)
+from tests.utils import create_one_pargraph_docx, process_response_document
 from .base import test_json_data
 from .conftest import BaseTest
 
@@ -171,3 +171,54 @@ class TestUnits:
 
         result = unit_shortcut_filter(None)
         assert result == ''
+
+
+class TestInlineImageFilter:
+    @patch('app.render_env.utils.requests.get')
+    def test_inline_image_filter(self, mock_get):
+        mock_get.return_value.status_code = 200
+        headers = {'Content-Type': 'image/png'}
+        mock_get.return_value.headers = headers
+
+        byte_img_io = io.BytesIO()
+        byte_img = Image.open("tests/assets/test.png")
+        byte_img.save(byte_img_io, "PNG")
+        byte_img_io.seek(0)
+        byte_img = byte_img_io.read()
+        mock_get.return_value.content = byte_img
+        
+        image_url = "https://openthread.google.cn/images/ot-contrib-google.png"
+
+        result = inline_image_filter(image_url, 50, 50, 'Inches')
+        assert True == isinstance(result, InlineImage)
+        assert 45720000 == result.width
+        assert 45720000 == result.height
+
+        result = inline_image_filter(image_url, 50, 50, 'Cm')
+        assert True == isinstance(result, InlineImage)
+        assert 18000000 == result.width
+        assert 18000000 == result.height
+
+        result = inline_image_filter(image_url, 50, 50, 'Mm')
+        assert True == isinstance(result, InlineImage)
+        assert 1800000 == result.width
+        assert 1800000 == result.height
+
+        result = inline_image_filter(image_url, 50, 50, 'Pt')
+        assert True == isinstance(result, InlineImage)
+        assert 635000 == result.width
+        assert 635000 == result.height
+
+        result = inline_image_filter(image_url, 50, 50, 'Emu')
+        assert True == isinstance(result, InlineImage)
+        assert 50 == result.width
+        assert 50 == result.height
+
+        image_url = "https://openthread.google.cn/images/oaaaaaaaaaaa"
+        mock_get.return_value.status_code = 400
+        result = inline_image_filter(image_url, 50, 50, 'Mm')
+        assert result == image_url
+
+        image_url = 123
+        result = inline_image_filter(image_url, 50, 50, 'Mm')
+        assert result == image_url
