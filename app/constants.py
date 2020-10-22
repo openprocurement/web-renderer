@@ -18,6 +18,7 @@ class GeneralConstants:
     HTML_EXTENSION = "html"
     JSON_EXTENSION = "json"
     ALLOWED_EXTENSIONS = [TEMPLATE_FILE_EXTENSION, ]
+    DOCX_TEMPLATE = False
 
 
 class RegexConstants:

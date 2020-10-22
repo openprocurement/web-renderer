@@ -1,7 +1,15 @@
+import uuid
+
+import io
 import re
+import requests
+from PIL import Image  # https://pillow.readthedocs.io/en/4.3.x/
 from jinja2.runtime import Undefined
 
+from app import app
+from app.constants import GeneralConstants
 from app.exceptions import UndefinedVariableJinja
+
 
 # Error utils:
 
@@ -101,3 +109,19 @@ class Mock:
 
     def __rtruediv__(self, other):
         return self.default_value
+
+
+def download_image_by_url(url):
+    try:
+        res = requests.get(url, timeout=4.0)
+    except Exception as e:
+        app.logger.warning('Download failed')
+        return False, False
+    if res.status_code == 200 and res.headers.get('Content-Type') == 'image/png':
+        image_name = f"{GeneralConstants.DOCX_TEMPLATE.template_file.name}_{uuid.uuid4().hex}"
+        path = f"app/.temp/files/{image_name}.png"
+        with Image.open(io.BytesIO(res.content)) as im:
+            im.save(path)
+            im.close()
+        return path, image_name
+    return False, False

@@ -4,13 +4,19 @@ from babel.dates import format_datetime
 
 import jmespath
 from app import app
+from app.constants import GeneralConstants
 from app.decorators import ignore
 from app.log import logger
-from app.render_env.utils import Mock, is_undefined
+from app.render_env.utils import Mock, is_undefined, download_image_by_url
 from app.utils.cpv import ClassificationTree
 from app.utils.utils import read_file
 from flask import Flask
 from num2words import num2words
+import requests
+from PIL import Image  # https://pillow.readthedocs.io/en/4.3.x/
+from docx.shared import Mm, Inches, Cm, Mm, Pt, Emu
+from docxtpl import InlineImage
+
 
 CPVTree = ClassificationTree()
 units = read_file('data/all_units.yaml')
@@ -205,3 +211,20 @@ def unit_shortcut_filter(value):
         logger.warning(f"Received unknown unit code: {value}",
         extra={'MESSAGE_ID': 'unknown_unit_code', 'unit_code': value})
     return result
+
+
+def inline_image_filter(value, width, height, unit):
+    units = {
+        "mm": Mm,
+        "cm": Cm,
+        "pt": Pt,
+        "emu": Emu,
+        "inches": Inches,
+    }
+    unit_klass = units.get(unit.lower(), Mm)
+    unit_w = unit_klass(width)
+    unit_h = unit_klass(height)
+    path_to_image, image_name = download_image_by_url(value)
+    if path_to_image:
+        value = InlineImage(GeneralConstants.DOCX_TEMPLATE, path_to_image, width=unit_w, height=unit_h)
+    return value
