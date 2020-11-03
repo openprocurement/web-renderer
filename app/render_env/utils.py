@@ -117,7 +117,8 @@ def download_image_by_url(url):
     except Exception as e:
         app.logger.warning('Download failed')
         return False, False
-    if res.status_code == 200 and res.headers.get('Content-Type') == 'image/png':
+    images_type = ('image/jpg', 'image/png', 'image/jpeg', 'image/bmp')
+    if res.status_code == 200 and res.headers.get('Content-Type') in images_type:
         image_name = f"{GeneralConstants.DOCX_TEMPLATE.template_file.name}_{uuid.uuid4().hex}"
         path = f"app/.temp/files/{image_name}.png"
         with Image.open(io.BytesIO(res.content)) as im:
