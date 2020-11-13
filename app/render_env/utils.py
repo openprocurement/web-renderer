@@ -120,7 +120,8 @@ def download_image_by_url(url):
     images_type = ('image/jpg', 'image/png', 'image/jpeg', 'image/bmp')
     if res.status_code == 200 and res.headers.get('Content-Type') in images_type:
         image_name = f"{GeneralConstants.DOCX_TEMPLATE.template_file.name}_{uuid.uuid4().hex}"
-        path = f"app/.temp/files/{image_name}.png"
+        image_type = res.headers.get('Content-Type').split('/')[1]
+        path = f"app/.temp/files/{image_name}.{image_type}"
         with Image.open(io.BytesIO(res.content)) as im:
             im.save(path)
             im.close()
