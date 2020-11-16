@@ -123,7 +123,9 @@ def download_image_by_url(url):
         image_type = res.headers.get('Content-Type').split('/')[1]
         path = f"app/.temp/files/{image_name}.{image_type}"
         with Image.open(io.BytesIO(res.content)) as im:
-            im.save(path)
-            im.close()
+            new = Image.new(mode='RGB', size=im.size)
+            new.paste(im)
+            new.save(path)
+            new.close()
         return path, image_name
     return False, False
