@@ -214,9 +214,19 @@ class TestInlineImageFilter:
         assert 50 == result.width
         assert 50 == result.height
 
+        result = inline_image_filter(image_url, "50", "60", 'Emu')
+        assert True == isinstance(result, InlineImage)
+        assert 50 == result.width
+        assert 60 == result.height
+
+        result = inline_image_filter(image_url, None, "60", 'Emu')
+        assert True == isinstance(result, InlineImage)
+        assert 60 == result.height
+        assert None == result.width
+
         image_url = "https://openthread.google.cn/images/oaaaaaaaaaaa"
         mock_get.return_value.status_code = 400
-        result = inline_image_filter(image_url, 50, 50, 'Mm')
+        result = inline_image_filter(image_url, None, None, 'Mm')
         assert result == image_url
 
         image_url = 123
