@@ -222,8 +222,18 @@ def inline_image_filter(value, width, height, unit):
         "inches": Inches,
     }
     unit_klass = units.get(unit.lower(), Mm)
-    unit_w = unit_klass(width)
-    unit_h = unit_klass(height)
+    try:
+        if isinstance(width, str):
+            width = width.replace(',', '.')
+        unit_w = unit_klass(float(width))
+    except TypeError:
+        unit_w = None
+    try:
+        if isinstance(height, str):
+            height = height.replace(',', '.')
+        unit_h = unit_klass(float(height))
+    except TypeError:
+        unit_h = None
     path_to_image, image_name = download_image_by_url(value)
     if path_to_image:
         value = InlineImage(GeneralConstants.DOCX_TEMPLATE, path_to_image, width=unit_w, height=unit_h)
