@@ -213,7 +213,7 @@ def unit_shortcut_filter(value):
     return result
 
 
-def inline_image_filter(value, width, height, unit):
+def inline_image_filter(value, width, height, ratio_size, unit):
     units = {
         "mm": Mm,
         "cm": Cm,
@@ -221,6 +221,17 @@ def inline_image_filter(value, width, height, unit):
         "emu": Emu,
         "inches": Inches,
     }
+
+    path_to_image, image_name, side = download_image_by_url(value, ratio_size)
+
+    if side and ratio_size:
+        if side == 'width':
+            width = ratio_size
+            height = None
+        else:
+            height = ratio_size
+            width = None
+
     unit_klass = units.get(unit.lower(), Mm)
     try:
         if isinstance(width, str):
@@ -234,7 +245,7 @@ def inline_image_filter(value, width, height, unit):
         unit_h = unit_klass(float(height))
     except TypeError:
         unit_h = None
-    path_to_image, image_name = download_image_by_url(value)
+
     if path_to_image:
         value = InlineImage(GeneralConstants.DOCX_TEMPLATE, path_to_image, width=unit_w, height=unit_h)
     return value

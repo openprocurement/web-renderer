@@ -62,5 +62,5 @@ class TemplateFormatter:
         return unit_shortcut_filter(value)
     
     @classmethod
-    def InlineImage(cls, value, width=None, height=None, unit='Mm'):
-        return inline_image_filter(value=value, width=width, height=height, unit=unit)
+    def InlineImage(cls, value, width=None, height=None, ratio_size=None, unit='Mm'):
+        return inline_image_filter(value=value, width=width, height=height, ratio_size=ratio_size, unit=unit)
