@@ -111,7 +111,7 @@ class Mock:
         return self.default_value
 
 
-def download_image_by_url(url):
+def download_image_by_url(url, ratio_size):
     try:
         res = requests.get(url, timeout=4.0)
     except Exception as e:
@@ -119,13 +119,19 @@ def download_image_by_url(url):
         return False, False
     images_type = ('image/jpg', 'image/png', 'image/jpeg', 'image/bmp')
     if res.status_code == 200 and res.headers.get('Content-Type') in images_type:
+        side = None
         image_name = f"{GeneralConstants.DOCX_TEMPLATE.template_file.name}_{uuid.uuid4().hex}"
         image_type = res.headers.get('Content-Type').split('/')[1]
         path = f"app/.temp/files/{image_name}.{image_type}"
         with Image.open(io.BytesIO(res.content)) as im:
+            if ratio_size:
+                if im.width > im.height:
+                    side = "width"
+                else:
+                    side = "height"
             new = Image.new(mode='RGB', size=im.size)
             new.paste(im)
             new.save(path)
             new.close()
-        return path, image_name
-    return False, False
+        return path, image_name, side
+    return False, False, False

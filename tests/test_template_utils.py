@@ -189,46 +189,57 @@ class TestInlineImageFilter:
         
         image_url = "https://openthread.google.cn/images/ot-contrib-google.png"
 
-        result = inline_image_filter(image_url, 50, 50, 'Inches')
+        result = inline_image_filter(image_url, 50, 50, None, 'Inches')
         assert True == isinstance(result, InlineImage)
         assert 45720000 == result.width
         assert 45720000 == result.height
 
-        result = inline_image_filter(image_url, 50, 50, 'Cm')
+        result = inline_image_filter(image_url, 50, 50, None, 'Cm')
         assert True == isinstance(result, InlineImage)
         assert 18000000 == result.width
         assert 18000000 == result.height
 
-        result = inline_image_filter(image_url, 50, 50, 'Mm')
+        result = inline_image_filter(image_url, 50, 50, None, 'Mm')
         assert True == isinstance(result, InlineImage)
         assert 1800000 == result.width
         assert 1800000 == result.height
 
-        result = inline_image_filter(image_url, 50, 50, 'Pt')
+        result = inline_image_filter(image_url, 50, 50, None, 'Pt')
         assert True == isinstance(result, InlineImage)
         assert 635000 == result.width
         assert 635000 == result.height
 
-        result = inline_image_filter(image_url, 50, 50, 'Emu')
+        result = inline_image_filter(image_url, 50, 50, None, 'Emu')
         assert True == isinstance(result, InlineImage)
         assert 50 == result.width
         assert 50 == result.height
 
-        result = inline_image_filter(image_url, "50", "60", 'Emu')
+        result = inline_image_filter(image_url, "50", "60", None, 'Emu')
         assert True == isinstance(result, InlineImage)
         assert 50 == result.width
         assert 60 == result.height
 
-        result = inline_image_filter(image_url, None, "60", 'Emu')
+        result = inline_image_filter(image_url, None, "60", None, 'Emu')
         assert True == isinstance(result, InlineImage)
         assert 60 == result.height
         assert None == result.width
 
+        result = inline_image_filter(image_url, 60, "60", 100, 'Emu')
+        assert True == isinstance(result, InlineImage)
+        assert None == result.height
+        assert 100 == result.width
+
         image_url = "https://openthread.google.cn/images/oaaaaaaaaaaa"
         mock_get.return_value.status_code = 400
-        result = inline_image_filter(image_url, None, None, 'Mm')
+        result = inline_image_filter(image_url, None, None, None, 'Mm')
         assert result == image_url
 
+        image_url = "https://openthread.google.cn/images/oaaaaaaaaaaa"
+        mock_get.return_value.status_code = 400
+        result = inline_image_filter(image_url, 20, 20, 70, 'Mm')
+        assert result == image_url
+
+
         image_url = 123
-        result = inline_image_filter(image_url, 50, 50, 'Mm')
+        result = inline_image_filter(image_url, 50, 50, None, 'Mm')
         assert result == image_url
