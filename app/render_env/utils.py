@@ -116,7 +116,8 @@ def download_image_by_url(url, ratio_size):
         res = requests.get(url, timeout=4.0)
     except Exception as e:
         app.logger.warning('Download failed')
-        return False, False
+        app.logger.warning(f"ERROR: {e}")
+        return False, False, False
     images_type = ('image/jpg', 'image/png', 'image/jpeg', 'image/bmp')
     if res.status_code == 200 and res.headers.get('Content-Type') in images_type:
         side = None
