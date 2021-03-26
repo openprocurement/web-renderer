@@ -45,6 +45,7 @@ from app.attachers import(
 from app.decorators import(
     form_data,
 )
+from app.render_env.utils import download_image_by_url
 # Renderers
 
 class ObjectRenderer:
@@ -71,6 +72,10 @@ class DocxToPDFRenderer(ObjectRenderer):
 
 
     def render_to_docx(self):
+        if 'replace_pics' in self.json.data:
+            for data in self.json.data['replace_pics']:
+                path, _, _ = download_image_by_url(data['url'], None)
+                self.docx_template.replace_pic(data['current_name'], path)
         self.docx_template.render(self.json.data)
         self.docx_template.save()
         if does_file_exists(self.docx_template.full_path):
