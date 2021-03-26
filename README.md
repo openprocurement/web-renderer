@@ -88,6 +88,28 @@ paths:
                 content: text/html
 ```
 
+### Renderer features:
+
+- #### Pictures replacement:
+
+    Renderer have some limitations such as can't add picture to header or footer using `InlineImage`, for resolve this problem, renderer has reserved keyword in context `replace_pics` its array of objects which contains two attributes:
+
+    - `current_name` - name of dummy picture already placed in template.
+    - `url` - link for picture which will replace dummy picture.
+
+    example:
+    ```python
+    >>> context = {
+    ...     'title': 'My company',
+    ...     'phone': '+15552345712',
+    ...     'replace_pics': [
+    ...         {'current_name': 'dummy_logo.png', 'url': '<link to your logo>'}
+    ...     ]
+    ... }
+    ```
+
+    **Note**: the aspect ratio will be the same as the replaced image
+
 ### Jinja template functions:
 
 - ##### `{{ iso_str_date | format_date}}`  
@@ -136,6 +158,7 @@ paths:
     Units: Inches, Cm, Mm, Pt, Emu
     - **input:** "Image url"
     - **output:** "InlineImage"
+
 ### Run tests
 
 ```bash
