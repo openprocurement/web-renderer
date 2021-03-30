@@ -14,6 +14,7 @@ def form_data(cls):
         CONTRACT_TEMPLATE = 'contractTemplate'
         CONTRACT_DATA = 'contractData'
         CONTRACT_PROFORMA = 'contractProforma'
+        DOC_TYPE = 'doc_type'
 
         def __init__(self, *args, **kargs):
             super(FormData, self).__init__(*args, **kargs)

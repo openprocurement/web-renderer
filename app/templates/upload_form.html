@@ -30,9 +30,16 @@
                             <input type="checkbox" class="form-check-input" id="hide_empty_fields" name="hide_empty_fields" checked>
                             <label class="form-check-label" for="hide_empty_fields">Hide empty fields</label>
                         </div>
+                        <div class="form-select m-2">
+                            <select id="doc_type" name="doc_type" class="from-select">
+                                <option value="pdf" selected>PDF</option>
+                                <option value="docx">docx</option>
+                            </select>
+                            <label class="form-select-label" for="doc_type">Choose file format</label>
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="submit" id="submit" name="submit" class="btn btn-outline-dark m-1" style="width: 100%;" value="Render to pdf">
+                                <input type="submit" id="submit" name="submit" class="btn btn-outline-dark m-1" style="width: 100%;" value="Render">
                                 <input type="submit" id="display_template_form" name="display_template_form" class="btn btn-outline-dark m-1" style="width: 100%;" value="Display template html form">
                             </div>
                             <div class="col-md-6">
