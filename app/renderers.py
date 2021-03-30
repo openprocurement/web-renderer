@@ -55,10 +55,20 @@ class ObjectRenderer:
 
 
 @form_data
-class DocxToPDFRenderer(ObjectRenderer):
+class Renderer(ObjectRenderer):
 
-    def __init__(self, json=None, template_file=None, include_attachments=None, document_names=None, session_id=None):
+    def __init__(self, json=None, template_file=None, include_attachments=None, document_names=None, session_id=None,
+                 doc_type=None):
         cls = self.__class__
+        self.pipelines = {
+            'pdf': (self.render_to_docx, self.render_to_pdf, self.add_attachments_to_pdfa_file),
+            'docx': (self.render_to_docx,)
+        }
+        if not doc_type:
+            doc_type = 'pdf'
+        if doc_type not in self.pipelines:
+            raise NotImplementedError()
+        self.doc_type = doc_type
         self.session_id = session_id
         self.document_names = document_names
         self.json = JSONFile(name=session_id, read_method='w', data=json, \
@@ -103,9 +113,15 @@ class DocxToPDFRenderer(ObjectRenderer):
             app.logger.info('Attachments are added.')
 
     def render(self):
-        self.render_to_docx()
-        self.render_to_pdf()
-        self.add_attachments_to_pdfa_file()
+        for step in self.pipelines[self.doc_type]:
+            step()
+
+    @property
+    def file(self):
+        if self.doc_type == 'docx':
+            return self.docx_template.template_file
+        else:
+            return self.pdf_document
 
 
 class BaseHTMLRenderer(ObjectRenderer):

@@ -13,7 +13,7 @@ from config import Config
 from app import app
 from app.renderers import (
     TemplateFile,
-    DocxToPDFRenderer,
+    Renderer,
     DocxToHTMLRenderer,
     DocxToJSONSchemaRenderer,
     DocxToTagSchemaRenderer,
@@ -140,10 +140,11 @@ class RenderView(MethodView):
             include_attachments = get_checkbox_value(request.form.get(cls.INCLUDE_ATTACHMENTS)) \
                 if request.form.get(cls.INCLUDE_ATTACHMENTS) is not None else False
             document_names = self.form_document_names(request)
-            renderer = DocxToPDFRenderer(
-                json_data, template_file, include_attachments, document_names=document_names, session_id=session['id'])
-            return send_file(renderer.pdf_document.path,  as_attachment=True,
-                             attachment_filename=renderer.pdf_document.output_full_name)
+            doc_type = request.form.get(cls.DOC_TYPE)
+            renderer = Renderer(json_data, template_file, include_attachments,
+                                document_names=document_names, session_id=session['id'], doc_type=doc_type)
+            return send_file(renderer.file.path,  as_attachment=True,
+                             attachment_filename=renderer.file.output_full_name)
 
 
 @app.after_request
