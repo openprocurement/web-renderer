@@ -120,11 +120,12 @@ def download_image_by_url(url, ratio_size):
         return False, False, False
     images_type = ('image/jpg', 'image/png', 'image/jpeg', 'image/bmp', 'binary/octet-stream')
     content_type = res.headers.get('Content-Type')
-    meta_content_type = res.headers.get('x-amz-meta-content-type')
+    meta_content_type = res.headers.get('x-amz-meta-content-type') or 'image/jpg'
     if res.status_code == 200 and content_type in images_type:
         side = None
         image_name = f"{GeneralConstants.DOCX_TEMPLATE.template_file.name}_{uuid.uuid4().hex}"
         image_type = content_type.split('/')[1] if content_type != 'binary/octet-stream' else meta_content_type
+        image_type = image_type.split('/')[-1] if "/" in image_type else image_type
         path = f"app/.temp/files/{image_name}.{image_type}"
         with Image.open(io.BytesIO(res.content)) as im:
             if ratio_size:
