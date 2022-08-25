@@ -3,13 +3,24 @@ from os import environ
 from flask_cors import CORS, cross_origin
 
 from config import Config
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
 
+
+sentry_sdk.init(
+    integrations=[
+        FlaskIntegration(),
+    ],
+    traces_sample_rate=1.0,
+)
 
 app = Flask(__name__)
 app.config.from_object(Config)
 cors = CORS(app)
 
 from app import log
+
+app.logger = log.logger
 
 from app import constants
 from app import views
