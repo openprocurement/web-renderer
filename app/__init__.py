@@ -20,6 +20,8 @@ cors = CORS(app)
 
 from app import log
 
+app.logger = log.logger
+
 from app import constants
 from app import views
 from app import urls
