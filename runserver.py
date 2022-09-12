@@ -1,6 +1,11 @@
-from os import environ
-from app import app
+import argparse
 from waitress import serve
 
+from app import app
+
 if __name__ == '__main__':
-    serve(app, host='0.0.0.0', port=8080)
+    parser = argparse.ArgumentParser(description='Host and port configuration')
+    parser.add_argument('--host', default='0.0.0.0')
+    parser.add_argument('--port', default=8080)
+    args = parser.parse_args()
+    serve(app, host=args.host, port=args.port)

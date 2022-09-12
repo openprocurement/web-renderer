@@ -14,7 +14,8 @@ class CustomJsonFormatter(jsonlogger.JsonFormatter):
         else:
             log_record['level'] = record.levelname
 
-formatter = CustomJsonFormatter('(timestamp) (level) (module) (funcName) (lineno) (message)')
+
+formatter = CustomJsonFormatter('%(timestamp)s %(level)s %(module)s %(funcName)s %(lineno)s %(message)s')
 json_handler = logging.StreamHandler(sys.stdout)
 json_handler.setFormatter(formatter)
 logger = logging.getLogger()
