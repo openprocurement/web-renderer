@@ -1,51 +1,15 @@
-import os
-import time
-import re
-from copy import deepcopy
-
-from flask import Flask
 from app import app
-from app.render_env.templates import (
-    DocxTemplateLocal as DocxTemplate,
-)
-from app.utils.utils import (
-    does_file_exists,
-    replace_regex_list,
-)
-from app.converters.general_converters import(
-    DocxToHTMLConverter,
-    DocxToPdfConverter,
-)
-from app.converters.converter_to_tag_schema import(
-    HTMLToJSONTagSchemeConverter,
-)
-from app.converters.converter_to_json_schema import(
-    HTMLToJSONSchemaConverter,
-)
-from app.constants import (
-    GeneralConstants,
-    RegexConstants,
-    HTMLConstants,
-)
-from app.files import (
-    TemplateFile,
-    HTMLFile,
-    JSONFile,
-)
-from app.handlers import format_exception
-from app.exceptions import (
-    InvalidDocumentFomat,
-    DocumentRenderError,
-    DocumentSavingError,
-    HTMLNotFoundError,
-)
-from app.attachers import(
-    PdfAttacher,
-)
-from app.decorators import(
-    form_data,
-)
+from app.attachers import PdfAttacher
+from app.constants import GeneralConstants, HTMLConstants, RegexConstants
+from app.converters.converter_to_json_schema import HTMLToJSONSchemaConverter
+from app.converters.converter_to_tag_schema import HTMLToJSONTagSchemeConverter
+from app.converters.general_converters import DocxToHTMLConverter, DocxToPdfConverter
+from app.decorators import form_data
+from app.exceptions import DocumentRenderError
+from app.files import HTMLFile, JSONFile, TemplateFile
+from app.render_env.templates import DocxTemplateLocal as DocxTemplate
 from app.render_env.utils import download_image_by_url
+
 # Renderers
 
 class ObjectRenderer:
@@ -85,18 +49,20 @@ class Renderer(ObjectRenderer):
         if 'replace_pics' in self.json.data:
             for data in self.json.data['replace_pics']:
                 path, _, _ = download_image_by_url(data['url'], None)
+                if not path:
+                    continue
                 self.docx_template.replace_pic(data['current_name'], path)
         self.docx_template.render(self.json.data)
         self.docx_template.save()
-        if does_file_exists(self.docx_template.full_path):
+        if self.docx_template.output_file_path.exists():
             app.logger.info('Template is rendered to docx.')
         else:
             raise DocumentRenderError()
 
     def render_to_pdf(self):
-        self.pdf_document = DocxToPdfConverter(self.docx_template.template_file,
-                            output_name=self.document_names[self.__class__.CONTRACT_PROFORMA]).pdf_document
-        if does_file_exists(self.pdf_document.full_path):
+        self.pdf_document = DocxToPdfConverter(self.docx_template.output_file_path,
+                            output_name=self.document_names[self.__class__.CONTRACT_PROFORMA]).output_file_path
+        if self.pdf_document.exists():
             app.logger.info('Template is rendered to pdf')
         else:
             raise DocumentRenderError()
@@ -109,7 +75,7 @@ class Renderer(ObjectRenderer):
             self.pdf_attacher.add_attachment(self.template_file)
             # writing output
             self.pdf_attacher.write_output()
-            self.pdf_document = self.pdf_attacher.pdfa_file
+            self.pdf_document = self.pdf_attacher.output_file_path
             app.logger.info('Attachments are added.')
 
     def render(self):
@@ -119,7 +85,7 @@ class Renderer(ObjectRenderer):
     @property
     def file(self):
         if self.doc_type == 'docx':
-            return self.docx_template.template_file
+            return self.docx_template.output_file_path
         else:
             return self.pdf_document
 

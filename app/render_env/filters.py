@@ -1,26 +1,23 @@
 from datetime import datetime
 
-from babel.dates import format_datetime
-
 import jmespath
-from app import app
 from app.constants import GeneralConstants
 from app.decorators import ignore
 from app.log import logger
-from app.render_env.utils import Mock, is_undefined, download_image_by_url
+from app.render_env.utils import Mock, download_image_by_url, is_undefined
 from app.utils.cpv import ClassificationTree
 from app.utils.utils import read_file
-from flask import Flask
-from num2words import num2words
-import requests
-from PIL import Image  # https://pillow.readthedocs.io/en/4.3.x/
-from docx.shared import Mm, Inches, Cm, Mm, Pt, Emu
+from babel.dates import format_datetime
+from docx.shared import Cm, Emu, Inches, Mm, Pt
 from docxtpl import InlineImage
-
+from num2words import num2words
+from num2words.lang_UK import Num2Word_UK
+from PIL import Image  # https://pillow.readthedocs.io/en/4.3.x/
 
 CPVTree = ClassificationTree()
 units = read_file('data/all_units.yaml')
 units.update(read_file('data/uk_pretty.yaml'))
+converter = Num2Word_UK()
 
 class MoneyAmount:
     """
@@ -69,7 +66,7 @@ class MoneyAmount:
 
     def convert_integer_part_to_words(self):
         integer_part = int(self.float_amount)
-        integer_part_str = num2words(integer_part, lang='uk')
+        integer_part_str = converter._int2word(integer_part, feminine=True)
         if str(integer_part)[-2:] == '11':
             unit_str = self.get_str_currency(11, MoneyAmount.HRYVNIA_SUFFIX)
         else:

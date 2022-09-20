@@ -1,5 +1,4 @@
 import PyPDF2
-
 from app.files import(
     PdfFile,
 )
@@ -12,24 +11,19 @@ class PdfAttacher:
         Class that provides functionality for adding attachments to PDF-A files.
     """
     def __init__(self, pdf_file):
-        # Input pdf file
         self.pdf_file = pdf_file
-        self.pdf_file.set_mode('rb')
-        # Output pdfa file
-        self.pdfa_file = PdfFile.make_copy(pdf_file)
-        self.pdfa_file.name = "pdfa_" + self.pdfa_file.name
-        self.pdfa_file.set_mode('wb')
-        # Create writers and readers
+        self.pdf_file_descriptor = self.pdf_file.open(mode="rb")
+        self.output_file_path = self.pdf_file.parent / f"pdfa_{self.pdf_file.name}"
+        self.pdfa_file_descriptor = self.output_file_path.open(mode="wb")
         self.create_reader()
         self.create_writer()
-        # Transfer data from pdf to pdfa
         self.transfer_data_to_pdfa()
 
     def create_writer(self):
         self.pdf_writer = PyPDF2.PdfFileWriter()
 
     def create_reader(self):
-        self.pdf_reader = PyPDF2.PdfFileReader(self.pdf_file.storage_object)
+        self.pdf_reader = PyPDF2.PdfFileReader(self.pdf_file_descriptor)
 
     def transfer_data_to_pdfa(self):
         for page in range(self.pdf_reader.numPages):
@@ -53,5 +47,6 @@ class PdfAttacher:
                 attachment_file.write(attachment_body)
 
     def write_output(self):
-        self.pdf_writer.write(self.pdfa_file.storage_object)
-        self.pdfa_file.storage_object.close()
+        self.pdf_writer.write(self.pdfa_file_descriptor)
+        self.pdf_file_descriptor.close()
+        self.pdfa_file_descriptor.close()

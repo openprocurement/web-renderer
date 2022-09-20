@@ -1,6 +1,7 @@
 import re
 import jinja2
 from docxtpl import DocxTemplate
+from pathlib import Path
 
 from flask import Flask
 from app import app
@@ -22,41 +23,13 @@ class DocxTemplateLocal(DocxTemplate):
 
     def __init__(self, template_file :TemplateFile):
         self.template_file = TemplateFile.make_copy(template_file)
+        filepath = Path(self.template_file.full_path)
         super().__init__(self.template_file.full_path)
-        is_file_empty(self)
-
-    @property
-    def full_path(self):
-        return self.template_file.full_path
-
-    @full_path.setter
-    def full_path(self, full_path):
-        self.template_file.full_path = full_path
-
-    @property
-    def name(self):
-        return self.template_file.name
-
-    @name.setter
-    def name(self, name):
-        self.template_file.name = name
-
-    @property
-    def full_name(self):
-        return self.template_file.full_name
-
-    @property
-    def extension(self):
-        return self.template_file.extension
-
-    @extension.setter
-    def extension(self, extension):
-        self.template_file.extension = extension
+        self.output_file_path = filepath.parent / f"output_{filepath.name}"
 
     def save(self, full_path=None):
         if full_path is None:
-            self.template_file.name = "template_"+self.template_file.name
-            super().save(self.full_path)
+            super().save(self.output_file_path)
 
     def search(self, regex):
         """
