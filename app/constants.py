@@ -14,7 +14,7 @@ class GeneralConstants:
     TEMP_PREFIX = "temp"
     # Extensions
     TEMPLATE_FILE_EXTENSION = "docx"
-    GENERATED_DOC_EXTENSION = "pdf"
+    GENERATED_DOC_EXTENSION = ".pdf"
     HTML_EXTENSION = "html"
     JSON_EXTENSION = "json"
     ALLOWED_EXTENSIONS = [TEMPLATE_FILE_EXTENSION, ]

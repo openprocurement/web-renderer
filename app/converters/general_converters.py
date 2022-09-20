@@ -37,23 +37,17 @@ class DocxToHTMLConverter:
 
 class DocxToPdfConverter:
 
-    def __init__(self, document, output_name):
-        self.document = document
+    def __init__(self, docx_output_file_path, output_name):
+        self.docx_output_file_path = docx_output_file_path
         self.output_name = output_name
         self.convert()
 
     def convert(self, timeout=None):
-        full_path = self.document.full_path
         args = ['libreoffice', '--headless', '--convert-to',
-                'pdf', '--outdir', Config.UPLOAD_FOLDER, full_path]
+                'pdf', '--outdir', Config.UPLOAD_FOLDER, self.docx_output_file_path]
         try:
             process = subprocess.run(args, stdout=subprocess.PIPE,
                                      stderr=subprocess.PIPE, timeout=timeout)
         except FileNotFoundError as e:
             raise DocumentConvertionError()
-        
-        self.pdf_document = PdfFile.make_copy(self.document)
-        self.pdf_document.output_name = self.output_name
-        self.pdf_document.extension = GeneralConstants.GENERATED_DOC_EXTENSION
-        self.document.close()
-        self.pdf_document.close()
+        self.output_file_path = self.docx_output_file_path.with_suffix(GeneralConstants.GENERATED_DOC_EXTENSION)

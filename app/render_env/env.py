@@ -1,13 +1,11 @@
 import jinja2
-from jinja2 import Environment, Template, TemplateError, TemplateSyntaxError, meta
-from jinja2.runtime import Context, StrictUndefined
-from jinja2.exceptions import UndefinedError
-from jinja2.environment import string_types
-
-from flask import Flask
 from app import app
 from app.render_env.formatters import TemplateFormatter
-from app.render_env.handlers import RenderUndefined, RenderMode
+from app.render_env.handlers import RenderMode, RenderUndefined
+from flask import Flask
+from jinja2 import Environment, Template, TemplateError, TemplateSyntaxError, meta
+from jinja2.exceptions import UndefinedError
+from jinja2.runtime import Context, StrictUndefined
 
 
 class RenderContext(Context):
@@ -95,7 +93,7 @@ class JinjaEnvironment (Environment):
         try:
             return obj[argument]
         except (AttributeError, TypeError, LookupError, IndexError, UndefinedError):
-            if isinstance(argument, string_types):
+            if isinstance(argument, str):
                 try:
                     attr = str(argument)
                 except Exception:

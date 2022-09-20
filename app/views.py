@@ -49,7 +49,7 @@ def before_request_func():
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory((os.path.join(app.root_path), Config.TEMPLATES_FOLDER + 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    return send_from_directory(os.path.join(app.root_path, Config.TEMPLATES_FOLDER + 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 @form_data
@@ -143,14 +143,13 @@ class RenderView(MethodView):
             doc_type = request.form.get(cls.DOC_TYPE)
             renderer = Renderer(json_data, template_file, include_attachments,
                                 document_names=document_names, session_id=session['id'], doc_type=doc_type)
-            return send_file(renderer.file.path,  as_attachment=True,
-                             attachment_filename=renderer.file.output_full_name)
+            return send_file(renderer.file,  as_attachment=True, download_name=renderer.file.name)
 
 
 @app.after_request
 def after_request_func(response):
     remove_temp(with_folder=False)
-    if response.headers.get('Location') is None: 
+    if response.headers.get('Location') is None:
         # Session files are being removed only after all redirections
         remove_session_files(session['id'])
         app.logger.info('Sessions files were removed')

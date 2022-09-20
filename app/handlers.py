@@ -72,6 +72,7 @@ def custom_exceptions_error_handler(error):
 @app.errorhandler(AttributeError)
 @app.errorhandler(NameError)
 def base_exceptions_handler(error):
+    raise error
     return format_exception(str(*error.args), 500)
 
 
