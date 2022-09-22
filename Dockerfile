@@ -1,6 +1,6 @@
-FROM fedora:35
+FROM fedora:31
 
-#RUN dnf update -y -q
+RUN dnf update -y -q
 RUN dnf install -q -y python3-pip git libreoffice-core libreoffice-pdfimport libreoffice-opensymbol-fonts.noarch libreoffice-filters libreoffice-pyuno libreoffice-writer libreoffice-calc
 
 
