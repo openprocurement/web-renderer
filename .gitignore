@@ -7,5 +7,6 @@ __pycache__/
 *.pyc
 .temp/
 .pdf2/
+.direnv/
 .envrc
 .coverage
