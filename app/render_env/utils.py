@@ -120,7 +120,7 @@ def download_image_by_url(url, ratio_size):
         return False, False, False
     images_type = ('image/jpg', 'image/png', 'image/jpeg', 'image/bmp', 'binary/octet-stream')
     content_type = res.headers.get('Content-Type')
-    meta_content_type = res.headers.get('x-amz-meta-content-type') or 'image/jpg'
+    meta_content_type = res.headers.get('x-amz-meta-content-type') or 'image/png'
     if res.status_code == 200 and content_type in images_type:
         side = None
         image_name = f"{GeneralConstants.DOCX_TEMPLATE.output_file_path.name}_{uuid.uuid4().hex}"
@@ -133,7 +133,7 @@ def download_image_by_url(url, ratio_size):
                     side = "width"
                 else:
                     side = "height"
-            new = Image.new(mode='RGB', size=im.size)
+            new = Image.new(mode=im.mode, size=im.size)
             new.paste(im)
             new.save(path)
             new.close()
