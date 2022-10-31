@@ -82,10 +82,13 @@ class DocxTemplateLocal(DocxTemplate):
 
         return search_paragraphs(regex) + search_cells(regex)
 
-    def render(self, context):
+    def render(self, context):   
         """
             Render docx document method with the special handling jinja2.exceptions.UndefinedError.
         """
+        for i in ["project_name", "number", "phase"]:
+            if context.get(i):
+                context[i] = f"<![CDATA[{context[i]}]]>"
         try:
             super().render(context, app.jinja_env_obj)
         except jinja2.exceptions.UndefinedError as error:
