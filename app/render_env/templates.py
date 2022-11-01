@@ -82,7 +82,7 @@ class DocxTemplateLocal(DocxTemplate):
 
         return search_paragraphs(regex) + search_cells(regex)
 
-    def render(self, context):   
+    def render(self, context):
         """
             Render docx document method with the special handling jinja2.exceptions.UndefinedError.
         """
