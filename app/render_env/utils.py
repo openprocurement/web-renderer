@@ -133,7 +133,7 @@ def download_image_by_url(url, ratio_size):
                     side = "width"
                 else:
                     side = "height"
-            new = Image.new(mode=im.mode, size=im.size)
+            new = Image.new(mode="RGB" if im.mode in ["CMYK", "LAB", "HSV"] else im.mode, size=im.size)
             new.paste(im)
             new.save(path)
             new.close()
