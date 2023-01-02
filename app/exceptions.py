@@ -5,12 +5,13 @@ from app import app
 from flask import Flask
 from config import Config
 
-def format_exception(error, error_code, location=None):
-    app.logger.error(str(error) + " " + str(error_code))
+def format_exception(error, msg, error_code, location=None):
+    app.logger.error(str(msg) + " " + str(error_code))
+    app.logger.exception("%s %s" % (msg, error_code), exc_info=error)
     error_message = {
         "error": {
             "code": error_code,
-            "message": error
+            "message": msg
         }
     }
     if Config.DEBUG:
